@@ -1,0 +1,365 @@
+/*
+ * Global constants goes here
+ */
+:root {
+  --primary-color: #42b983;
+}
+
+/*
+ * Global CSS goes here
+ */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  color: #fff;
+}
+
+.left-side {
+  margin-top: 30px;
+}
+
+.codeEditor {
+  text-align: left;
+  align-items: left;
+  justify-content: left;
+  height: calc(100% + 30px);
+  width: 50%;
+  min-height: calc(100vh - 30px);
+
+  min-width: 400px;
+  background: #111;
+}
+
+.cube-view {
+  position: absolute;
+  top: 55px;
+  right: 15px;
+  width: 10%;
+  min-width: 100px;
+  max-width: 200px;
+  z-index: 1;
+}
+
+.top-menu {
+  width: "100%";
+  top: 0px;
+  color: #fff;
+  align-content: left;
+  text-align: left;
+  padding-left: 50px;
+  margin-left: 40px;
+  border: none;
+  background: #000;
+}
+
+.top-menu > button {
+  background: #fff;
+  border-radius: 100%;
+  width: 28px;
+  height: 28px;
+  color: black;
+  border: none;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0px;
+  margin-right: 8px;
+  margin-top: 2px;
+  right: 0px;
+}
+
+.top-menu > button:hover {
+  background: #aaa;
+  border-radius: 100%;
+  color: black;
+}
+
+.top-menu > button:hover > .tooltip {
+  visibility: visible;
+  color: white;
+  font-size: 12pt;
+}
+
+.top-menu > button > .tooltip {
+  visibility: visible;
+  position: absolute;
+  top: 15px;
+  left: 100px;
+}
+
+.top-menu > button > img {
+}
+
+.canvas-3d {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  margin-top: 30px;
+  z-index: 0;
+
+  /* background: -moz-linear-gradient(top,  rgba(51,51,51,0) 0%, rgba(80,80,80,1) 100%); /* FF3.6-15 */
+  /* background: -webkit-linear-gradient(top,  rgba(51,51,51,0) 0%,rgba(80,80,80,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  /*background: linear-gradient(to bottom,  rgba(51,51,51,0) 0%,rgba(80,80,80,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  /* Rectangle 3: */
+  background: -webkit-linear-gradient(-136deg, #3d3d3d 0%, #212121 100%);
+  max-height: calc(100vh - 30px);
+  
+}
+
+.blueprint {
+  background-color: #269;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.25) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+
+.white{
+  background: #fff;
+}
+
+/*Tabs*/
+.react-tabs__tab-list {
+  /* border-bottom: 1px solid #aaa;*/
+  margin: 0 0 0px;
+  padding: 0;
+}
+
+.react-tabs__tab {
+  display: inline-block;
+  border: 1px solid transparent;
+  border-bottom: none;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
+    Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 100;
+  color: #a0a0a0;
+}
+
+.react-tabs__tab--selected {
+  background: #333333;
+  color: #fff;
+  border-radius: 1px 1px 0 0;
+  /*
+  box-shadow: 0 0 5px hsl(208, 99%, 50%);
+  border-color: hsl(208, 99%, 50%);
+  outline: none;
+  */
+}
+
+.react-tabs__tab--disabled {
+  color: #a0a0a0;
+  cursor: default;
+}
+
+.react-tabs__tab:focus {
+  box-shadow: 0 0 5px hsl(208, 99%, 50%);
+  border-color: hsl(208, 99%, 50%);
+  outline: none;
+}
+
+.react-tabs__tab:focus:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  left: -4px;
+  right: -4px;
+}
+
+.react-tabs__tab-panel {
+  display: none;
+  background: #333333;
+  width: 100%;
+  align-items: stretch;
+  padding: 10px;
+  font-size: 12pt;
+}
+
+.react-tabs__tab-panel--selected {
+  display: block;
+  display: flex;
+  flex-direction: column;
+}
+
+.minimalist-toolbar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.button {
+  opacity: 0.8;
+  background: #212121;
+}
+
+.button:hover {
+  opacity: 1;
+  -webkit-box-shadow: 0px 0px 17px 0px rgba(78, 113, 252, 1);
+  -moz-box-shadow: 0px 0px 17px 0px rgba(78, 113, 252, 1);
+  box-shadow: 0px 0px 17px 0px rgba(78, 113, 252, 1);
+  background: #333;
+}
+
+.btn {
+  background: #000;
+  background-color: #868e96;
+  padding: 5px 25px 5px 25px;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #121212;
+}
+
+.load-button {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 5;
+  background: #000;
+  padding: 5px 25px 5px 25px;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+.load-button:hover {
+  background: #121212;
+  cursor: pointer;
+}
+
+.selected-object {
+  position: absolute;
+  left: 50%;
+  bottom: 50px;
+  width: 100px;
+  background: #000;
+  height: 40px;
+  align-content: center;
+  text-align: center;
+}
+
+.pt-dialog-close-button {
+  color: #aaa !important;
+}
+
+.pt-dialog-close-button:hover {
+  color: #fff !important;
+}
+
+.loader {
+  align-self: center;
+  width: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 15px;
+  border: none;
+}
+
+.square-spin > div {
+  background: #fff;
+  border: none;
+}
+
+.ball-grid-pulse > div{
+  border-radius: 0;
+  border: none;
+}
+
+.pt-dialog-header {
+  background: #333 !important;
+  border-radius: 2px !important;
+  color: #fff !important;
+  text-align: center;
+}
+.pt-dialog-header h5 {
+  color: #fff !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: 100 !important;
+}
+.pt-dialog,
+.pt-dialog-body {
+  background: #212121 !important;
+  border-radius: 2px !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: 100 !important;
+}
+.pt-dialog-container {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.pt-dialog-body {
+  padding: 10px !important;
+  background: #f00;
+ 
+}
+
+.dialog-content {
+  display: block;
+  text-align: center;
+  padding: 10px;
+}
+
+.dialog-footer {
+  align-content: right;
+  text-align: center;
+}
+.dialog-footer Button {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 1px !important;
+}
+
+.pt-icon-inbox {
+  color: #fff !important;
+}
+
+.pt-slider-handle {
+  background: #fff !important;
+}
+
+.pt-slider-progress {
+  background: #f0f0f0 !important;
+  padding: 2px !important;
+}
+.pt-slider-track,
+.pt-slider-progress {
+  border-radius: 1px !important;
+}
+
+.pt-slider-label {
+  display: none !important;
+}
+
+.canvas-2d{
+  position: absolute;
+  left:0;
+  top:0;
+  background:transparent;
+  z-index: 12;
+}
+
+.tooltip-object{
+  background: #222;
+  color:#fff;
+  padding:5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 2px;
+}
+
