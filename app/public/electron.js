@@ -55,7 +55,7 @@ function createWindow() {
   mainWindow.on("closed", () => (mainWindow = null));
 
   mainWindow.webContents.send("ready");
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 }
 
 // when the app is loaded create a BrowserWindow and check for updates

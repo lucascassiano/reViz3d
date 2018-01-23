@@ -10,6 +10,7 @@ import PanelSerial from "./PanelSerial";
 import Tree from "react-ui-tree";
 import PanelProject from "./PanelProject";
 import PanelModels from "./PanelModels";
+import PanelMQTT from "./PanelMQTT";
 
 import { connect } from "react-redux";
 import { viewRightMenu, toggleRightMenu } from "../actions/menus";
@@ -77,7 +78,7 @@ class RightMenu extends Component {
               <PanelSerial serial={this.props.ports} {...this.props} />
             </TabPanel>
             <TabPanel>
-              <h2>MQTT</h2>
+              <PanelMQTT/>
             </TabPanel>
             <TabPanel>
               <h2>Data</h2>

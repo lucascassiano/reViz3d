@@ -156,7 +156,7 @@ class App extends Component {
           ports={ports}
           onClickConnectSerial={this.onClickConnectSerial}
         />{" "}
-        <Editor3d />
+        <Editor3d /> 
         <RecordMenu />
         <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />{" "}
       </div>

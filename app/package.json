@@ -53,6 +53,7 @@
         "react-redux": "^5.0.6",
         "react-scripts": "1.0.10",
         "react-tabs": "^2.1.1",
+        "react-text-input": "0.0.8",
         "react-treeview": "^0.4.7",
         "react-ui-tree": "^3.1.0",
         "reactstrap": "^5.0.0-alpha.4",

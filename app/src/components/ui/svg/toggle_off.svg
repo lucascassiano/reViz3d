@@ -1,0 +1,23 @@
+
+<svg width="60px" height="30px" viewBox="0 0 60 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="60" height="30" rx="5"></rect>
+        <rect id="path-2" x="3" y="3" width="24" height="24" rx="4"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons" transform="translate(-474.000000, -150.000000)">
+            <g id="Group-3" transform="translate(474.000000, 150.000000)">
+                <g id="Rectangle-15">
+                    <use fill-opacity="0.1" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <rect stroke="#FFFFFF" stroke-width="1.25" x="0.625" y="0.625" width="58.75" height="28.75" rx="5"></rect>
+                </g>
+                <g id="Rectangle-15">
+                    <use fill-opacity="0.1" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <rect stroke="#FFFFFF" stroke-width="1.25" x="3.625" y="3.625" width="22.75" height="22.75" rx="4"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

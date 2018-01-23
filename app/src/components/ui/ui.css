@@ -1,0 +1,26 @@
+.pointer:hover {
+    cursor: pointer;
+}
+
+.verticalCenter {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.labelText {
+    margin-left: 10px;
+    color: #f0f0f0;
+    font-weight: 100;
+    font-size: 10pt;
+}
+
+.pointer:hover .labelText {
+    color: #fff;
+}
+
+.input-text {
+    background: transparent;
+    height: 40px;
+    color: #fff;
+}

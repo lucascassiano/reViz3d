@@ -102,7 +102,7 @@ class RecordMenu extends Component {
 
     if (this.state.recording) {
       icon_record = icon_record_on;
-      icon_record_class = " item record blink";
+      //icon_record_class = " item record blink";
     }
 
     let icon_play_button = icon_play;
@@ -118,8 +118,9 @@ class RecordMenu extends Component {
           </div>
           <Tabs forceRenderTabPanel={true}>
             <TabList>
-              <Tab>Record</Tab>
-              <Tab>Timeline</Tab>
+              <Tab>Serial</Tab>
+              <Tab>Remote (MQTT)</Tab>
+              <Tab>Local data</Tab>
             </TabList>
             <TabPanel>
               <div className="record-menu-grid">
@@ -170,6 +171,23 @@ class RecordMenu extends Component {
                 </div>
               </div>
             </TabPanel>
+
+            <TabPanel>
+              <div className="record-menu-grid">
+                <div className={icon_record_class} onClick={this.toggleRecord}>
+                  <img src={icon_record} background={icon_record_outline} />
+                </div>
+                <div className="item">
+                  <div className="label">Number of points</div>{" "}
+                  <div className="value"> 1000</div>
+                </div>
+                <div className="item">
+                  <div className="label">File Size</div>
+                  <div className="value">0 Kb</div>
+                </div>
+              </div>
+            </TabPanel>
+            
           </Tabs>
         </div>
 
