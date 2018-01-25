@@ -1,0 +1,10 @@
+publish:
+    provider: lucascassiano
+    token: 
+appId: com.lucascassiano
+files:
+    - build/**/*
+    - node_modules/**/*"
+directories:
+    buildResources: assets
+productName: reviz3d

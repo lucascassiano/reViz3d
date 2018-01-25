@@ -24,7 +24,7 @@ class Terrain {
         var url = this.assembleUrl(mapbox_token, zoom, lat, long);
         try {
             this.client = new MapboxClient(mapbox_token);
-            //getPixels(null, null);
+            //getPixels(null, null);3
             var texture = new THREE.TextureLoader().load(url);
             console.log("map text", texture);
         } catch (err) {
@@ -259,7 +259,7 @@ class Terrain {
         this.generateTexturePos2(function(mapTexture) {
             var material = new THREE.MeshPhongMaterial({
                 wireframe: false,
-                map: mapTexture,
+                map:texture,
                 displacementMap: textureBump,
                 displacementScale: 10
             });
