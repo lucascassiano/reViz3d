@@ -79,7 +79,11 @@
         "electron-linux": "build --em.main=build/electron.js --ia32 electron-builder.yml",
         "electron-mac": "build --em.main=build/electron.js --mac electron-builder.yml",
         "preelectron-pack": "yarn build",
-        "install": "electron-rebuild"
+        "install": "electron-rebuild",
+        "export-all": "preship && electron-pack",
+        "export-mac": "preship && electron-mac",
+        "export-win": "preship && electron-win",
+        "postinstall": "electron-builder install-app-deps"
     },
     "devDependencies": {
         "babel-core": "^6.26.0",
