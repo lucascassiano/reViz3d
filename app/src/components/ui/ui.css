@@ -6,11 +6,13 @@
     display: flex;
     align-items: center;
     justify-content: left;
+    padding: 2px;
+    padding-top: 10px;
 }
 
 .labelText {
     margin-left: 10px;
-    color: #f0f0f0;
+    color: #a0a0a0;
     font-weight: 100;
     font-size: 10pt;
 }

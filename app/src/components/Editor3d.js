@@ -194,14 +194,16 @@ class Editor3d extends Component {
     var gridHelper = new THREE.GridHelper(size, divisions, 0x999999, 0x555555);
     scene.add(gridHelper);
 
-    
+    /*
+    //---TERRAIN test----
     var terrain = new Terrain("pk.eyJ1IjoibHVjYXNjYXNzaWFubzIxIiwiYSI6ImNqY280d2VxaTFxaGoycXJ3cGE3N292cHoifQ.YLp5agVY737YVFrLgOCbiA", 9, -71.094089,42.360667);
     
     terrain.getMesh(function (plane){
       scene.add(plane);
       console.log("map terrain added", plane);
     });
-    
+    */
+
     //this.state.setup(scene, camera, renderer);
     try {
       this.state.setup(scene, camera, renderer);

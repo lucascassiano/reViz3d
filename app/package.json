@@ -80,9 +80,6 @@
         "electron-mac": "build --em.main=build/electron.js --mac electron-builder.yml",
         "preelectron-pack": "yarn build",
         "install": "electron-rebuild",
-        "export-all": "preship && electron-pack",
-        "export-mac": "preship && electron-mac",
-        "export-win": "preship && electron-win",
         "postinstall": "electron-builder install-app-deps"
     },
     "devDependencies": {
