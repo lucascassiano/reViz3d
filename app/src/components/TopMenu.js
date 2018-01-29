@@ -13,9 +13,12 @@ import { connect } from "react-redux";
 import {
   viewRightMenu,
   toggleRightMenu,
-  toggleRecordMenu
+  toggleRecordMenu,
+  toggleConsole
 } from "../actions/menus";
+
 import { getProject, setProject } from "../actions/project";
+
 const electron = window.require("electron"); // little trick to import electron in react
 const ipcRenderer = electron.ipcRenderer;
 
@@ -31,6 +34,7 @@ class TopMenu extends Component {
     this.exportImage = this.exportImage.bind(this);
     this.closeLoadingMenu = this.closeLoadingMenu.bind(this);
     this.toggleLoadingMenu = this.toggleLoadingMenu.bind(this);
+    this.toggleConsole = this.toggleConsole.bind(this);
 
     this.state = {
       isLoading: false
@@ -45,7 +49,13 @@ class TopMenu extends Component {
   }
 
   toggleRecordMenu() {
+    
     this.props.toggleRecordMenu();
+  }
+
+  toggleConsole(){
+    ipcRenderer.send("toggle-console");
+    this.props.toggleConsole();
   }
 
   newFile() {
@@ -113,7 +123,7 @@ class TopMenu extends Component {
           },
           {
             text: "JavaScript Console",
-            callback: null
+            callback: this.toggleConsole
           }
         ]
       },
@@ -169,7 +179,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     toggleRightMenu: isOpen => dispatch(toggleRightMenu()),
     toggleRecordMenu: () => dispatch(toggleRecordMenu()),
     getProject: () => dispatch(getProject()),
-    setProject: project => dispatch(setProject(project))
+    setProject: project => dispatch(setProject(project)),
+    toggleConsole: isOpen =>dispatch(toggleConsole())
   };
 };
 

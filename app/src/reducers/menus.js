@@ -1,6 +1,7 @@
 const initialState = {
     rightMenu_isOpen: false,
-    recordMenu_isOpen: false
+    recordMenu_isOpen: false,
+    console_isOpen: false
 };
 
 export default (state = initialState, action) => {
@@ -18,6 +19,11 @@ export default (state = initialState, action) => {
         case "TOGGLE_RECORD_MENU":
             var newState = Object.assign({}, state);
             newState.recordMenu_isOpen = !newState.recordMenu_isOpen;
+            return newState;
+
+        case "TOGGLE_CONSOLE":
+            var newState = Object.assign({}, state);
+            newState.console_isOpen = !newState.console_isOpen;
             return newState;
 
         default:

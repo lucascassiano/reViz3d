@@ -480,3 +480,8 @@ function loadFilesToObject(entryPoint) {
         }
     });
 }
+
+//console
+ipcMain.on('toggle-console', event => {
+    mainWindow.webContents.openDevTools();
+});
