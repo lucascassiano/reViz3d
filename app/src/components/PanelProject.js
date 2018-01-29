@@ -87,8 +87,6 @@ export default class PanelProject extends Component {
 
   openFolder() {
     var filePath = this.state.directory;
-
-    var path = "/Users/lucascassiano/Documents/GitHub/experimental_three/";
     console.log("file path", filePath);
     shell.showItemInFolder(filePath);
 

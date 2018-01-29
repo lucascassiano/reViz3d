@@ -29,7 +29,8 @@ class App extends Component {
       name: "lucas",
       ports: null,
       visible: false,
-      serial: null
+      serial: null,
+      editorOn: false
     };
 
     console.log("dev", process);
@@ -55,6 +56,12 @@ class App extends Component {
     ipcRenderer.on("error", (event, err) => {
       this.showAlert(err, "error");
     });
+
+    this.turnEditorOn = this.turnEditorOn.bind(this);
+  }
+
+  turnEditorOn(){
+    this.setState({editorOn:true});
   }
 
   onClickConnectSerial(serialname, baudrate) {
@@ -85,7 +92,7 @@ class App extends Component {
         />
         <Editor3d /> 
         <RecordMenu />
-        <StarterMenu/>
+        {this.state.editorOn? null : <StarterMenu onEnd={this.turnEditorOn}/>}
         <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />{" "}
       </div>
     );

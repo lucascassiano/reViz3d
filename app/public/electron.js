@@ -280,8 +280,7 @@ function CreateFolder(folderDirectory, name) {
     });
 }
 
-ipcMain.on("new-project", (event, callback) => {
-    console.log("callback", callback);
+ipcMain.on("new-project", (event) => {
     dialog.showOpenDialog({
             buttonLabel: "Create Experiment",
             properties: ["openDirectory", "createDirectory"]
@@ -304,6 +303,7 @@ ipcMain.on("new-project", (event, callback) => {
                     });
 
                     var newEntry = path.join(dir, "project.json");
+
                     loadProject(newEntry);
                     mainWindow.webContents.send("new-project");
                     //callback();
@@ -318,8 +318,11 @@ ipcMain.on("open-project", (event, ProjectName) => {
         },
         function(filePath) {
             console.log("opening file project ->" + filePath);
+
             if (filePath != null) {
+
                 loadProject(filePath.toString());
+                mainWindow.webContents.send("open-project");
             }
         }
     );

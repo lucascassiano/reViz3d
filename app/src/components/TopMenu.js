@@ -91,7 +91,7 @@ class TopMenu extends Component {
             callback: this.openFile
           },
           {
-            text: "Save",
+            text: "Save Copy",
             callback: this.saveFile
           }
         ]
@@ -110,6 +110,10 @@ class TopMenu extends Component {
               ? "hide Record menu"
               : "Record Menu",
             callback: this.toggleRecordMenu
+          },
+          {
+            text: "JavaScript Console",
+            callback: null
           }
         ]
       },
