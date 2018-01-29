@@ -280,30 +280,34 @@ function CreateFolder(folderDirectory, name) {
     });
 }
 
-ipcMain.on("new-project", event => {
+ipcMain.on("new-project", (event, callback) => {
+    console.log("callback", callback);
     dialog.showOpenDialog({
             buttonLabel: "Create Experiment",
             properties: ["openDirectory", "createDirectory"]
         },
         function(paths) {
-            if (paths.length) {
-                var dir = paths[0];
-                console.log("creating new project files from template at " + dir);
+            if (paths)
+                if (paths.length) {
+                    var dir = paths[0];
+                    console.log("creating new project files from template at " + dir);
 
-                var template = templates.defaultProject;
-                //project.json
-                CreateFile(dir, "project.json", JSON.stringify(template.project));
-                //main.js
-                CreateFile(dir, "main.js", template.main);
+                    var template = templates.defaultProject;
+                    //project.json
+                    CreateFile(dir, "project.json", JSON.stringify(template.project));
+                    //main.js
+                    CreateFile(dir, "main.js", template.main);
 
-                //directories
-                template.directories.forEach(function(folder) {
-                    CreateFolder(dir, folder);
-                });
+                    //directories
+                    template.directories.forEach(function(folder) {
+                        CreateFolder(dir, folder);
+                    });
 
-                var newEntry = path.join(dir, "project.json");
-                loadProject(newEntry);
-            }
+                    var newEntry = path.join(dir, "project.json");
+                    loadProject(newEntry);
+                    mainWindow.webContents.send("new-project");
+                    //callback();
+                }
         }
     );
 });

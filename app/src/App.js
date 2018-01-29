@@ -9,6 +9,7 @@ import TopMenu from "./components/TopMenu";
 import RightMenu from "./components/RightMenu";
 import Editor3d from "./components/Editor3d.js";
 import RecordMenu from "./components/RecordMenu";
+import StarterMenu from "./views/StarterMenu.js";
 
 import "semantic-ui-css/semantic.min.css";
 
@@ -72,81 +73,7 @@ class App extends Component {
   }
 
   render() {
-    const menu = [
-      {
-        text: "File",
-        items: [
-          {
-            text: "New Project",
-            callback: this.newFile
-          },
-          {
-            text: "Save Project",
-            callback: this.openFile
-          },
-          {
-            text: "Open Project",
-            callback: this.openFile
-          },
-          {
-            text: "Export React Component",
-            callback: this.openFile
-          }
-        ]
-      },
-      {
-        text: "View",
-        items: [
-          {
-            text: "Data Layers",
-            callback: this.toggleVisibility
-          },
-          {
-            text: "List Devices",
-            callback: this.redo
-          }
-        ]
-      },
-      {
-        text: "Export",
-        items: [
-          {
-            text: "React Component",
-            callback: this.undo
-          },
-          {
-            text: "Electron Project",
-            callback: this.redo
-          }
-        ]
-      },
-      {
-        text: "About",
-        items: [
-          {
-            text: "Experimental 3",
-            callback: this.undo
-          },
-          {
-            text: "React",
-            callback: this.redo
-          },
-          {
-            text: "Electron",
-            callback: this.redo
-          },
-          {
-            text: "Three.js",
-            callback: this.redo
-          },
-          {
-            text: "Project Github",
-            callback: this.redo
-          }
-        ]
-      }
-    ];
-
+ 
     const { visible, ports } = this.state;
 
     return (
@@ -158,6 +85,7 @@ class App extends Component {
         />
         <Editor3d /> 
         <RecordMenu />
+        <StarterMenu/>
         <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />{" "}
       </div>
     );
