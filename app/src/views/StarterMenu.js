@@ -23,7 +23,7 @@ class Video extends Component {
 						vimeo +
 						'?&autoplay=' +
 						autoplay +
-						'&color=212121&title=0byline=0&portrait=0'
+						'&color=000&title=0byline=0&portrait=0'
 					}
 					className="starter-video"
 				/>

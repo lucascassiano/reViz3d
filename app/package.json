@@ -75,11 +75,11 @@
     "scripts": {
         "preship": "yarn build",
         "ship": "build --em.main=build/electron.js --win --ia32 -p --darwin always -c electron-builder.yml",
-        "start": "react-scripts start NODE_ENV=development_browser",
+        "start": "NODE_ENV=development_browser react-scripts start ",
         "build": "react-scripts build",
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject",
-        "electron-dev": "concurrently \"export BROWSER=none && yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+        "electron-dev": "concurrently \"export BROWSER=true && yarn start\" \"wait-on http://localhost:3000 && electron .\"",
         "electron-pack": "build --em.main=build/electron.js --win --ia32 --mac -c electron-builder.yml",
         "electron-win": "build --em.main=build/electron.js --win electron-builder.yml",
         "electron-linux": "build --em.main=build/electron.js --ia32 electron-builder.yml",

@@ -25,7 +25,9 @@ let filePath = null;
 
 let projectEntryPoint = null;
 
-const templates = require("./templates");
+const templates = require("./sys/templates");
+const fileManagement = require("./sys/fileManagement");
+const projectLoader = require("./sys/projectLoader");
 
 /*
 //MQTT
@@ -141,9 +143,18 @@ ipcMain.on("test", (event, echo) => {
 
 /**Sends the entry point file (.json) */
 ipcMain.on("project-select-entry", (event, filePath) => {
+    console.log("selected entry");
     loadProject(filePath);
 });
 
+function loadProjectNew(filePath) {
+    fileManagement.watchFolder(path.dirname(filePath), function(file, event) {
+        console.log("FILE MANAGEMENT " + event + " ->" + file.path);
+        console.log(file);
+    });
+}
+
+//old version only for reference
 function loadProject(filePath) {
     mainWindow.webContents.send("clear-environment");
     console.log("loading project from " + filePath);
@@ -165,6 +176,7 @@ function loadProject(filePath) {
             mainWindow.webContents.send("project-entry", entry);
 
             projectEntryPoint = filePath;
+
             let mainFile = path.join(directory, entry.indexed_files.main);
 
             //watching the main file
@@ -240,6 +252,7 @@ function loadProject(filePath) {
 function watchFile(name, filePath, type) {
     console.log("watching " + name + " file located at \r\n" + filePath);
     ReadFile(name, filePath, type);
+    /*
     watch(
         filePath, {
             recursive: false
@@ -247,7 +260,7 @@ function watchFile(name, filePath, type) {
         function(evt, fileName) {
             ReadFile(name, filePath, type);
         }
-    );
+    );*/
 }
 
 function ReadFile(fileName, filePath, type) {
