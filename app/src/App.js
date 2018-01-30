@@ -2,12 +2,14 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
+//main UI views
+import StarterMenu from "./views/StarterMenu";
+import Editor3d from "./views/Editor3d";
+
 // Internal UI components
 import TopMenu from "./components/TopMenu";
 import RightMenu from "./components/RightMenu";
-import Editor3d from "./components/Editor3d.js";
 import RecordMenu from "./components/RecordMenu";
-import StarterMenu from "./views/StarterMenu.js";
 
 import "semantic-ui-css/semantic.min.css";
 
@@ -95,8 +97,8 @@ class App extends Component {
                 this.state.editorOn ? null : < StarterMenu onEnd = { this.turnEditorOn }
                 />} <
                 AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }
-                />{" "} <
-                /div>
+                />{" "} < /
+                div >
             );
         }
     }

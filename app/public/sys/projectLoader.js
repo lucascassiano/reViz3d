@@ -37,7 +37,7 @@ const loadProject = (project, callback) => {
     //Datasets
     fs.readdir(dataDirectory, (err, files) => {
         files.forEach(dataFile => {
-            let dataFilePath = path.join(dataDir, dataFile);
+            let dataFilePath = path.join(dataDirectory, dataFile);
             //vertex shader
             if (path.extname(dataFile) == '.json') {
                 var name = path.basename(dataFile, '.json');
@@ -90,9 +90,6 @@ const loadProject = (project, callback) => {
 };
 
 function readFile(fileName, filePath, type, callback) {
-    console.log('callback from readFile');
-    console.log(callback);
-    //console.log('reading file ' + file.name + ' from ' + file.folder);
     fs.readFile(filePath, 'utf8', function(err, content) {
         if (err) {
             console.log(err);
@@ -100,6 +97,11 @@ function readFile(fileName, filePath, type, callback) {
         } else callback('file-update', type, fileName, filePath, content);
     });
 }
+
+function removeFile(fileName, filePath, type, callback) {
+    callback('file-remove', type, fileName, filePath, null);
+}
+
 /**
  * Converts File to internal Project file definitions
  * @param {object} project - project entry

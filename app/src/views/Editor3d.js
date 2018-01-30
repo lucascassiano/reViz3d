@@ -168,17 +168,23 @@ class Editor3d extends Component {
         }
     }
 
-    internalSetup(scene, camera, renderer) {
-        //Load Shaders
-        var serial = this.state.serial;
-        var shaders = this.state.shaders;
-        var models = this.state.models;
-        var datasets = this.state.datasets;
-
+    internalSetup(scene, camera, renderer) {        
         //transformControl = new TransformControls(camera, renderer.domElement);
-        for (var i in models.obj) {
-            scene.add(models.obj[i]);
-        }
+        
+        //for (var i in models.obj) {
+            //scene.add(models.obj[i]);
+        //}
+
+                //load shaders and models
+        var SHADERS = this.state.shaders;
+        var SERIAL = this.state.serial;
+        var MODELS = this.state.models;
+        var DATASETS = this.state.datasets;
+        //just to ensure retro-compability
+        var shaders = SHADERS;
+        var serial = SERIAL;
+        var models = MODELS;
+        var datasets = DATASETS;
 
         var text = textObject.createObject('reViz 3d _ v1.0', 0.5);
         text.position.y = 0;
@@ -204,7 +210,13 @@ class Editor3d extends Component {
           console.log("map terrain added", plane);
         });
         */
-
+        /*automatize this here
+        var addModels=()=>{
+            for (var i in MODELS.obj) {
+                scene.add(MODELS.obj[i]);
+            }
+        }
+        */
         //this.state.setup(scene, camera, renderer);
         try {
             this.state.setup(scene, camera, renderer);
@@ -220,8 +232,11 @@ class Editor3d extends Component {
         var models = this.models;
         var datasets = this.datasets;
 
-        datasets = {};
-
+        var SHADERS = this.shaders;
+        var SERIAL = this.serial;
+        var MODELS = this.models;
+        var DATASETS = this.datasets;
+        
         try {
             this.state.update(scene, camera, renderer);
         } catch (e) {
@@ -230,9 +245,14 @@ class Editor3d extends Component {
     }
 
     executeCode() {
+        //import modules here
+        require("../modules/Geometries")(THREE);
+
         var Setup = function() {};
         var Update = function() {};
+
         var Draw = function() {};
+        
         var Text = function(text, size) {
             return textObject.createObject(text, size);
         };
@@ -469,8 +489,8 @@ class Editor3d extends Component {
 
     render() {
         var { mouse, selectedObjectName } = this.state;
-        var tooltip = ( <
-            div style = {
+        var tooltip = ( 
+            <div style = {
                 {
                     position: 'absolute',
                     left: mouse.x + 10,
@@ -478,51 +498,45 @@ class Editor3d extends Component {
                     display: selectedObjectName ? 'block' : 'none'
                 }
             }
-            className = "tooltip-object" > { ' ' } { selectedObjectName } <
-            /div>
+            className = "tooltip-object" > { ' ' } { selectedObjectName } </div>
         );
-        return ( <
-            div className = "canvas"
-            onClick = { this.onClick } >
-            <
-            div className = "canvas-3d" >
-            <
-            Container3d percentageWidth = { '100%' }
-            fitScreen ref = { c => (this.c3d = c) }
-            key = { 'c3d' }
-            setup = { this.internalSetup }
-            update = { this.internalUpdate }
-            marginBottom = { 30 }
-            code = { this.state.code }
-            onHoverStart = { this.onHoverStart }
-            onHoverEnd = { this.onHoverEnd }
-            addLight = { true }
-            addControls = { true }
-            addGrid = { true }
-            onUpdateAngles = { this.updateAnglesCube }
-            /> < /
-            div >
+        return ( 
+            <div className = "canvas" onClick = { this.onClick } >
+                <div className = "canvas-3d" >
+                    <Container3d 
+                        percentageWidth = { '100%' }
+                        fitScreen ref = { c => (this.c3d = c) }
+                        key = { 'c3d' }
+                        setup = { this.internalSetup }
+                        update = { this.internalUpdate }
+                        marginBottom = { 30 }
+                        code = { this.state.code }
+                        onHoverStart = { this.onHoverStart }
+                        onHoverEnd = { this.onHoverEnd }
+                        addLight = { true }
+                        addControls = { true }
+                        addGrid = { true }
+                        onUpdateAngles = { this.updateAnglesCube }
+                    /> 
+                </div>
 
-            <
-            div className = "cube-view" >
-            <
-            CubeView aspect = { 1 }
-            hoverColor = { 0x0088ff }
-            ref = { c => (this.cubeView = c) }
-            cubeSize = { 2 }
-            zoom = { 6 }
-            antialias = { true }
-            onUpdateAngles = { this.updateAngles }
-            width = { 100 }
-            height = { 100 }
-            relatedCanvas = { this.c3d }
-            /> < /
-            div > { tooltip }
+                <div className = "cube-view" >
+                    <CubeView 
+                        aspect = { 1 }
+                        hoverColor = { 0x0088ff }
+                        ref = { c => (this.cubeView = c) }
+                        cubeSize = { 2 }
+                        zoom = { 6 }
+                        antialias = { true }
+                        onUpdateAngles = { this.updateAngles }
+                        width = { 100 }
+                        height = { 100 }
+                    /> 
+                </div> { tooltip }
 
-            <
-            AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }
-            /> < /
-            div >
+                <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/> 
+                
+            </div>
         );
     }
 }

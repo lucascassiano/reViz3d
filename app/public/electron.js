@@ -4,13 +4,9 @@ const isDev = require("electron-is-dev");
 
 const { autoUpdater } = require("electron-updater");
 
-const SerialPort = require("serialport");
 
 let port = null;
-const Readline = SerialPort.parsers.Readline;
-let parser = new Readline({
-    delimiter: "\r\n"
-});
+
 
 let watch = require("node-watch");
 const fs = require("fs");
@@ -28,6 +24,7 @@ let projectEntryPoint = null;
 const templates = require("./sys/templates");
 const fileManagement = require("./sys/fileManagement");
 const projectLoader = require("./sys/projectLoader");
+const serialPortManager = require("./sys/serialPort");
 
 /*
 //MQTT
@@ -64,6 +61,9 @@ function createWindow() {
     }
 
     sendToWindow = sendToWindow.bind(this);
+    /*Serial Port Methods*/
+    serialPortManager(sendToWindow);
+
     //mainWindow.webContents.openDevTools();
 }
 
@@ -98,53 +98,6 @@ ipcMain.on("quitAndInstall", (event, arg) => {
     autoUpdater.quitAndInstall();
 });
 
-/*Serial Port Methods*/
-
-// when receiving a quitAndInstall signal, quit and install the new version ;)
-ipcMain.on("listSerialPorts", (event, arg) => {
-    SerialPort.list((err, ports) => {
-        var output = {
-            err: err,
-            ports: ports
-        };
-
-        mainWindow.webContents.send("ports-data", output);
-    });
-});
-
-ipcMain.on("serialport-open", (event, portName, bauds) => {
-    port = new SerialPort(portName, bauds);
-    port.pipe(parser);
-
-    mainWindow.webContents.send("serialport-isOpen", port);
-
-    // Open errors will be emitted as an error event
-    port.on("error", function(err) {
-        mainWindow.webContents.send("serialport-error", err.message);
-    });
-
-    port.on("open", function() {
-        mainWindow.webContents.send("serialport-isOpen", true);
-    });
-
-    parser.on("data", function(data) {
-        mainWindow.webContents.send("serialport-data", data);
-        //console.log("data Connected", data);
-    });
-
-    ipcMain.on("serialport-write", (event, output) => {
-        port.write(output);
-    });
-
-    ipcMain.on("serialport-close", event => {
-        port.close();
-    });
-
-    port.on("close", function() {
-        mainWindow.webContents.send("serialport-isOpen", false);
-    });
-});
-
 ipcMain.on("test", (event, echo) => {
     mainWindow.webContents.send("test", echo);
 });
@@ -154,8 +107,6 @@ ipcMain.on("project-select-entry", (event, filePath) => {
     console.log("selected entry");
     loadProject(filePath);
 });
-
-
 
 function loadProject(filePath) {
 
@@ -182,15 +133,15 @@ function loadProject(filePath) {
 
                 //watch folder for changes
                 fileManagement.watchFolder(entry.directory, function(file, event) {
-                    console.log("FILE MANAGEMENT " + event + " ->" + file.path);
-                    console.log(file);
-                    if (event == "update") {
-                        var projectFile = projectLoader.FileToProjectFile(entry, file);
-                        if (projectFile)
+                    var projectFile = projectLoader.FileToProjectFile(entry, file);
+                    if (projectFile) {
+                        if (event == "update") {
                             projectLoader.readFile(projectFile.name, projectFile.path, projectFile.type, sendToWindow);
-                    } else if (event == "remove") {
-                        //remove file
+                        } else if (event == "remove") {
+                            //remove file
+                        }
                     }
+
                 });
 
             } catch (err) {
@@ -213,129 +164,6 @@ function loadProject(filePath) {
 */
     //projectLoader
 
-}
-
-//old version only for reference
-function loadProjectOld(filePath) {
-    mainWindow.webContents.send("clear-environment");
-    console.log("loading project from " + filePath);
-
-    fs.readFile(filePath, "utf8", function(err, data) {
-        if (err) {
-            console.log(err);
-            mainWindow.webContents.send("project-select-entry-return", err, null);
-        }
-
-        let entry = null;
-
-        try {
-            entry = JSON.parse(data);
-
-            var directory = path.dirname(filePath);
-
-            entry.directory = directory;
-            mainWindow.webContents.send("project-entry", entry);
-
-            projectEntryPoint = filePath;
-
-            let mainFile = path.join(directory, entry.indexed_files.main);
-
-            //watching the main file
-            watchFile("main", mainFile, "main");
-
-            fs.readdir(dataDir, (err, files) => {
-                files.forEach(dataFile => {
-                    console.log("data " + dataFile);
-                    let dataFilePath = path.join(dataDir, dataFile);
-                    //vertex shader
-                    if (path.extname(dataFile) == ".json") {
-                        var name = path.basename(dataFile, ".json");
-                        watchFile(name, dataFilePath, "data-file");
-                    }
-                });
-            });
-
-            //watching the shaders files
-            let shadersDir = path.join(
-                directory,
-                entry.indexed_files.shadersDirectory
-            );
-
-            fs.readdir(shadersDir, (err, files) => {
-                files.forEach(shaderFile => {
-                    console.log("shader " + shaderFile);
-                    let shaderFilePath = path.join(shadersDir, shaderFile);
-                    //vertex shader
-                    if (path.extname(shaderFile) == ".vert") {
-                        var name = path.basename(shaderFile, ".vert");
-                        watchFile(name, shaderFilePath, "vertex-shader");
-                    }
-                    //fragment shader
-                    if (path.extname(shaderFile) == ".frag") {
-                        var name = path.basename(shaderFile, ".frag");
-                        watchFile(name, shaderFilePath, "fragment-shader");
-                    }
-                });
-            });
-
-            //watching the models files (.obj and .stl)
-            let modelsDir = path.join(directory, entry.indexed_files.modelsDirectory);
-            fs.readdir(modelsDir, (err, files) => {
-                files.forEach(modelFile => {
-                    console.log("model " + modelFile);
-                    let modelFilePath = path.join(modelsDir, modelFile);
-                    //obj model
-                    if (path.extname(modelFile) == ".obj") {
-                        var name = path.basename(modelFile, ".obj");
-                        watchFile(name, modelFilePath, "obj");
-                    }
-                    //mtl textures
-                    if (path.extname(modelFile) == ".mtl") {
-                        var name = path.basename(modelFile, ".mtl");
-                        watchFile(name, modelFilePath, "mtl");
-                    }
-                    //.stl models
-                    if (path.extname(modelFile) == ".stl") {
-                        var name = path.basename(modelFile, ".stl");
-                        watchFile(name, modelFilePath, "stl");
-                    }
-                });
-            });
-        } catch (err) {
-            console.log(err);
-            mainWindow.webContents.send("project-select-entry-return", err, null);
-        }
-    });
-}
-
-function watchFile(name, filePath, type) {
-    console.log("watching " + name + " file located at \r\n" + filePath);
-    ReadFile(name, filePath, type);
-    /*
-    watch(
-        filePath, {
-            recursive: false
-        },
-        function(evt, fileName) {
-            ReadFile(name, filePath, type);
-        }
-    );*/
-}
-
-function ReadFile(fileName, filePath, type) {
-    console.log("reading file " + fileName + " at " + filePath);
-    fs.readFile(filePath, "utf8", function(err, content) {
-        if (err) {
-            console.log(err);
-            mainWindow.webContents.send(
-                "file-update",
-                type,
-                fileName,
-                filePath,
-                null
-            );
-        } else mainWindow.webContents.send("file-update", type, fileName, filePath, content);
-    });
 }
 
 function CreateFile(fileDirectory, fileName, fileContent) {
@@ -554,6 +382,10 @@ function loadFilesToObject(entryPoint) {
 }
 
 //console
+ipcMain.on('toggle-console', event => {
+    mainWindow.webContents.openDevTools();
+});
+
 ipcMain.on('toggle-console', event => {
     mainWindow.webContents.openDevTools();
 });
