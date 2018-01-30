@@ -42,6 +42,7 @@ client.on("message", function(topic, message) {
   client.end();
 });
 */
+var sendToWindow;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -57,8 +58,15 @@ function createWindow() {
     mainWindow.on("closed", () => (mainWindow = null));
 
     mainWindow.webContents.send("ready");
+
+    sendToWindow = (...args) => {
+        mainWindow.webContents.send(...args);
+    }
+
+    sendToWindow = sendToWindow.bind(this);
     //mainWindow.webContents.openDevTools();
 }
+
 
 // when the app is loaded create a BrowserWindow and check for updates
 app.on("ready", function() {
@@ -147,15 +155,68 @@ ipcMain.on("project-select-entry", (event, filePath) => {
     loadProject(filePath);
 });
 
-function loadProjectNew(filePath) {
+
+
+function loadProject(filePath) {
+
+    mainWindow.webContents.send("clear-environment"); //clear 3D editor
+
+
+    //filePath -> project.json <- project entry
+    fs.readFile(filePath, "utf8", function(err, data) {
+        if (err) {
+            console.log(err);
+            mainWindow.webContents.send("project-select-entry-return", err, null);
+        } else {
+            let entry = null;
+            try {
+                entry = JSON.parse(data);
+                entry.directory = path.dirname(filePath);
+                mainWindow.webContents.send("project-entry", entry);
+
+                //Load files from project 
+                projectLoader.loadProject(entry, (fileName, filePath, type) => {
+                    //send callbacks to main window
+                    projectLoader.readFile(fileName, filePath, type, sendToWindow);
+                });
+
+                //watch folder for changes
+                fileManagement.watchFolder(entry.directory, function(file, event) {
+                    console.log("FILE MANAGEMENT " + event + " ->" + file.path);
+                    console.log(file);
+                    if (event == "update") {
+                        var projectFile = projectLoader.FileToProjectFile(entry, file);
+                        if (projectFile)
+                            projectLoader.readFile(projectFile.name, projectFile.path, projectFile.type, sendToWindow);
+                    } else if (event == "remove") {
+                        //remove file
+                    }
+                });
+
+            } catch (err) {
+                console.log(err);
+                //project.json is not a valid project
+                mainWindow.webContents.send("project-select-entry-return", err, null);
+            }
+        }
+
+    });
+
+    /*
+    //constantly watching files changes
     fileManagement.watchFolder(path.dirname(filePath), function(file, event) {
+
         console.log("FILE MANAGEMENT " + event + " ->" + file.path);
         console.log(file);
+
     });
+*/
+    //projectLoader
+
 }
 
 //old version only for reference
-function loadProject(filePath) {
+function loadProjectOld(filePath) {
     mainWindow.webContents.send("clear-environment");
     console.log("loading project from " + filePath);
 
@@ -181,8 +242,6 @@ function loadProject(filePath) {
 
             //watching the main file
             watchFile("main", mainFile, "main");
-
-            let dataDir = path.join(directory, entry.indexed_files.dataDirectory);
 
             fs.readdir(dataDir, (err, files) => {
                 files.forEach(dataFile => {
