@@ -1,7 +1,10 @@
 # reViz
 3d Visualization toolkit for react based apps.
 
-# running app
+# Releases
+./app/dist
+
+# running app in development mode
 if electron (and electron-rebuild) is not yet installed in your dev environment, install it using terminal:
 
 ```
@@ -18,33 +21,29 @@ then, to run the app:
 ```
 cd app
 
-npm install && npm run electron-dev
+npm install && npm run dev
 ```
 
 # Building Native applications
 Because it's based on electron, this project can be packed as windows, linux and OSX apps.
-always run a 'preship' before building
 
-```
-npm run preship
-```
 ## Multi-platforms
 ```
-npm run electron-pack
+npm run build-mac
 ```
 
 ## Windows
 ```
-npm run electron-win
+npm run build-win
 ```
 
 ## Mac(OSX)
 ```
-npm run electron-mac
+npm run build-mac
 ```
 
 ## Linux
 ```
-npm run electron-linux
+npm run build-linux
 ```
 
