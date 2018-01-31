@@ -179,7 +179,7 @@ export default class RightMenu extends Component {
 				<div className="panel-item">
 					<div className="panel-label">Received data schema</div>
 					<div className="panel-item">
-						<JsonViewer data={receivedJson} rootName="SERIAL" />
+						<JsonViewer data={({SERIAL:receivedJson})} />
 					</div>
 				</div>
 				<AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />

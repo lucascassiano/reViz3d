@@ -94,6 +94,7 @@ class Editor3d extends Component {
         this.updateWindowSize = this.updateWindowSize.bind(this);
 
         this.get2DCanvas = this.get2DCanvas.bind(this);
+        this.storeProject = this.storeProject.bind(this);
 
         objLoader = new OBJLoader();
 
@@ -156,10 +157,20 @@ class Editor3d extends Component {
         //console.log('canvas2d', canvas2d);
         this.updateWindowSize();
 
+        this.storeProject();
         //drawing
         //const canvas = this.get2DCanvas();
 
         //console.log("width", ReactDOM.findDOMNode(this.c3d).offsetWidth);
+    }
+
+    storeProject(project){
+        if(project){
+            this.props.setProject(project);
+        }
+        else{
+            this.props.setProject(this.state);
+        }   
     }
 
     onMouseMove(event) {
@@ -289,9 +300,10 @@ class Editor3d extends Component {
         //var canvas2d = ReactDOM.findDOMNode(this.c2d);
         //const ctx = canvas2d.getContext('2d'); //ReactDOM.findDOMNode(this.c2d).getContext("2d");
         //this.draw(ctx);
-
-        this.props.setProject(project);
+        this.storeProject(project);
         this.c3d.reloadScene();
+
+        this.storeProject();
     }
 
     filesUpdated(event, type, fileName, filePath, content) {
@@ -411,6 +423,8 @@ class Editor3d extends Component {
                 console.log('error parsing .json file', err);
             }
         }
+
+        //this.storeProject();
     }
 
     loadFromSerial() {

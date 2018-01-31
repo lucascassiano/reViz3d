@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { setProjectName, setProject, getProject } from "../actions/project";
+import { setProjectName, setProject } from "../actions/project";
 import { connect } from "react-redux";
-var sizeof = require('object-sizeof');
+import JsonViewer from './ui/JsonViewer';
 
 class PanelModels extends Component {
   constructor(props) {
@@ -9,12 +9,18 @@ class PanelModels extends Component {
   }
 
   render() {
-    console.log("props model menu", this.props);
+
+    let models = {MODELS: this.props.models};
+  
     return (
-      <div>
-        <p>3d models in the project</p>
-        <p>{Object.keys(this.props.models.obj).length}</p>
-      </div>
+			<div>
+				<div className="panel-item">
+					<div className="panel-label">Loaded .OBJ Models</div>
+					<div className="panel-item">
+						<JsonViewer data={models}/>
+					</div>
+				</div>
+			</div>
     );
   }
 }

@@ -11,6 +11,7 @@ import Tree from "react-ui-tree";
 import PanelProject from "./PanelProject";
 import PanelModels from "./PanelModels";
 import PanelMQTT from "./PanelMQTT";
+import PanelDatasets from "./PanelDatasets";
 
 import { connect } from "react-redux";
 import { viewRightMenu, toggleRightMenu } from "../actions/menus";
@@ -65,11 +66,11 @@ class RightMenu extends Component {
           <Tabs forceRenderTabPanel={true}>
             <TabList>
               <Tab>Project</Tab>
-              <Tab>SerialPort</Tab>
+              <Tab>Serial</Tab>
               <Tab>MQTT</Tab>
-              <Tab>Data</Tab>
-              <Tab>Model</Tab>
-              <Tab>Hover</Tab>
+              <Tab>Local Data</Tab>
+              <Tab>Models</Tab>
+              <Tab>React</Tab>
             </TabList>
             <TabPanel>
               <PanelProject />
@@ -81,10 +82,13 @@ class RightMenu extends Component {
               <PanelMQTT/>
             </TabPanel>
             <TabPanel>
-              <h2>Data</h2>
+              <PanelDatasets/>
             </TabPanel>
             <TabPanel>
               <PanelModels />
+            </TabPanel>
+            <TabPanel>
+              configure exported component
             </TabPanel>
           </Tabs>
         </div>

@@ -107,7 +107,7 @@ class PanelMQTT extends Component {
 					<div className="panel-label">Received data schema</div>
 					<div className="panel-item">
 						
-						<JsonViewer data={receivedMsg} rootName="MQTT" />
+						<JsonViewer data={({MQTT:receivedMsg})} />
 					</div>
 				</div>
 			</div>
