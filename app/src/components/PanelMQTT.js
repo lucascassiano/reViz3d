@@ -101,8 +101,7 @@ class PanelMQTT extends Component {
 				<div className="mqtt-received-msg">{receivedMsg}</div>
 
 				<Toggle text="real-time loader 1" active={true} />
-				<Toggle text="real-time loader 2" active={true} />
-				<Toggle text="real-time loader 3" active={true} />
+        
 			</div>
 		);
 	}

@@ -138,9 +138,9 @@
 }
 
 .serial-console {
-    overflow: scroll;
-    max-height: calc(100vh - 300px);
-    min-height: 300px;
+    overflow-x: scroll;
+    min-height: 30px;
+    padding: 5px;
     background: #212121;
     width: 100%;
     color: #f0f0f0;

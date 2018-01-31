@@ -173,7 +173,6 @@ class Editor3d extends Component {
         var content = {};
         try {
             content = JSON.parse(data);
-
             this.serial = content;
             SERIAL = content;
             this.setState({
@@ -181,6 +180,7 @@ class Editor3d extends Component {
             });
             
         } catch (e) {
+            SERIAL = data; //pass as a string
             console.log(e);
         }
     }
