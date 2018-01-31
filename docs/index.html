@@ -34,10 +34,17 @@
     <meta content="Your Project" property="og:title">
     <meta content="Your Project description goes here." name="description">
 
+    <!--highlight for code-->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
     <!-- Initializer -->
     <script>
         Flatdoc.run({
-            fetcher: Flatdoc.github('USER/REPO')
+            fetcher: Flatdoc.file('example.md')
         });
     </script>
 </head>
@@ -46,7 +53,7 @@
 
     <div class='header'>
         <div class='left'>
-            <h1>Your Project</h1>
+            <h1>REVIZ 3D</h1>
             <ul>
                 <li><a href='https://github.com/USER/REPO'>View on GitHub</a></li>
                 <li><a href='https://github.com/USER/REPO/issues'>Issues</a></li>
@@ -58,10 +65,12 @@
         </div>
     </div>
 
+
     <div class='content-root'>
         <div class='menubar'>
             <div class='menu section' role='flatdoc-menu'></div>
         </div>
+
         <div role='flatdoc-content' class='content'></div>
     </div>
 

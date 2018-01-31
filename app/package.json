@@ -13,7 +13,16 @@
             "node_modules/**/*"
         ],
         "directories": {
-            "buildResources": "assets"
+            "buildResources": "assets",
+            "output": "../dist"
+        },
+        "mac": {
+            "target": ["dmg", "zip"],
+            "icon": "icon.icns"
+        },
+        "win": {
+            "target": ["exe", "zip"],
+            "icon": "icon.ico"
         }
     },
     "dependencies": {
