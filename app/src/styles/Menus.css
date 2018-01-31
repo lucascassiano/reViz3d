@@ -276,3 +276,24 @@
     animation: blink 1s step-start 0s infinite;
     -webkit-animation: blink 1s step-start 0s infinite;
 }
+
+.serial-config {
+    display: grid;
+    grid-template-columns: 65% auto;
+    grid-gap: 1px;
+    grid-row-gap: 10px;
+    grid-auto-rows: minmax(10px, auto);
+}
+
+.mqtt-config {
+    display: grid;
+    grid-template-columns: 220px 150px;
+    grid-gap: 1px;
+    grid-row-gap: 10px;
+    grid-auto-rows: minmax(10px, auto);
+}
+
+.mqtt-config>input {
+    width: 100%;
+    min-width: 100%;
+}

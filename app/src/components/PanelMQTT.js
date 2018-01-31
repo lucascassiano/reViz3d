@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { toggleRecordMenu } from '../actions/menus';
 import Toggle from './ui/Toggle';
 import InputText from './ui/InputText';
+import sendMsg_icon from '../assets/send_message.svg';
+import JsonViewer from './ui/JsonViewer';
 
 const electron = window.require('electron'); // little trick to import electron in react
 const ipcRenderer = electron.ipcRenderer;
@@ -16,7 +18,7 @@ class PanelMQTT extends Component {
 			topic: null,
 			outTopic: null,
 			message: null,
-      receivedMsg: null
+			receivedMsg: null
 		};
 
 		ipcRenderer.on('mqtt-connected', (event, isConnected) => {
@@ -24,8 +26,8 @@ class PanelMQTT extends Component {
 		});
 
 		ipcRenderer.on('mqtt-message', (event, topic, message) => {
-      console.log('mqtt-message', topic, message);
-      this.onReceiveMessage(topic,message);
+			console.log('mqtt-message', topic, message);
+			this.onReceiveMessage(topic, message);
 		});
 
 		this.Subscribe = this.Subscribe.bind(this);
@@ -85,23 +87,29 @@ class PanelMQTT extends Component {
 
 		return (
 			<div>
-				<input type="text" placeholder="mqtt://mqttserver" onChange={this.changeUrl} />
-				<input type="text" placeholder="topic" onChange={this.changeTopic} />
-				<button onClick={this.Subscribe}>Subscribe</button>
-				<br />
+        <div className="panel-label">MQTT | URL Configuration</div>
+        <div className="mqtt-config">
+          <input type="text" placeholder="mqtt://mqttserver" onChange={this.changeUrl} />
+          <input type="text" placeholder="topic" onChange={this.changeTopic} />
+          <button onClick={this.Subscribe}>Subscribe</button>
+        </div>
+        <div className="panel-label">Send Messages to MQTT on Topic</div>
+        <div className="mqtt-config">
+        <input  placeholder="outTopic" onChange={this.changeOutTopic} />
+				<input  placeholder="message" onChange={this.changeMessage} />
+				<button onClick={this.publishMessage}>
+					publish<img src={sendMsg_icon} />
+				</button>
 
-				<input type="text" placeholder="outTopic" onChange={this.changeOutTopic} />
-				<input type="text" placeholder="message" onChange={this.changeMessage} />
-
-				<button onClick={this.publishMessage}>Publish</button>
-
-				<Toggle text="real-time loader" active={true} />
-
-				<InputText placeHolder="select mqtt url" />
-				<div className="mqtt-received-msg">{receivedMsg}</div>
-
-				<Toggle text="real-time loader 1" active={true} />
-        
+        </div>
+		
+				<div className="panel-item">
+					<div className="panel-label">Received data schema</div>
+					<div className="panel-item">
+						
+						<JsonViewer data={receivedMsg} rootName="MQTT" />
+					</div>
+				</div>
 			</div>
 		);
 	}

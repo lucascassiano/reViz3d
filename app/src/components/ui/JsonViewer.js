@@ -6,7 +6,7 @@ import JSONTree from 'react-json-tree';
 const theme = {
     scheme: 'monokai',
     author: 'wimer hazenberg (http://www.monokai.nl)',
-    base00: '#272822',
+    base00: '#212121',
     base01: '#383830',
     base02: '#49483e',
     base03: '#75715e',
@@ -36,7 +36,7 @@ class JsonViewer extends Component {
         return(
             <div className="json-structure">
             <div className="json-root">{rootName}</div>
-            <JSONTree data={data} hideRoot theme={theme} />
+            <JSONTree className="json-viewer" data={data} hideRoot theme={theme} invertTheme={false}/>
             </div>
         ); 
     }

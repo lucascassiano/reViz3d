@@ -7,16 +7,16 @@ import { Grid, Image } from 'semantic-ui-react';
 import moment from 'moment';
 import AlertContainer from 'react-alert';
 
-import JsonViewer from "./ui/JsonViewer";
+import JsonViewer from './ui/JsonViewer';
 
-import {} from "../styles/Menus.css";
+import {} from '../styles/Menus.css';
+import Dropdown from './ui/Dropdown';
 
 import {
 	InputGroup,
 	InputGroupButton,
 	InputGroupAddon,
 	Input,
-	Dropdown,
 	DropdownToggle,
 	DropdownMenu,
 	DropdownItem,
@@ -30,7 +30,6 @@ export default class RightMenu extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			text: 'Select Port',
 			portName: null,
 			baud: null,
 			selected: null,
@@ -43,20 +42,11 @@ export default class RightMenu extends Component {
 			receivedJson: null
 		};
 		this.onClickConnectSerial = this.onClickConnectSerial.bind(this);
-		this.onClickOption = this.onClickOption.bind(this);
-		this.toggle = this.toggle.bind(this);
-		this.toggleBauds = this.toggleBauds.bind(this);
-		this.onClickOptionBauds = this.onClickOptionBauds.bind(this);
-		this.onClickCloseSerial = this.onClickCloseSerial.bind(this);
-		this.onClickClearConsole = this.onClickClearConsole.bind(this);
-		this.autoScrollConsole = this.autoScrollConsole.bind(this);
-		this.toggleDisplayData = this.toggleDisplayData.bind(this);
-		this.bauds = [110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 56000, 115200];
-
-		//Register Events
-		ipcRenderer.on('test', (event, output) => {
-			console.log('works', output);
-		});
+		
+    this.onChangePort = this.onChangePort.bind(this);
+    this.onChangeBaud = this.onChangeBaud.bind(this);
+    
+    this.bauds = [110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 56000, 115200];
 
 		ipcRenderer.on('serialport-error', (event, err) => {
 			//log error here
@@ -78,57 +68,39 @@ export default class RightMenu extends Component {
 
 		ipcRenderer.on('serialport-data', (event, data) => {
 			//console.log("data received from Serial", data);
-			var receivedData = this.state.receivedData;
 			var receivedJson = this.state.receivedJson;
 
-      //if(receivedJson==null){
-        try {
-          receivedJson = JSON.parse(data);
-          this.setState({
-            receivedJson:receivedJson
-          });
+			try {
+				receivedJson = JSON.parse(data);
+				this.setState({
+					receivedJson: receivedJson
+				});
 			} catch (e) {
-				
+				receivedJson = { type: 'string' };
 			}
 
-      //}
-			
 			var displayedData = [];
 
 			var date = moment().format('MM/DD/YYYY, hh:mm:ss');
-			receivedData.push('timestamp:"' + date + '",' + data);
-			receivedData.push('\r\n');
+			//receivedData.push('timestamp:"' + date + '",' + data);
+			//receivedData.push('\r\n');
 
-			if (this.state.displayData) displayedData = receivedData;
-			else displayedData = 'timestamp:"' + date + '",' + data;
+			//if (this.state.displayData) displayedData = receivedData;
+			displayedData = 'timestamp:"' + date + '",' + data;
 
 			this.setState({
-				receivedData: receivedData,
-        displayedData: displayedData
+				displayedData: displayedData
 			});
 
 			//this.autoScrollConsole();
 		});
 	}
 
-	toggleDisplayData() {
-		this.setState({ displayData: !this.state.displayData });
-	}
-
 	toggle() {
 		ipcRenderer.send('listSerialPorts');
-		this.setState({
-			dropdownOpen: !this.state.dropdownOpen
-		});
 	}
 
-	toggleBauds() {
-		this.setState({
-			dropdownBaudsOpen: !this.state.dropdownBaudsOpen
-		});
-	}
-
-	onClickOption(index, portName) {
+	onChangePort(index, portName) {
 		console.log('Selected SerialPort', index, portName);
 		var portNameSimple = portName;
 		if (portName.startsWith('/dev/tty.')) {
@@ -139,7 +111,13 @@ export default class RightMenu extends Component {
 			selected: index,
 			portNameSimple: portNameSimple
 		});
-	}
+  }
+  
+  onChangeBaud(index, baudrate){
+    this.setState({
+			baud:parseInt(baudrate)
+		});
+  }
 
 	onClickOptionBauds(baudrate) {
 		this.setState({ baud: baudrate });
@@ -152,15 +130,6 @@ export default class RightMenu extends Component {
 
 	onClickCloseSerial() {
 		ipcRenderer.send('serialport-close');
-	}
-
-	onClickClearConsole() {
-		this.setState({ receivedData: [] });
-	}
-
-	autoScrollConsole() {
-		var console = ReactDOM.findDOMNode(this.refs.serialConsole);
-		console.scrollTop = console.scrollHeight;
 	}
 
 	getPortName() {
@@ -183,56 +152,34 @@ export default class RightMenu extends Component {
 	}
 
 	render() {
-		const { text, portName, portNameSimple, baud, open, receivedData, displayedData, receivedJson} = this.state;
+		const { text, portName, portNameSimple, baud, open, receivedData, displayedData, receivedJson } = this.state;
 		const { serial, onSelect } = this.props;
 
-		let listPorts = [];
-		if (serial)
-			listPorts = serial.map((i, index) => (
-				<DropdownItem key={i} onClick={() => this.onClickOption(index, i)}>
-					<p>{i}</p>
-				</DropdownItem>
-			));
-		//creating list of baudrates
-		let listBauds = this.bauds.map(i => (
-			<DropdownItem key={'bauds_' + i} onClick={() => this.onClickOptionBauds(i)}>
-				<p>{i.toString()}</p>
-			</DropdownItem>
-		));
-
 		var configSerialMenu = (
-			<InputGroup>
-				<InputGroupButton>
-					<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="rounded-0">
-						<DropdownToggle caret>Port</DropdownToggle>
-						<DropdownMenu>{listPorts}</DropdownMenu>
-					</Dropdown>
-				</InputGroupButton>
-				<Input placeholder={portNameSimple} />
-				<InputGroupButton>
-					<Dropdown isOpen={this.state.dropdownBaudsOpen} toggle={this.toggleBauds} className="rounded-0">
-						<DropdownToggle caret>{baud ? baud : 'bauds'}</DropdownToggle>
-						<DropdownMenu className="rounded-0">{listBauds}</DropdownMenu>
-					</Dropdown>
-				</InputGroupButton>
-				<InputGroupButton>
-					<Button color={portName && baud ? 'primary' : 'secondary'} onClick={this.onClickConnectSerial}>
-						connect
-					</Button>
-				</InputGroupButton>
-			</InputGroup>
+			<div className="serial-config">
+				<div>
+					<Dropdown placeHolder="Serial Port" label={portNameSimple} items={serial} onChange={this.onChangePort} />
+				</div>
+				<div>
+					<Dropdown placeHolder="Baudrate" label={baud} items={this.bauds} onChange={this.onChangeBaud} />
+				</div>
+				<div>
+					<button onClick={this.onClickConnectSerial}>Open Serial</button>
+				</div>
+			</div>
 		);
 		if (open) {
-			configSerialMenu = <Button onClick={this.onClickCloseSerial}>Close Connection</Button>;
+			configSerialMenu = <button onClick={this.onClickCloseSerial}>Close Serial: {portNameSimple}</button>;
 		}
+
 		return (
 			<div>
 				<div className="panel-label">SerialPort Configuration</div>
 				{configSerialMenu}
 				<div className="panel-item">
-					<div className="panel-label">Connection Console</div>
+					<div className="panel-label">Received data schema</div>
 					<div className="panel-item">
-           <JsonViewer data={receivedJson} rootName="SERIAL"/>
+						<JsonViewer data={receivedJson} rootName="SERIAL" />
 					</div>
 				</div>
 				<AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
