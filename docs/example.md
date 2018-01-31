@@ -1,8 +1,15 @@
 Reviz Examples
 ================
-
-### Large sidebar button
+### Download
 [Download .zip >](examples/big-button.html)
+
+Get Started
+==============
+## Large sidebar button
+[Download .zip >](examples/big-button.html)
+
+Internal Modules
+==============
 
 ``` html
 <div class='section'>
@@ -10,18 +17,13 @@ Reviz Examples
 </div>
 ```
 
-## Basic Geometries
 ### Cube
-<code>Cube(size, color)</code>
+sometext here
 
 ```js
-
-Setup = (scene, renderer, camera){
   var cube;
   cube = Sphere(size, color);
   scene.add(sphere)
-}
-
 ```
 
 ### Sphere
@@ -30,19 +32,10 @@ Setup = (scene, renderer, camera){
 <code>Sphere( )</code>
 
 ```js
-
-Setup = (scene, renderer, camera){
   var sphere;
   sphere = Sphere(radius, color);
   scene.add(sphere)
-}
-
 ```
-
-### Algo
-## inside
-# main
-## inside2
 
 ### Backbone Patterns
 [View example >](examples/patterns.html)
@@ -66,7 +59,7 @@ Elephant tonic
 A bill accounts her postcard at trees. Conduct one's claw's elephant. Loathe my 
 forest. Though, a page pulls his grin below bodies. Cat rules seed at fiber.  
 "Advise their tonic's touch," she nicked. "Craft our sauce!" the applesauce's 
-chicken used.
+chicken used
 
 Swiftly, a home cares one's pitch off ices. A coffee tips one's fingernail after 
 plastics. Truly, who? Sadly, an outline understands her tonic over colors.  
