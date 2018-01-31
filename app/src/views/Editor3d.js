@@ -35,6 +35,13 @@ let _this = null;
 let transformControl;
 let objLoader = new OBJLoader();
 
+/*visible objects*/
+let SHADERS = {};
+let SERIAL = {};
+let MODELS = {};
+let DATASETS = {};
+let MQTT = {};
+
 class Editor3d extends Component {
     constructor(props) {
         super(props);
@@ -56,6 +63,7 @@ class Editor3d extends Component {
                 stl: {}
             },
             serial: {},
+            mqtt: {},
             hoveredObject: null,
             selectedObject: null,
             selectedObjectName: null,
@@ -71,6 +79,8 @@ class Editor3d extends Component {
 
         this.filesUpdated = this.filesUpdated.bind(this);
         this.receiveSerialData = this.receiveSerialData.bind(this);
+        this.receiveMQTT = this.receiveMQTT.bind(this);
+
         this.executeCode = this.executeCode.bind(this);
         this.loadFromSerial = this.loadFromSerial.bind(this);
         this.onHoverStart = this.onHoverStart.bind(this);
@@ -96,6 +106,10 @@ class Editor3d extends Component {
 
         ipcRenderer.on('serialport-data', (event, data) => {
             this.receiveSerialData(data);
+        });
+
+        ipcRenderer.on('mqtt-message', (event, topic, message) => {
+            this.receiveMQTT(message);
         });
 
         ipcRenderer.on('clear-environment', () => {
@@ -159,32 +173,33 @@ class Editor3d extends Component {
         var content = {};
         try {
             content = JSON.parse(data);
+
+            this.serial = content;
+            SERIAL = content;
             this.setState({
                 serial: content
             });
-            this.serial = content;
+            
         } catch (e) {
             console.log(e);
         }
     }
 
-    internalSetup(scene, camera, renderer) {        
-        //transformControl = new TransformControls(camera, renderer.domElement);
-        
-        //for (var i in models.obj) {
-            //scene.add(models.obj[i]);
-        //}
+    receiveMQTT(message) {
+        var data = message.toString();
+        this.mqtt = data;
+        MQTT = data;
+        this.setState({
+            mqtt: data
+        });
+    }
 
-                //load shaders and models
-        var SHADERS = this.state.shaders;
-        var SERIAL = this.state.serial;
-        var MODELS = this.state.models;
-        var DATASETS = this.state.datasets;
-        //just to ensure retro-compability
-        var shaders = SHADERS;
-        var serial = SERIAL;
-        var models = MODELS;
-        var datasets = DATASETS;
+    internalSetup(scene, camera, renderer) {
+        //transformControl = new TransformControls(camera, renderer.domElement);
+
+        //for (var i in models.obj) {
+        //scene.add(models.obj[i]);
+        //}
 
         var text = textObject.createObject('reViz 3d _ v1.0', 0.5);
         text.position.y = 0;
@@ -226,17 +241,7 @@ class Editor3d extends Component {
     }
 
     internalUpdate(scene, camera, renderer) {
-        //Load Shaders
-        var serial = this.serial;
-        var shaders = this.shaders;
-        var models = this.models;
-        var datasets = this.datasets;
 
-        var SHADERS = this.shaders;
-        var SERIAL = this.serial;
-        var MODELS = this.models;
-        var DATASETS = this.datasets;
-        
         try {
             this.state.update(scene, camera, renderer);
         } catch (e) {
@@ -252,7 +257,7 @@ class Editor3d extends Component {
         var Update = function() {};
 
         var Draw = function() {};
-        
+
         var Text = function(text, size) {
             return textObject.createObject(text, size);
         };
@@ -260,16 +265,6 @@ class Editor3d extends Component {
         var MapBox = function(MapBoxKey) {
             return 'https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?';
         };
-        //load shaders and models
-        var SHADERS = this.state.shaders;
-        var SERIAL = this.state.serial;
-        var MODELS = this.state.models;
-        var DATASETS = this.state.datasets;
-        //just to ensure retro-compability
-        var shaders = SHADERS;
-        var serial = SERIAL;
-        var models = MODELS;
-        var datasets = DATASETS;
 
         eval(this.state.mainCode);
 
@@ -320,6 +315,7 @@ class Editor3d extends Component {
 
                 shaders.vertex[key] = content;
                 this.shaders = shaders;
+                SHADERS = shaders;
                 this.setState({
                     shaders: shaders
                 });
@@ -335,6 +331,7 @@ class Editor3d extends Component {
                 var { shaders } = this.state;
                 shaders.fragment[key.toString()] = content;
                 this.shaders = shaders;
+                SHADERS = shaders;
                 this.setState({
                     shaders: shaders
                 });
@@ -378,7 +375,7 @@ class Editor3d extends Component {
             models.obj[key.toString()] = model;
 
             this.models = models;
-
+            MODELS = models;
             this.setState({
                 models: models
             });
@@ -395,7 +392,7 @@ class Editor3d extends Component {
                 //var json = content;
                 console.log('json', json);
                 datasets[key.toString()] = json;
-
+                DATASETS = datasets;
                 this.datasets = datasets;
                 this.setState({
                     datasets: datasets
@@ -405,6 +402,7 @@ class Editor3d extends Component {
                 datasets[key.toString()] = null;
 
                 this.datasets = datasets;
+                DATASETS = datasets;
                 this.setState({
                     datasets: datasets
                 });
@@ -489,6 +487,7 @@ class Editor3d extends Component {
 
     render() {
         var { mouse, selectedObjectName } = this.state;
+
         var tooltip = ( 
             <div style = {
                 {
@@ -500,42 +499,41 @@ class Editor3d extends Component {
             }
             className = "tooltip-object" > { ' ' } { selectedObjectName } </div>
         );
+
         return ( 
             <div className = "canvas" onClick = { this.onClick } >
-                <div className = "canvas-3d" >
-                    <Container3d 
-                        percentageWidth = { '100%' }
-                        fitScreen ref = { c => (this.c3d = c) }
-                        key = { 'c3d' }
-                        setup = { this.internalSetup }
-                        update = { this.internalUpdate }
-                        marginBottom = { 30 }
-                        code = { this.state.code }
-                        onHoverStart = { this.onHoverStart }
-                        onHoverEnd = { this.onHoverEnd }
-                        addLight = { true }
-                        addControls = { true }
-                        addGrid = { true }
-                        onUpdateAngles = { this.updateAnglesCube }
-                    /> 
-                </div>
+            <div className = "canvas-3d" >
+            <Container3d 
+                percentageWidth = { '100%' }
+                fitScreen ref = { c => (this.c3d = c) }
+                key = { 'c3d' }
+                setup = { this.internalSetup }
+                update = { this.internalUpdate }
+                marginBottom = { 30 }
+                code = { this.state.code }
+                onHoverStart = { this.onHoverStart }
+                onHoverEnd = { this.onHoverEnd }
+                addLight = { true }
+                addControls = { true }
+                addGrid = { true }
+                onUpdateAngles = { this.updateAnglesCube }
+            />  
+            </div>
 
-                <div className = "cube-view" >
-                    <CubeView 
-                        aspect = { 1 }
-                        hoverColor = { 0x0088ff }
-                        ref = { c => (this.cubeView = c) }
-                        cubeSize = { 2 }
-                        zoom = { 6 }
-                        antialias = { true }
-                        onUpdateAngles = { this.updateAngles }
-                        width = { 100 }
-                        height = { 100 }
-                    /> 
-                </div> { tooltip }
-
-                <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/> 
-                
+            <div className = "cube-view" >
+            <CubeView aspect = { 1 }
+            hoverColor = { 0x0088ff }
+            ref = { c => (this.cubeView = c) }
+            cubeSize = { 2 }
+            zoom = { 6 }
+            antialias = { true }
+            onUpdateAngles = { this.updateAngles }
+            width = { 100 }
+            height = { 100 }
+            />  
+            </div> 
+            { tooltip }
+            <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/> 
             </div>
         );
     }
