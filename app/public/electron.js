@@ -25,21 +25,12 @@ const templates = require("./sys/templates");
 const fileManagement = require("./sys/fileManagement");
 const projectLoader = require("./sys/projectLoader");
 const serialPortManager = require("./sys/serialPort");
+const MqttManagement = require("./sys/mqttManagement");
 
-/*
-//MQTT
-client.on("connect", function() {
-  client.subscribe("presence");
-  client.publish("presence", "Hello mqtt");
-});
+let mqttManager;
 
-client.on("message", function(topic, message) {
-  // message is Buffer
-  console.log(message.toString());
-  client.end();
-});
-*/
 var sendToWindow;
+
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -61,8 +52,11 @@ function createWindow() {
     }
 
     sendToWindow = sendToWindow.bind(this);
+
     /*Serial Port Methods*/
+
     serialPortManager(sendToWindow);
+    mqttManager = new MqttManagement(sendToWindow);
 
     //mainWindow.webContents.openDevTools();
 }
