@@ -1,11 +1,14 @@
 # reViz
 3d Visualization toolkit for react based apps.
+For Downloads and user guide, go to:
+https://lucascassiano.github.io/reViz3d/
 
 # Releases
-./app/dist
+/releases/*.zip
 
-# running app in development mode
-if electron (and electron-rebuild) is not yet installed in your dev environment, install it using terminal:
+# Running app in Development mode
+This requires electron, electron-rebuild and yarn.
+If yarn, electron and electron-rebuild are not yet installed in your dev-environment, install it using terminal:
 
 ```
 npm install -g electron electron-rebuild yarn
@@ -24,10 +27,11 @@ cd app
 npm install && npm run dev
 ```
 
-# Building Native applications
+# Building from source
 Because it's based on electron, this project can be packed as windows, linux and OSX apps.
 
 ## Multi-platforms
+this builds for windows, mac and linux.
 ```
 npm run build-mac
 ```
