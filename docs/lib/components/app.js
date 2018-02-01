@@ -55,9 +55,7 @@ var slug = function slug(title) {
 
 var languageOptions = [{ title: 'JavaScript',
   short: 'JS',
-  value: 'javascript' }, { title: 'Python',
-  short: 'PY',
-  value: 'Python' }];
+  value: 'javascript' }];
 
 var defaultLanguage = languageOptions[0];
 
@@ -248,13 +246,8 @@ var App = function (_React$PureComponent) {
             _react2.default.createElement(
               'div',
               { className: 'space-right1 small quiet inline' },
-              'Show examples in:'
+              'Code Snippets and Examples'
             ),
-            _react2.default.createElement(_rounded_toggle2.default, {
-              short: !queryMatches.widescreen,
-              options: languageOptions,
-              onChange: this.onChangeLanguage,
-              active: this.state.language }),
             _react2.default.createElement(
               'div',
               { className: 'fr pad0' },

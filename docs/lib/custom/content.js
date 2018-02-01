@@ -11,4 +11,4 @@ var fs = require('fs');
  * into strings of those files' content before the file is delivered to a
  * browser: the content is read ahead-of-time and included in bundle.js.
  */
-module.exports = '# Introduction\n' + fs.readFileSync('./content/introduction.md', 'utf8') + '\n' + '# Docs Examples\n' + fs.readFileSync('./content/example.md', 'utf8') + '\n' + '# Get started\n' + fs.readFileSync('./content/get_started.md', 'utf8') + '\n' + '# React and ReViz3d\n' + fs.readFileSync('./content/react_and_reviz.md', 'utf8') + '\n' + '# Develop ReViz3d\n' + fs.readFileSync('./content/development.md', 'utf8') + '\n';
+module.exports = '# Introduction\n' + fs.readFileSync('./content/introduction.md', 'utf8') + '\n' + '# Get started\n' + fs.readFileSync('./content/get_started.md', 'utf8') + '\n' + '# React and ReViz3d\n' + fs.readFileSync('./content/react_and_reviz.md', 'utf8') + '\n' + '# Develop ReViz3d\n' + fs.readFileSync('./content/development.md', 'utf8') + '\n' + '# DocBox Examples\n' + fs.readFileSync('./content/example.md', 'utf8') + '\n';
