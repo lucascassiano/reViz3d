@@ -17,11 +17,11 @@
             "output": "../dist"
         },
         "mac": {
-            "target": ["dmg", "zip"],
+            "target": "zip",
             "icon": "icon.icns"
         },
         "win": {
-            "target": ["exe", "zip"],
+            "target": "zip",
             "icon": "icon.ico"
         }
     },
@@ -91,7 +91,7 @@
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject",
         "dev": "concurrently \"export BROWSER=true && yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-        "build-win": "npm run build && build --em.main=build/electron.js --win ./electron-builder.yml && electron-rebuild .",
+        "build-win": "npm run build && build --em.main=build/electron.js --win && electron-rebuild .",
         "build-linux": "npm run build && build --em.main=build/electron.js --linux ./electron-builder.yml && electron-rebuild .",
         "build-mac": "npm run build && build --em.main=build/electron.js --mac ./electron-builder.yml && electron-rebuild .",
         "install": "electron-rebuild",
