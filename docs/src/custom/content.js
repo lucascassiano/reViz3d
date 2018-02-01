@@ -12,6 +12,8 @@ var fs = require('fs');
 module.exports =
     '# Introduction\n' +
     fs.readFileSync('./content/introduction.md', 'utf8') + '\n' +
+    '# Docs Examples\n' +
+    fs.readFileSync('./content/example.md', 'utf8') + '\n' +
     '# Get started\n' +
     fs.readFileSync('./content/get_started.md', 'utf8') + '\n' +
     '# React and ReViz3d\n' +

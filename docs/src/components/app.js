@@ -12,9 +12,12 @@ let slugger = new GithubSlugger();
 let slug = title => { slugger.reset(); return slugger.slug(title); };
 
 let languageOptions = [
-{ title: 'JavaScript',
+  { title: 'JavaScript',
     short: 'JS',
-    value: 'javascript' }
+    value: 'javascript' },
+    { title: 'Python',
+    short: 'PY',
+    value: 'Python' }
 ];
 
 let defaultLanguage = languageOptions[0];
@@ -148,7 +151,7 @@ export default class App extends React.PureComponent {
 
       {/* Content background */ }
       {(!col1 && !queryMatches.mobile) && <div className={`fixed-top fixed-right ${queryMatches.desktop && 'space-left16'}`}>
-        <div className='fill-dark dark col6 pin-right' />
+        <div className='fill-light col6 pin-right' />
       </div>}
 
       {/* Desktop nav */ }
@@ -164,7 +167,7 @@ export default class App extends React.PureComponent {
         <div className={col1 ? 'col8 margin1' : ''}>
           <Content
             leftClassname={col1 ? 'space-bottom4 pad2x prose clip' : 'space-bottom8 col6 pad2x prose clip'}
-            rightClassname={col1 ? 'space-bottom2 pad2 prose clip fill-dark dark space-top5' : 'space-bottom4 col6 pad2 prose clip fill-dark dark space-top5'}
+            rightClassname={col1 ? 'space-bottom2 pad2 prose clip fill-light space-top5' : 'space-bottom4 col6 pad2 prose clip fill-light space-top5'}
             ast={ast}
             language={this.state.language}/>
         </div>

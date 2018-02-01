@@ -3,6 +3,7 @@
 ### Build from source
 
 ## How it works
+This is the basic structure
 ```javascript
 
 //called once
@@ -16,6 +17,7 @@ Updated = (scene, renderer, camera) =>{
 }
 
 ```
+
 ## Project
 
 ### Creating a new Project
@@ -33,7 +35,8 @@ Updated = (scene, renderer, camera) =>{
 ## Record SerialPort and MQTT
 Still under development
 
-## Internal Modules
+# Internal Modules
+
 ### Geometries
 
 ### Text

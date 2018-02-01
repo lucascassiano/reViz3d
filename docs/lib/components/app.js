@@ -55,7 +55,9 @@ var slug = function slug(title) {
 
 var languageOptions = [{ title: 'JavaScript',
   short: 'JS',
-  value: 'javascript' }];
+  value: 'javascript' }, { title: 'Python',
+  short: 'PY',
+  value: 'Python' }];
 
 var defaultLanguage = languageOptions[0];
 
@@ -214,7 +216,7 @@ var App = function (_React$PureComponent) {
         !col1 && !queryMatches.mobile && _react2.default.createElement(
           'div',
           { className: 'fixed-top fixed-right ' + (queryMatches.desktop && 'space-left16') },
-          _react2.default.createElement('div', { className: 'fill-dark dark col6 pin-right' })
+          _react2.default.createElement('div', { className: 'fill-light col6 pin-right' })
         ),
         queryMatches.desktop && _react2.default.createElement(
           'div',
@@ -232,7 +234,7 @@ var App = function (_React$PureComponent) {
             { className: col1 ? 'col8 margin1' : '' },
             _react2.default.createElement(_content2.default, {
               leftClassname: col1 ? 'space-bottom4 pad2x prose clip' : 'space-bottom8 col6 pad2x prose clip',
-              rightClassname: col1 ? 'space-bottom2 pad2 prose clip fill-dark dark space-top5' : 'space-bottom4 col6 pad2 prose clip fill-dark dark space-top5',
+              rightClassname: col1 ? 'space-bottom2 pad2 prose clip fill-light space-top5' : 'space-bottom4 col6 pad2 prose clip fill-light space-top5',
               ast: ast,
               language: this.state.language })
           )
