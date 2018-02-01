@@ -1,0 +1,18 @@
+{
+    "sensor": [{
+            "id": "sensor0",
+            "position": { "x": 0, "y": 50, "z": 2 },
+            "value": 10
+        },
+        {
+            "id": "sensor1",
+            "position": { "x": 1, "y": 2.5, "z": 0 },
+            "value": 50
+        },
+        {
+            "id": "sensor2",
+            "position": { "x": 1, "y": 5, "z": 0 },
+            "value": 100
+        }
+    ]
+}

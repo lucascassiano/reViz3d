@@ -1,0 +1,13 @@
+{
+    "name": "Thermal Sensor AMG8833",
+    "author": "lucascassiano",
+    "creation_date": null,
+    "last_update": null,
+    "indexed_files": {
+        "main": "main.js",
+        "shadersDirectory": "shaders",
+        "modelsDirectory": "models",
+        "dataDirectory": "datasets"
+    },
+    "user_preferences": { "auto_reload": true, "background": "#FFFFFF" }
+}
