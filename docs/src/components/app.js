@@ -14,10 +14,7 @@ let slug = title => { slugger.reset(); return slugger.slug(title); };
 let languageOptions = [
   { title: 'JavaScript',
     short: 'JS',
-    value: 'javascript' },
-    { title: 'Python',
-    short: 'PY',
-    value: 'Python' }
+    value: 'javascript' }
 ];
 
 let defaultLanguage = languageOptions[0];
@@ -177,13 +174,8 @@ export default class App extends React.PureComponent {
       <div className={`fixed-top ${queryMatches.desktop && 'space-left16'}`}>
         <div className={`events fill-light bottom-shadow pad1 ${col1 ? '' : 'col6 pin-topright'} ${queryMatches.tablet ? 'dark fill-blue' : ''} ${queryMatches.mobile ? 'space-top5 fixed-topright' : ''}`}>
           <div className='space-right1 small quiet inline'>
-            Show examples in:
+            Code Snippets and Examples
           </div>
-          <RoundedToggle
-            short={!queryMatches.widescreen}
-            options={languageOptions}
-            onChange={this.onChangeLanguage}
-            active={this.state.language} />
           <div className='fr pad0'>
             {queryMatches.desktop ?
               <a
