@@ -1,22 +1,23 @@
 const defaultProject = {
-  project: {
-    name: "experiment",
-    author: null,
-    creation_date: null,
-    last_update: null,
-    indexed_files: {
-      main: "main.js",
-      shadersDirectory: "shaders",
-      modelsDirectory: "models",
-      dataDirectory: "datasets"
+    project: {
+        name: "experiment",
+        author: null,
+        creation_date: null,
+        last_update: null,
+        indexed_files: {
+            main: "main.js",
+            shadersDirectory: "shaders",
+            modelsDirectory: "models",
+            dataDirectory: "datasets",
+            imagesDirectory: "images"
+        },
+        user_preferences: {
+            auto_reload: true,
+            background: "white"
+        }
     },
-    user_preferences: {
-      auto_reload: true,
-      background: "white"
-    }
-  },
-  directories: ["datasets", "shaders", "models"],
-  main: `//This method will be called when the Component is Mounted
+    directories: ["datasets", "shaders", "models", "images"],
+    main: `//This method will be called when the Component is Mounted
 Setup = (scene, camera, renderer) => {
 
 }
@@ -60,6 +61,6 @@ export default class $componentName extends Component{
 `;
 
 module.exports = {
-  defaultProject,
-  ReactComponent
+    defaultProject,
+    ReactComponent
 };

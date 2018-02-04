@@ -12,7 +12,9 @@ const fileTypes = {
     MTL: 'mtl',
     STL: 'stl',
     JS: 'js',
-    STYLE: 'css'
+    STYLE: 'css',
+    IMAGE_PNG: 'image-png',
+    IMAGE_SVG: 'image-svg'
 };
 
 /**
@@ -27,6 +29,8 @@ const loadProject = (project, callback) => {
     let dataDirectory = path.join(directory, project.indexed_files.dataDirectory);
     let shadersDir = path.join(directory, project.indexed_files.shadersDirectory);
     let modelsDir = path.join(directory, project.indexed_files.modelsDirectory);
+    let imagesDir = path.join(directory, project.indexed_files.imagesDirectory);
+
     console.log('callback');
     //callback = callback.bind(this)
     console.log(callback);
@@ -86,16 +90,40 @@ const loadProject = (project, callback) => {
         });
     });
 
+    //Images (png & svg)
+    fs.readdir(imagesDir, (err, files) => {
+        files.forEach(imageFile => {
+            console.log('image ' + imageFile);
+            let imageFilePath = path.join(imagesDir, imageFile);
+
+            //png image
+            if (path.extname(imageFile) == '.png') {
+                var name = path.basename(imageFile, '.png');
+                console.log('PNG ' + imageFilePath);
+                callback(name, imageFilePath, fileTypes.IMAGE_PNG);
+            }
+            //svg image
+            if (path.extname(imageFile) == '.svg') {
+                var name = path.basename(imageFile, '.svg');
+                callback(name, imageFilePath, fileTypes.IMAGE_SVG);
+            }
+        });
+    });
+
     //Add more Loaders here -> ...
 };
 
 function readFile(fileName, filePath, type, callback) {
-    fs.readFile(filePath, 'utf8', function(err, content) {
-        if (err) {
-            console.log(err);
-            callback('file-update', type, fileName, filePath, null);
-        } else callback('file-update', type, fileName, filePath, content);
-    });
+    if (type == fileTypes.IMAGE_PNG || type == fileTypes.IMAGE_SVG) {
+        var data = fs.readFileSync(filePath, 'base64');
+        callback('file-update', type, fileName, filePath, data);
+    } else
+        fs.readFile(filePath, 'utf8', function(err, content) {
+            if (err) {
+                console.log(err);
+                callback('file-update', type, fileName, filePath, null);
+            } else callback('file-update', type, fileName, filePath, content);
+        });
 }
 
 function removeFile(fileName, filePath, type, callback) {
@@ -126,17 +154,12 @@ function FileToProjectFile(project, file) {
 
     //checking files origins and files extensions
     if (file.path == mainFile && file.extension == '.js') {
-
         file.type = fileTypes.MAIN;
         return file;
-
     } else if (file.folderPath == dataDirectory && file.extension == '.json') {
-
         file.type = fileTypes.DATA;
         return file;
-
     } else if (file.folderPath == shadersDirectory) {
-
         var type;
         switch (file.extension) {
             /* case ""*/
@@ -152,9 +175,7 @@ function FileToProjectFile(project, file) {
 
         file.type = type;
         return file;
-
     } else if (file.folderPath == modelsDirectory) {
-
         var type;
         switch (file.extension) {
             /* case ""*/
@@ -176,7 +197,6 @@ function FileToProjectFile(project, file) {
 
         file.type = type;
         return file;
-
     }
 
     //file is not a valid project file

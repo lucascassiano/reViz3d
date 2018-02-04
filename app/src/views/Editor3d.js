@@ -41,6 +41,10 @@ let SERIAL = {};
 let MODELS = {};
 let DATASETS = {};
 let MQTT = {};
+let IMAGES = {
+    png:{},
+    svg:{}
+};
 
 class Editor3d extends Component {
     constructor(props) {
@@ -71,7 +75,11 @@ class Editor3d extends Component {
             canvasWidth: 0,
             canvasHeight: 0,
             ctx: null,
-            datasets: {}
+            datasets: {},
+            images: {
+                png: {},
+                svg: {}
+            }
         };
 
         this.updateAngles = this.updateAngles.bind(this);
@@ -124,7 +132,11 @@ class Editor3d extends Component {
                     vertex: {},
                     fragment: {}
                 },
-                datasets: {}
+                datasets: {},
+                images:{
+                    png:{},
+                    svg:{}
+                }
             });
 
             this.datasets = null;
@@ -164,13 +176,12 @@ class Editor3d extends Component {
         //console.log("width", ReactDOM.findDOMNode(this.c3d).offsetWidth);
     }
 
-    storeProject(project){
-        if(project){
+    storeProject(project) {
+        if (project) {
             this.props.setProject(project);
-        }
-        else{
+        } else {
             this.props.setProject(this.state);
-        }   
+        }
     }
 
     onMouseMove(event) {
@@ -189,7 +200,6 @@ class Editor3d extends Component {
             this.setState({
                 serial: content
             });
-            
         } catch (e) {
             SERIAL = data; //pass as a string
             console.log(e);
@@ -252,7 +262,6 @@ class Editor3d extends Component {
     }
 
     internalUpdate(scene, camera, renderer) {
-
         try {
             this.state.update(scene, camera, renderer);
         } catch (e) {
@@ -262,7 +271,7 @@ class Editor3d extends Component {
 
     executeCode() {
         //import modules here
-        require("../modules/Geometries")(THREE);
+        require('../modules/Geometries')(THREE);
 
         var Setup = function() {};
         var Update = function() {};
@@ -424,6 +433,71 @@ class Editor3d extends Component {
             }
         }
 
+        if (type == 'image-png') {
+            var { images } = _this.state;
+            var key = fileName.replace('.png', '');
+            //for svg -> data:image/svg+xml;base64,
+            //import data file to data
+            try {
+                let image = "data:image/png;base64," + content;
+                var texture =  new THREE.TextureLoader().load(image);
+                images.png[key.toString()] =texture;
+
+                IMAGES = images;
+                this.images = images;
+
+                this.setState({
+                    images: images
+                });
+                
+                this.executeCode();
+            } catch (err) {
+                images.png[key.toString()] = null;
+                IMAGES.png = images;
+                this.images = images;
+                this.setState({
+                    images: images
+                });
+                console.log('error parsing .png file', err);
+            }
+        }
+
+        //svg loader
+        if(type == 'image-svg'){
+            var { images } = _this.state;
+            var key = fileName.replace('.svg', '');
+            //key = key.replace(" ", "_"); //<-- add this at some point on top
+
+            //for svg -> data:image/svg+xml;base64,
+            //import data file to data
+            try {
+                let image = "data:image/svg+xml;base64," + content;
+                //var loaded_svg =  new THREE.SVGLoader().load(image);
+                var texture =  new THREE.TextureLoader().load(image);
+                //var svg_obj = new THREE.SVGObject(image);
+
+                images.svg[key.toString()] = texture;
+
+                IMAGES = images;
+
+                this.images = images;
+
+                this.setState({
+                    images: images
+                });
+                
+                this.executeCode();
+            } catch (err) {
+                images.svg[key.toString()] = null;
+                IMAGES= images;
+                this.images = images;
+                this.setState({
+                    images: images
+                });
+                console.log('error parsing .svg file', err);
+            }
+        }
+
         //this.storeProject();
     }
 
@@ -511,44 +585,43 @@ class Editor3d extends Component {
                     display: selectedObjectName ? 'block' : 'none'
                 }
             }
-            className = "tooltip-object" > { ' ' } { selectedObjectName } </div>
+            className = "tooltip-object" >
+            { ' ' } { selectedObjectName } { ' ' } 
+            </div>
         );
 
         return ( 
-            <div className = "canvas" onClick = { this.onClick } >
-            <div className = "canvas-3d" >
-            <Container3d 
-                percentageWidth = { '100%' }
-                fitScreen ref = { c => (this.c3d = c) }
-                key = { 'c3d' }
-                setup = { this.internalSetup }
-                update = { this.internalUpdate }
-                marginBottom = { 30 }
-                code = { this.state.code }
-                onHoverStart = { this.onHoverStart }
-                onHoverEnd = { this.onHoverEnd }
-                addLight = { true }
-                addControls = { true }
-                addGrid = { true }
-                onUpdateAngles = { this.updateAnglesCube }
-            />  
-            </div>
-
-            <div className = "cube-view" >
-            <CubeView aspect = { 1 }
-            hoverColor = { 0x0088ff }
-            ref = { c => (this.cubeView = c) }
-            cubeSize = { 2 }
-            zoom = { 6 }
-            antialias = { true }
-            onUpdateAngles = { this.updateAngles }
-            width = { 100 }
-            height = { 100 }
-            />  
-            </div> 
-            { tooltip }
-            <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/> 
-            </div>
+            <div className = "canvas"  onClick = { this.onClick } >
+                <div className = "canvas-3d" >
+                <Container3d percentageWidth = { '100%' }
+                    fitScreen ref = { c => (this.c3d = c) }
+                    key = { 'c3d' }
+                    setup = { this.internalSetup }
+                    update = { this.internalUpdate }
+                    marginBottom = { 30 }
+                    code = { this.state.code }
+                    onHoverStart = { this.onHoverStart }
+                    onHoverEnd = { this.onHoverEnd }
+                    addLight = { true }
+                    addControls = { true }
+                    addGrid = { true }
+                    onUpdateAngles = { this.updateAnglesCube }
+                />
+                </div> 
+                <div className = "cube-view" >
+                    <CubeView aspect = { 1 }
+                    hoverColor = { 0x0088ff }
+                    ref = { c => (this.cubeView = c) }
+                    cubeSize = { 2 }
+                    zoom = { 6 }
+                    antialias = { true }
+                    onUpdateAngles = { this.updateAngles }
+                    width = { 100 }
+                    height = { 100 }
+                />
+                </div>
+            { tooltip } 
+            < AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/>{' '} </div>
         );
     }
 }
