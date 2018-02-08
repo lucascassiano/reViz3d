@@ -440,6 +440,7 @@ class Editor3d extends Component {
             //import data file to data
             try {
                 let image = "data:image/png;base64," + content;
+                
                 var texture =  new THREE.TextureLoader().load(image);
                 images.png[key.toString()] =texture;
 

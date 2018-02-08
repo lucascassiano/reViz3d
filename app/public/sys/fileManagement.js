@@ -1,8 +1,10 @@
 const watch = require('node-watch');
 const path = require("path");
+//let watcher = null;
 
 const watchFolder = (directoryPath, callback) => {
     console.log("INIT FILE MANAGEMENT " + directoryPath);
+
     watch(directoryPath, { recursive: true }, function(evt, fileName) {
         var filePath = fileName; //path.join(directoryPath, fileName);
         var fileFolder = path.basename(path.dirname(filePath));

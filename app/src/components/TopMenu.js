@@ -72,7 +72,8 @@ class TopMenu extends Component {
 
   exportReactComponent() {
     this.toggleLoadingMenu();
-    ipcRenderer.send("export-react-component");
+    ipcRenderer.send("export-react-component",this.props.project);
+    console.log("exporting from", this.props.project);
   }
 
   exportImage() {

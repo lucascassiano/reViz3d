@@ -38,7 +38,7 @@
         "get-pixels": "^3.3.0",
         "loaders.css": "^0.1.2",
         "mapbox": "^1.0.0-beta9",
-        "moment": "^2.19.3",
+        "moment": "^2.20.1",
         "mqtt": "^2.15.0",
         "node-dir": "^0.1.17",
         "node-watch": "^0.5.5",

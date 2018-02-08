@@ -83,22 +83,16 @@ class App extends Component {
 
         const { visible, ports } = this.state;
 
-        return ( <
-            div >
-            <
-            TopMenu / >
-            <
-            RightMenu ports = { ports }
+        return ( <div>
+            <TopMenu/>
+            <RightMenu ports = { ports }
             onClickConnectSerial = { this.onClickConnectSerial }
-            /> <
-            Editor3d / >
-            <
-            RecordMenu / > {
-                this.state.editorOn ? null : < StarterMenu onEnd = { this.turnEditorOn }
-                />} <
-                AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }
-                />{" "} < /
-                div >
+            /> <Editor3d / >
+            <RecordMenu / > 
+            {
+                this.state.editorOn ? null : <StarterMenu onEnd = { this.turnEditorOn }/>
+            } <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/>
+            </div>
             );
         }
     }

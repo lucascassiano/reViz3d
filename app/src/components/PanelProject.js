@@ -16,11 +16,25 @@ import TreeView from "react-treeview";
 import {} from "react-treeview/react-treeview.css";
 import { Classes, ITreeNode, Tooltip, Tree } from "@blueprintjs/core";
 
+//redux
+import { connect } from "react-redux";
+import {
+  viewRightMenu,
+  toggleRightMenu,
+  toggleRecordMenu,
+  toggleConsole
+} from "../actions/menus";
+
+import { getProject, setProject } from "../actions/project";
+
+
 const electron = window.require("electron"); // little trick to import electron in react
 const ipcRenderer = electron.ipcRenderer;
 const { shell } = electron;
 
-export default class PanelProject extends Component {
+
+
+class PanelProject extends Component {
   constructor(props) {
     super(props);
 
@@ -52,6 +66,8 @@ export default class PanelProject extends Component {
 
   updateProject(event, entry) {
     console.log("entry point", entry);
+    var project = {entryPoint:entry};
+    this.props.setProject(project);
     var nodes = [
       {
         iconName: "folder-close",
@@ -148,3 +164,29 @@ export default class PanelProject extends Component {
     );
   }
 }
+
+
+// Maps state from store to props
+const mapStateToProps = (state, ownProps) => {
+  return {
+    // You can now say this.props.rightMenu_isOpen
+    project: state.project,
+    rightMenu_isOpen: state.menus.rightMenu_isOpen,
+    recordMenu_isOpen: state.menus.recordMenu_isOpen
+  };
+};
+
+// Maps actions to props
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    // You can now say this.props.viewRightMenu
+    viewRightMenu: isOpen => dispatch(viewRightMenu(isOpen)),
+    toggleRightMenu: isOpen => dispatch(toggleRightMenu()),
+    toggleRecordMenu: () => dispatch(toggleRecordMenu()),
+    getProject: () => dispatch(getProject()),
+    setProject: project => dispatch(setProject(project)),
+    toggleConsole: isOpen =>dispatch(toggleConsole())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PanelProject);

@@ -83,9 +83,9 @@ Setup = function(scene, camera, renderer) {
     //ctx.fillStyle = "#fff";
     //ctx.fillText("Lucas Cassiano", 10, 10);
     //console.log(plane);
-    var cube = Cube();
-   // cube.position.y = DATASETS.data.sensor[0].position.y;
-    scene.add(cube);
+    //var cube = Cube();
+    // cube.position.y = DATASETS.data.sensor[0].position.y;
+    //scene.add(cube);
 };
 
 Update = function(scene, camera, renderer) {

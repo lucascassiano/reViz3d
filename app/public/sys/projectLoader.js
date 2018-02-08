@@ -2,6 +2,10 @@ const path = require('path');
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 
+const exportTemplates = require("./export_templates/index.js");
+const moment = require('moment');
+const projectTemplates = require("./project_templates/index.js");
+
 const fileTypes = {
     MAIN: 'main',
     DATA: 'data-file',
@@ -141,6 +145,7 @@ function FileToProjectFile(project, file) {
     let dataDirectory = path.join(directory, project.indexed_files.dataDirectory);
     let shadersDirectory = path.join(directory, project.indexed_files.shadersDirectory);
     let modelsDirectory = path.join(directory, project.indexed_files.modelsDirectory);
+    let imagesDirectory = path.join(directory, project.indexed_files.imagesDirectory);
 
     /*
     ~ProjectFile structure~
@@ -205,27 +210,266 @@ function FileToProjectFile(project, file) {
 
 const onFileUpdate = (file, event, mainWindow) => {};
 
-const loadFromFolder = () => {};
+
+
+const loadFilesToObject = (project, callback) => {
+    console.log("LOADING PROJECT FROM -> ENTRY POINT");
+
+    let entryPoint = project.entryPoint;
+
+    console.log(entryPoint.directory);
+
+    try {
+        //entry = JSON.parse(data);
+
+        var directory = entryPoint.directory; //path.dirname(entryPoint);
+
+        //directories
+        let shadersDir = path.join(directory, entryPoint.indexed_files.shadersDirectory);
+        let modelsDir = path.join(directory, entryPoint.indexed_files.modelsDirectory);
+        let dataDirectory = path.join(directory, entryPoint.indexed_files.dataDirectory);
+        let imagesDirectory = path.join(directory, entryPoint.indexed_files.imagesDirectory);
+
+        //main file
+        let mainFilePath = path.join(directory, entryPoint.indexed_files.main);
+        let mainFileContent = fs.readFileSync(mainFilePath);
+
+        var indexedContent = {
+            name: entryPoint.name,
+            author: entryPoint.author,
+            main: mainFileContent,
+            userPreferences: entryPoint.userPreferences,
+            shaders: {
+                vertex: {},
+                fragment: {}
+            },
+            models: {
+                obj: {},
+                mtl: {},
+                stl: {}
+            },
+            datasets: {},
+            images: {
+                png: {},
+                svg: {}
+            }
+        };
+
+        var shaders = fs.readdirSync(shadersDir);
+
+        for (var i in shaders) {
+            let shaderFile = shaders[i];
+            let shaderFilePath = path.join(shadersDir, shaderFile);
+            var shaderContent = fs.readFileSync(shaderFilePath, 'UTF-8');
+            //vertex shader
+            let name = null;
+            let shaderType = path.extname(shaderFile);
+
+            if (shaderType == ".vert") {
+                name = path.basename(shaderFile, ".vert");
+                indexedContent.shaders.vertex[name.toString()] = shaderContent;
+            }
+            //fragment shader
+            if (shaderType == ".frag") {
+                name = path.basename(shaderFile, ".frag");
+                indexedContent.shaders.vertex[name.toString()] = shaderContent;
+            }
+        }
+
+        //Loading Model contents
+        var models = fs.readdirSync(modelsDir);
+        for (var i in models) {
+            let modelFile = models[i];
+            let modelFilePath = path.join(modelsDir, modelFile);
+
+            var modelContent = fs.readFileSync(modelFilePath, 'UTF-8');
+
+            let name = null;
+            let modelType = path.extname(modelFile);
+
+            //obj model
+            if (modelType == ".obj") {
+                name = path.basename(modelFile, ".obj");
+                indexedContent.models.obj[name.toString()] = modelContent;
+            }
+            //mtl textures
+            if (modelType == ".mtl") {
+                name = path.basename(modelFile, ".mtl");
+                indexedContent.models.mtl[name.toString()] = modelContent;
+            }
+            //.stl models
+            if (modelType == ".stl") {
+                name = path.basename(modelFile, ".stl");
+                indexedContent.models.stl[name.toString()] = modelContent;
+            }
+        }
+
+        //Loading Model contents
+        var datasets = fs.readdirSync(dataDirectory);
+
+        for (var i in datasets) {
+
+            let dataFile = datasets[i];
+            let dataFilePath = path.join(dataDirectory, dataFile);
+
+            var dataContent = fs.readFileSync(dataFilePath, 'UTF-8');
+
+            let name = null;
+            let dataType = path.extname(dataFile);
+
+            if (dataType == ".json") {
+                name = path.basename(dataFile, ".json");
+                indexedContent.datasets[name.toString()] = dataContent;
+            }
+
+        }
+
+        //loading images
+
+        var images = fs.readdirSync(imagesDirectory);
+
+        for (var i in images) {
+
+            let imageFile = images[i];
+            let imageFilePath = path.join(imagesDirectory, imageFile);
+
+            var imageContent = fs.readFileSync(imageFilePath, 'base64');
+
+            let name = null;
+            let imageType = path.extname(imageFile);
+
+            if (imageType == ".png") {
+                name = path.basename(imageFile, ".png");
+                indexedContent.images.png[name.toString()] = imageContent;
+            }
+
+        }
+
+        callback("export-react-component-loaded");
+
+        dialog.showSaveDialog({
+                defaultPath: "*/" + project.name.replace(" ", "_") + ".jsx",
+                buttonLabel: "Save React Component"
+            },
+            function(filePath) {
+                CreateReactComponent(project, indexedContent, filePath, callback);
+            }
+        );
+
+        return indexedContent;
+    } catch (err) {
+        console.log(err);
+        callback("error", err, null);
+    }
+
+
+};
+
+const CreateReactComponent = (project, indexedContent, filePath, callback) => {
+    const template = exportTemplates.ReactComponent;
+    var content = template.replace("$component_name", project.componentName);
+
+    content = content.replace("$component_name", project.componentName);
+    content = content.replace("$name", project.name);
+    content = content.replace("$author", indexedContent.author);
+    content = content.replace("$date", moment().format('MMMM Do YYYY, h:mm:ss a'));
+    content = content.replace("$reviz_version", "1.0.1b");
+    content = content.replace("$background", "#FFF");
+
+    content = content.replace(
+        "$main_code",
+        project.mainCode
+    );
+
+    //console.log("INDEXED CONTENT");
+    //console.log(indexedContent);
+
+    let bundle = {
+        shaders: indexedContent.shaders,
+        models: indexedContent.models,
+        datasets: indexedContent.datasets,
+        images: indexedContent.images
+    };
+
+    if (filePath) {
+        //creating .jsx file
+        fs.writeFileSync(filePath, content);
+        //creating bundle.json file
+        fs.writeFileSync(filePath.replace(".jsx", ".json"), JSON.stringify(bundle));
+    }
+
+    callback("export-project", filePath);
+}
+
+const createProject = async(projectPath, loadProject, callback, index = 0) => {
+
+    console.log("creating new project files from template at " + projectPath);
+
+    var template = projectTemplates.BasicProject;
+    var entry = template.entryPoint;
+
+    entry.creation_date = moment().format('MMMM Do YYYY, h:mm:ss a');
+    entry.author = "author";
+
+    //project.json
+    await CreateFile(projectPath, "project.json", JSON.stringify(entry), callback);
+
+    //creating folders
+    for (var i = 0; i < template.directories.length; i++) {
+        var folder = template.directories[i];
+        await CreateFolder(projectPath, folder, callback);
+    }
+
+    //creating files
+    for (var i = 0; i < template.files.length; i++) {
+        var file = template.files[i];
+        var directory = path.join(projectPath, file.directory);
+        await CreateFile(directory, file.name, file.content, callback);
+    }
+
+    var newEntry = path.join(projectPath, "project.json");
+
+    console.log("loading project...");
+    loadProject(newEntry);
+
+    callback("new-project");
+}
+
+const CreateFile = (fileDirectory, fileName, fileContent, callback) => {
+    var filePath = path.join(fileDirectory, fileName);
+    try {
+        fs.writeFileSync(filePath, fileContent);
+    } catch (err) {
+        console.error(err);
+        callback("error", err, null);
+    }
+}
+
+const CreateFolder = (folderDirectory, name, callback) => {
+    return new Promise(
+        (resolve, reject) => {
+            var folderPath = path.join(folderDirectory, name);
+            console.log("creating folder-> " + folderPath);
+            try {
+                fs.mkdir(folderPath, function() {
+                    resolve();
+                });
+            } catch (err) {
+                reject();
+                console.log("error");
+                console.error(err);
+                callback("error", err, null);
+            }
+        }
+    );
+
+}
+
 
 module.exports = {
     loadProject: loadProject,
     readFile: readFile,
-    FileToProjectFile: FileToProjectFile
+    FileToProjectFile: FileToProjectFile,
+    loadFilesToObject: loadFilesToObject,
+    createProject: createProject
 };
-
-/*
-function ReadFile(fileName, filePath, type) {
-    console.log("reading file " + fileName + " at " + filePath);
-    fs.readFile(filePath, "utf8", function(err, content) {
-        if (err) {
-            console.log(err);
-            mainWindow.webContents.send(
-                "file-update",
-                type,
-                fileName,
-                filePath,
-                null
-            );
-        } else mainWindow.webContents.send("file-update", type, fileName, filePath, content);
-    });
-}*/
