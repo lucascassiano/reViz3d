@@ -1,5 +1,0 @@
-```json
-{
-    "name": "experiment"
-}
-```

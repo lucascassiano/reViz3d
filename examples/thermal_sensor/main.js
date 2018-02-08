@@ -74,8 +74,8 @@ Setup = function(scene, camera, renderer) {
     //MODELS.OBJ.sensor.scale.set(0.5, 0.5, 0.5);
 
     //addModels(scene);
-    MODELS.obj.sensor.scale.set(0.5, 0.5, 0.5);
-    scene.add(MODELS.obj.sensor);
+    //MODELS.obj.sensor.scale.set(0.5, 0.5, 0.5);
+    //scene.add(MODELS.obj.sensor);
 
     //scene.add();
 
