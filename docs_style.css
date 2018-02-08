@@ -1,0 +1,130 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(200px, 10%) auto;
+    grid-gap: 10px;
+}
+
+td,
+th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin: 0px;
+}
+
+th {
+    background: #ddd;
+}
+
+.sidebar {
+    background: #212121;
+    color: #FFF;
+    float: left;
+    height: 100%;
+    padding: 12px;
+    display: block;
+    align-content: center;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.sidebar-content {
+    position: fixed;
+}
+
+.sidebar-content .logo>img {
+    max-width: 100px;
+}
+
+.sidebar-content>ul {
+    padding: 0px;
+    align-self: center;
+    padding-top: auto;
+    align-items: left;
+    text-align: center;
+    width: 100%;
+}
+
+.sidebar-content>ul>li {
+    list-style: none;
+    text-align: left;
+    width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 10pt;
+    margin-bottom: 9pt;
+}
+
+.sidebar-content>ul>li>a {
+    color: #f0f0f0;
+    text-decoration: none;
+}
+
+.name {
+    margin-top: 10px;
+    color: #F0f0f0;
+}
+
+.version {
+    color: #aaa;
+    font-size: 8pt;
+}
+
+#content {}
+
+.topic {
+    display: grid;
+    grid-column-gap: 16px;
+    grid-template-columns: [col1-start] 50% [col2-start] 50%;
+}
+
+.topic-title {
+    font-size: 20pt;
+    margin-top: 15px;
+}
+
+.line {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 1px;
+}
+
+@media only screen and (max-width: 650px) {
+    .topic {
+        display: block;
+        grid-template-columns: [col1-start] 50% [col2-start] 50%;
+    }
+}
+
+.github-button {
+    position: fixed;
+    color: #000;
+    text-decoration: none;
+    top: 15px;
+    right: 15px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    grid-column: col1-start / col2-start;
+}
+
+p {
+    color: #555;
+    font-size: 11pt;
+    text-align: justify;
+    line-height: 15pt;
+}
+
+pre {
+    background: #fafafa;
+    padding: 10px;
+    border-radius: 5px;
+}
