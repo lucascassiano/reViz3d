@@ -1,10 +1,7 @@
 ## Wobble
-
-This is our high-quality wobbles API. You can use this API to request
-and remove different wobbles at a low wibble price.
+This is our high-quality wobbles API. You can use this API to request and remove different wobbles at a low wibble price.
 
 ### List wobbles
-
 Lists all wobbles for a particular account.
 
 ```endpoint

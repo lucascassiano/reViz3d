@@ -7,7 +7,10 @@ You can download the latest version at:
 
 OS | Link | Version | Format
 ---|---|---|---|
-`Windows` | ... | 1.0.0 beta | .zip/.exe
+`Windows` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.0-mac.zip)  | 1.1.0 beta | .zip/.exe
+`OSX` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.0-mac.zip) | 1.1.0 beta | .zip/.app
+`Linux` | ... | 1.1.0 beta | .zip/.tar
+`Windows` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.0.0-mac.zip)  | 1.0.0 beta | .zip/.exe
 `OSX` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.0.0-mac.zip) | 1.0.0 beta | .zip/.app
 `Linux` | ... | 1.0.0 beta | .zip/.tar
 
@@ -47,7 +50,10 @@ The built apps will be in ./dist directory
     /datasets/
         **.json
     /models/
-        **.obj    
+        **.obj  
+    /images/
+        **.png
+        **.svg  
 ```
 
 - Project.json
@@ -109,6 +115,9 @@ Update() will be called 30 times per second (30FPS), in an infinite loop.
     DATASETS.{...}
 
     MODELS.obj.{...}
+
+    IMAGES.png.{...}
+    IMAGES.svg.{...}
 ```
 
 ### SerialPort
