@@ -31,7 +31,7 @@ import { getProject, setProject } from "../actions/project";
 const electron = window.require("electron"); // little trick to import electron in react
 const ipcRenderer = electron.ipcRenderer;
 const { shell } = electron;
-
+const path = require("path");
 
 
 class PanelProject extends Component {
@@ -85,7 +85,16 @@ class PanelProject extends Component {
           {
             iconName: "pt-icon-folder-close",
             label: entry.indexed_files.modelsDirectory
+          },
+          {
+            iconName: "pt-icon-folder-close",
+            label: entry.indexed_files.dataDirectory
+          },
+          {
+            iconName: "pt-icon-folder-close",
+            label: entry.indexed_files.imagesDirectory
           }
+
         ]
       }
     ];
@@ -104,6 +113,8 @@ class PanelProject extends Component {
   openFolder() {
     var filePath = this.state.directory;
     console.log("file path", filePath);
+    filePath = path.join(filePath, "/project.json");
+
     shell.showItemInFolder(filePath);
 
   }
@@ -150,13 +161,12 @@ class PanelProject extends Component {
             {directory ? <div className="file-path">{directory}</div> : null}
           </p>
 
-          <Button
+          <button
             onClick={this.openFolder}
-            className="btn"
             active={directory != null ? false : true}
           >
-            Open Folder
-          </Button>
+            Show Folder in OS
+          </button>
 
           <Tree contents={this.state.nodes} />
         </div>

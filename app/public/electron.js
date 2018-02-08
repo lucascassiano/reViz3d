@@ -106,7 +106,6 @@ function loadProject(filePath) {
     console.log('loading project at electron.js from: ' + filePath);
     mainWindow.webContents.send("clear-environment"); //clear 3D editor
 
-
     //filePath -> project.json <- project entry
     fs.readFile(filePath, "utf8", function(err, data) {
         if (err) {

@@ -5,6 +5,7 @@ const fs = require('fs');
 const exportTemplates = require("./export_templates/index.js");
 const moment = require('moment');
 const projectTemplates = require("./project_templates/index.js");
+const reviz_version = require('project-version');
 
 const fileTypes = {
     MAIN: 'main',
@@ -373,7 +374,7 @@ const CreateReactComponent = (project, indexedContent, filePath, callback) => {
     content = content.replace("$name", project.name);
     content = content.replace("$author", indexedContent.author);
     content = content.replace("$date", moment().format('MMMM Do YYYY, h:mm:ss a'));
-    content = content.replace("$reviz_version", "1.0.1b");
+    content = content.replace("$reviz_version", reviz_version);
     content = content.replace("$background", "#FFF");
 
     content = content.replace(
