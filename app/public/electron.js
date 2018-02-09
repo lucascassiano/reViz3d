@@ -31,6 +31,8 @@ let mqttManager;
 
 var sendToWindow;
 
+var DIRECTORY = null;
+
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -55,7 +57,7 @@ function createWindow() {
 
     /*Serial Port Methods*/
 
-    serialPortManager(sendToWindow);
+    serialPortManager(sendToWindow, DIRECTORY);
     mqttManager = new MqttManagement(sendToWindow);
 
     //mainWindow.webContents.openDevTools();
@@ -115,7 +117,11 @@ function loadProject(filePath) {
             let entry = null;
             try {
                 entry = JSON.parse(data);
+
                 entry.directory = path.dirname(filePath);
+
+                DIRECTORY = entry.directory;
+
                 mainWindow.webContents.send("project-entry", entry);
 
                 //Load files from project 

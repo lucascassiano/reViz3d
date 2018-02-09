@@ -45,7 +45,7 @@ let IMAGES = {
     svg: {}
 };
 
-let reviz_version = "1.1.0";
+let reviz_version = "1.1.1";
 
 class Editor3d extends Component {
     constructor(props) {

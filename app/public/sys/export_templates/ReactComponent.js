@@ -7,10 +7,12 @@ const ReactComponent = `
 */
 
 import React, { Component } from "react";
-import {Container3d} from "react-reviz3d";
+import {Container3d, CubeView} from "react-reviz3d";
 
 import OBJLoader from 'three-react-obj-loader';
 import * as THREE from "three";
+
+require("react-reviz3d/lib/modules/Geometries");
 
 //import the main reviz here
 

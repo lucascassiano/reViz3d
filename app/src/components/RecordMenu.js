@@ -22,6 +22,9 @@ import icon_record_outline from "../assets/record_outline.svg";
 import icon_play from "../assets/play.svg";
 import icon_stop from "../assets/stop.svg";
 
+const electron = window.require('electron'); // little trick to import electron in react
+const ipcRenderer = electron.ipcRenderer;
+
 class RecordMenu extends Component {
   constructor(props) {
     super(props);
@@ -53,7 +56,15 @@ class RecordMenu extends Component {
     if (this.state.recording) {
       //save recording
       this.toggleModal();
+      console.log("serialport-record", this.props.project);
+
+      ipcRenderer.send('serialport-record-off',this.props.project);
     }
+    else{
+      console.log("serialport-record", this.props.project);
+      ipcRenderer.send('serialport-record-on',this.props.project);
+    }
+
     this.setState({ recording: !this.state.recording });
   }
 
@@ -229,6 +240,7 @@ class RecordMenu extends Component {
 // Maps state from store to props
 const mapStateToProps = (state, ownProps) => {
   return {
+    project: state.project,
     // You can now say this.props.rightMenu_isOpen
     recordMenu_isOpen: state.menus.recordMenu_isOpen
   };
