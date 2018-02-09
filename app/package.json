@@ -76,6 +76,7 @@
         "react-vimeo": "^1.0.0",
         "reactstrap": "^5.0.0-alpha.4",
         "redux": "^3.7.2",
+        "rimraf": "^2.6.2",
         "semantic-ui-css": "^2.2.12",
         "semantic-ui-react": "^0.77.0",
         "serialport": "^6.0.1",

@@ -22,6 +22,8 @@ import icon_record_outline from "../assets/record_outline.svg";
 import icon_play from "../assets/play.svg";
 import icon_stop from "../assets/stop.svg";
 
+import AlertContainer from 'react-alert';
+
 const electron = window.require('electron'); // little trick to import electron in react
 const ipcRenderer = electron.ipcRenderer;
 
@@ -33,7 +35,8 @@ class RecordMenu extends Component {
       recording: false,
       showModal: false,
       selectedFrame: 0,
-      playing: true
+      playing: true,
+      savePath: null
     };
 
     //playing = reatime updates
@@ -44,32 +47,43 @@ class RecordMenu extends Component {
     this.changedFrame = this.changedFrame.bind(this);
     this.onRenderLabel = this.onRenderLabel.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
+
+    ipcRenderer.on("save-record", (event, filePath)=>{
+      this.toggleModal(filePath);
+    });
+    
+    ipcRenderer.on("serialport-not-recording", (event, msg)=>{
+      this.showAlert(msg,  'error');
+    });
+    
   }
 
   toggleMenu() {
     this.setState({ open: !this.state.open });
-
+    
     this.props.toggleRecordMenu(this.state.open);
   }
 
   toggleRecord() {
     if (this.state.recording) {
       //save recording
-      this.toggleModal();
       console.log("serialport-record", this.props.project);
-
       ipcRenderer.send('serialport-record-off',this.props.project);
+      this.setState({ recording: false });
     }
+
     else{
       console.log("serialport-record", this.props.project);
       ipcRenderer.send('serialport-record-on',this.props.project);
     }
-
-    this.setState({ recording: !this.state.recording });
+    ipcRenderer.on("serialport-recording", (event)=>{
+      this.setState({ recording: true });
+    })
+    
   }
 
-  toggleModal() {
-    this.setState({ showModal: !this.state.showModal });
+  toggleModal(savePath) {
+    this.setState({ savePath:savePath, showModal: !this.state.showModal });
   }
 
   changedFrame(frame) {
@@ -84,6 +98,16 @@ class RecordMenu extends Component {
   togglePlay() {
     this.setState({ playing: !this.state.playing });
   }
+
+
+    showAlert(msg, type) {
+        this.msg.show(msg, {
+            time: 2000,
+            type: type ? type : 'success'
+        });
+    }
+
+    
   render() {
     const open = this.props.recordMenu_isOpen;
     let icon_menu = arrow_left;
@@ -129,60 +153,8 @@ class RecordMenu extends Component {
           </div>
           <Tabs forceRenderTabPanel={true}>
             <TabList>
-              <Tab>Serial</Tab>
-              <Tab>Remote (MQTT)</Tab>
-              <Tab>Local data</Tab>
+              <Tab>RecordData</Tab>
             </TabList>
-            <TabPanel>
-              <div className="record-menu-grid">
-                <div className={icon_record_class} onClick={this.toggleRecord}>
-                  <img src={icon_record} background={icon_record_outline} />
-                </div>
-                <div className="item">
-                  <div className="label">Number of points</div>{" "}
-                  <div className="value"> 1000</div>
-                </div>
-                <div className="item">
-                  <div className="label">File Size</div>
-                  <div className="value">0 Kb</div>
-                </div>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="record-menu-grid">
-                <div className="item">
-                  <div className="label">frame: </div>
-                  <div className="value">{this.state.selectedFrame}</div>
-                </div>
-                <div className="item">
-                  <Slider
-                    min={0}
-                    max={1000}
-                    stepSize={1}
-                    value={this.state.selectedFrame}
-                    onChange={this.changedFrame}
-                    className="timeline"
-                    initialValue={0}
-                    renderLabel={this.onRenderLabel}
-                    labelStepSize={10}
-                  />
-                </div>
-
-                <div className="item">
-                  <Tooltip
-                    content={this.state.playing? "Stop Realtime Updates" : "Start Realtime updates"}
-                    inline={true}
-                  >
-                    <img
-                      src={icon_play_button}
-                      className="play"
-                      onClick={this.togglePlay}
-                    />
-                  </Tooltip>
-                </div>
-              </div>
-            </TabPanel>
-
             <TabPanel>
               <div className="record-menu-grid">
                 <div className={icon_record_class} onClick={this.toggleRecord}>
@@ -211,7 +183,7 @@ class RecordMenu extends Component {
             className="docs-dialog-example"
           >
             <div className="dialog-content">
-              Data Stream was saved to file: /users/something/test.json
+              Data Stream was saved to file: {this.state.savePath}
             </div>
             <div className="dialog-footer">
               <div>
@@ -232,6 +204,8 @@ class RecordMenu extends Component {
             </div>
           </Dialog>
         </div>
+
+         <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/>
       </div>
     );
   }
