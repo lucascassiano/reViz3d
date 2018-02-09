@@ -36,7 +36,9 @@ class RecordMenu extends Component {
       showModal: false,
       selectedFrame: 0,
       playing: true,
-      savePath: null
+      savePath: null,
+      recordedBytes: 0,
+      recordedPoints: 0
     };
 
     //playing = reatime updates
@@ -54,6 +56,19 @@ class RecordMenu extends Component {
     
     ipcRenderer.on("serialport-not-recording", (event, msg)=>{
       this.showAlert(msg,  'error');
+    });
+
+    ipcRenderer.on("serialport-recorded-bytes", (event, bytes)=>{
+        var points = this.state.recordedPoints+1;
+        if(bytes<1024){
+          bytes = parseFloat(bytes) + " b";
+        }
+        else if(bytes>=1024){
+          bytes = (parseFloat(bytes)/1024).toFixed(2) + " Kb";
+        }else{
+
+        }
+        this.setState({recordedPoints:points, recordedBytes:bytes});
     });
     
   }
@@ -153,20 +168,20 @@ class RecordMenu extends Component {
           </div>
           <Tabs forceRenderTabPanel={true}>
             <TabList>
-              <Tab>RecordData</Tab>
+              <Tab>Record Data</Tab>
             </TabList>
             <TabPanel>
               <div className="record-menu-grid">
                 <div className={icon_record_class} onClick={this.toggleRecord}>
                   <img src={icon_record} background={icon_record_outline} />
                 </div>
-                <div className="item">
-                  <div className="label">Number of points</div>{" "}
-                  <div className="value"> 1000</div>
+                <div className="item item-label-value">
+                  <div className="label">Number of points</div><br/>
+                  <div className="value">{this.state.recordedPoints}</div>
                 </div>
-                <div className="item">
-                  <div className="label">File Size</div>
-                  <div className="value">0 Kb</div>
+                <div className="item item-label-value">
+                  <div className="label">File Size</div><br/>
+                  <div className="value">{this.state.recordedBytes}</div>
                 </div>
               </div>
             </TabPanel>

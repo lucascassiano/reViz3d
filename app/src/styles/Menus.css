@@ -222,12 +222,14 @@
 
 .record-menu-grid .item .label {
     color: #999;
-    font-size: 10pt;
+    font-size: 8pt;
+    line-height: 8pt;
 }
 
 .record-menu-grid .item .value {
     color: #fff;
     font-size: 14pt;
+    line-height: 8pt;
 }
 
 .record-menu-grid .record:hover {
@@ -258,6 +260,10 @@
 
 .record-menu-grid .item .timeline {
     width: 300px;
+}
+
+.record-menu-grid .item-label-value {
+    display: block;
 }
 
 @keyframes blink {

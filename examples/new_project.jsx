@@ -1,15 +1,18 @@
 
 
-/*Created with ReViz version 1.1.0
+/*Created with ReViz version 1.1.1
   project: new project
-  author: lucascassiano
-  date: February 8th 2018, 2:18:50 pm
+  author: author
+  date: February 9th 2018, 5:52:12 pm
 */
 
 import React, { Component } from "react";
-import Container3d from "react-container-3d";
+import {Container3d, CubeView} from "react-reviz3d";
+
 import OBJLoader from 'three-react-obj-loader';
 import * as THREE from "three";
+
+require("react-reviz3d/lib/modules/Geometries");
 
 //import the main reviz here
 
@@ -46,20 +49,21 @@ class VizComponent extends Component{
         //call reviz here
     }
 
-    //executa 1x
-var cube;
-Setup = function(scene, camera, renderer) {
-    cube = Cube();
-    scene.add(cube);
-    //MODELS.obj.sensor[0].position.y = DATASETS.sensor.positions.y;
-    scene.add(MODELS.obj.sensor);
+    var cube;
+var t = 0;
 
+//This method will be called when the Component is Mounted
+Setup = (scene, camera, renderer) => {
+    cube = Cube(2, 0x22acff);
+    scene.add(cube);
 };
 
-//ES6 - ES2015
-//loop 30FPS
-Update = function(scene, camera, renderer) {
-    cube.position.y = DATASETS.sensor.position;
+//Thi method will be called 30 times per second (30FPS)
+Update = (scene, camera, renderer) => {
+    cube.position.y = 10 * Math.sin(t);
+    t += 1 / 30;
+    var s = cube.position.y / 10;
+    cube.scale.set(s, s, s);
 };
 
     render(){

@@ -65,14 +65,15 @@ const serialPortManager = function(sendToWindow) {
                 if (firstLine) {
                     firstLine = false;
                     wstream.write(output);
+
                 } else {
                     wstream.write(",\n" + output);
                 }
-
+                sendToWindow('serialport-recorded-bytes', wstream.bytesWritten);
             }
 
-
             sendToWindow('serialport-data', data);
+
         });
 
         ipcMain.on('serialport-write', (event, output) => {
@@ -140,9 +141,6 @@ const serialPortManager = function(sendToWindow) {
                 },
 
                 function(filePath) {
-
-
-
                     if (filePath != null) {
                         fs.writeFile(filePath, fileContent, err => {
                             if (err) sendToWindow("error", err);
