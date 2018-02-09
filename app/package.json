@@ -66,6 +66,7 @@
         "react-p5-wrapper": "0.0.4",
         "react-player": "^1.1.1",
         "react-redux": "^5.0.6",
+        "react-reviz3d": "^0.1.17",
         "react-router-dom": "^4.2.2",
         "react-scripts": "1.0.10",
         "react-tabs": "^2.1.1",
@@ -102,6 +103,7 @@
     },
     "devDependencies": {
         "babel-core": "^6.26.0",
+        "babel-plugin-transform-strict-mode": "^6.24.1",
         "babel-preset-es2015": "^6.24.1",
         "concurrently": "^3.5.0",
         "electron": "^1.7.5",

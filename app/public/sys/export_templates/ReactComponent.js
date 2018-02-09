@@ -7,7 +7,8 @@ const ReactComponent = `
 */
 
 import React, { Component } from "react";
-import Container3d from "react-container-3d";
+import {Container3d} from "react-reviz3d";
+
 import OBJLoader from 'three-react-obj-loader';
 import * as THREE from "three";
 

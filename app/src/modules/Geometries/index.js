@@ -1,3 +1,4 @@
+"use strict";
 var _color = 0xfafafa;
 var _size = 1;
 

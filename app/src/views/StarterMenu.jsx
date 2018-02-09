@@ -16,7 +16,7 @@ class Video extends Component {
 		else autoplay = 0;
 		return (
 			<div>
-				<div className="video-title">{title}</div>
+				<div className="video-title"> {title} </div>
 				<iframe
 					src={
 						'https://player.vimeo.com/video/' +
@@ -27,8 +27,8 @@ class Video extends Component {
 					}
 					className="starter-video"
 				/>
-				<div className="video-github">{github}</div>
-				<div className="video-link">{link}</div>
+				<div className="video-github"> {github} </div>
+				<div className="video-link"> {link} </div>
 			</div>
 		);
 	}
@@ -97,21 +97,21 @@ class App extends Component {
 			<div className={_class}>
 				<div className="sidebar">
 					<img src={logo} className="logo" />
-					<div className="version">version 1.0 - beta</div>
+					<div className="version"> version 1.0 - beta </div>
 					<div className="user-menu" />
 					<ul>
-						<li onClick={this.newFile}>New Project</li>
-						<li onClick={this.openFile}>Open Project</li>
-						<li>Tutorials</li>
-						<li>Users</li>
-						<li>Developers</li>
+						<li onClick={this.newFile}> New Project </li>
+						<li onClick={this.openFile}> Open Project </li>
+						<li> Tutorials </li>
+						<li> Users </li>
+						<li> Developers </li>
 					</ul>
 
 					<img src={github} className="logo-bottom" />
 				</div>
 
 				<div className="starter-content">
-					<div className="starter-content-title">Examples and Templates</div>
+					<div className="starter-content-title"> Examples and Templates </div>
 
 					<div className="grid">
 						<div className="box">

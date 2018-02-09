@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
 //main UI views
-import StarterMenu from "./views/StarterMenu";
-import Editor3d from "./views/Editor3d";
+import StarterMenu from "./views/StarterMenu.jsx";
+import Editor3d from "./views/Editor3d.jsx";
 
 // Internal UI components
 import TopMenu from "./components/TopMenu";
@@ -83,18 +83,22 @@ class App extends Component {
 
         const { visible, ports } = this.state;
 
-        return ( <div>
-            <TopMenu/>
-            <RightMenu ports = { ports }
+        return ( < div >
+            <
+            TopMenu / >
+            <
+            RightMenu ports = { ports }
             onClickConnectSerial = { this.onClickConnectSerial }
             /> <Editor3d / >
-            <RecordMenu / > 
-            {
-                this.state.editorOn ? null : <StarterMenu onEnd = { this.turnEditorOn }/>
-            } <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/>
-            </div>
-            );
-        }
+            <
+            RecordMenu / > {
+                this.state.editorOn ? null : < StarterMenu onEnd = { this.turnEditorOn }
+                />
+            } < AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }
+            /> < /
+            div >
+        );
     }
+}
 
-    export default App;
+export default App;

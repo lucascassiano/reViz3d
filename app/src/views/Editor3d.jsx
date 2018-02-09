@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import Container3d from 'react-container-3d';
-import CubeView from 'react-cubeview';
+import { Container3d, CubeView, revizModules } from 'react-reviz3d';
 import 'react-cubeview/lib/css/react-cubeview.css';
 import * as _THREE from 'three';
 import OBJLoader from 'three-react-obj-loader';
@@ -42,8 +41,8 @@ let MODELS = {};
 let DATASETS = {};
 let MQTT = {};
 let IMAGES = {
-    png:{},
-    svg:{}
+    png: {},
+    svg: {}
 };
 
 let reviz_version = "1.1.0";
@@ -135,9 +134,9 @@ class Editor3d extends Component {
                     fragment: {}
                 },
                 datasets: {},
-                images:{
-                    png:{},
-                    svg:{}
+                images: {
+                    png: {},
+                    svg: {}
                 }
             });
 
@@ -224,7 +223,7 @@ class Editor3d extends Component {
         //scene.add(models.obj[i]);
         //}
 
-        var text = textObject.createObject('reViz3D '+ reviz_version, 0.6);
+        var text = textObject.createObject('reViz3D ' + reviz_version, 0.6);
         text.position.y = 0;
         text.position.z = 11;
         text.rotation.x = Math.PI * -0.5;
@@ -273,7 +272,10 @@ class Editor3d extends Component {
 
     executeCode() {
         //import modules here
-        require('../modules/Geometries')(THREE);
+        //revizModules(THREE);
+        //require("../modules/Geometries")(THREE);
+
+        require("react-reviz3d/lib/modules/Geometries")(THREE);
 
         var Setup = function() {};
         var Update = function() {};
@@ -442,9 +444,9 @@ class Editor3d extends Component {
             //import data file to data
             try {
                 let image = "data:image/png;base64," + content;
-                
-                var texture =  new THREE.TextureLoader().load(image);
-                images.png[key.toString()] =texture;
+
+                var texture = new THREE.TextureLoader().load(image);
+                images.png[key.toString()] = texture;
 
                 IMAGES = images;
                 this.images = images;
@@ -452,7 +454,7 @@ class Editor3d extends Component {
                 this.setState({
                     images: images
                 });
-                
+
                 this.executeCode();
             } catch (err) {
                 images.png[key.toString()] = null;
@@ -466,7 +468,7 @@ class Editor3d extends Component {
         }
 
         //svg loader
-        if(type == 'image-svg'){
+        if (type == 'image-svg') {
             var { images } = _this.state;
             var key = fileName.replace('.svg', '');
             //key = key.replace(" ", "_"); //<-- add this at some point on top
@@ -476,7 +478,7 @@ class Editor3d extends Component {
             try {
                 let image = "data:image/svg+xml;base64," + content;
                 //var loaded_svg =  new THREE.SVGLoader().load(image);
-                var texture =  new THREE.TextureLoader().load(image);
+                var texture = new THREE.TextureLoader().load(image);
                 //var svg_obj = new THREE.SVGObject(image);
 
                 images.svg[key.toString()] = texture;
@@ -488,11 +490,11 @@ class Editor3d extends Component {
                 this.setState({
                     images: images
                 });
-                
+
                 this.executeCode();
             } catch (err) {
                 images.svg[key.toString()] = null;
-                IMAGES= images;
+                IMAGES = images;
                 this.images = images;
                 this.setState({
                     images: images
@@ -579,8 +581,7 @@ class Editor3d extends Component {
     render() {
         var { mouse, selectedObjectName } = this.state;
 
-        var tooltip = ( 
-            <div style = {
+        var tooltip = ( <div style = {
                 {
                     position: 'absolute',
                     left: mouse.x + 10,
@@ -588,15 +589,15 @@ class Editor3d extends Component {
                     display: selectedObjectName ? 'block' : 'none'
                 }
             }
-            className = "tooltip-object" >
-            { ' ' } { selectedObjectName } { ' ' } 
+            className = "tooltip-object" > { selectedObjectName } 
             </div>
         );
 
         return ( 
-            <div className = "canvas"  onClick = { this.onClick } >
-                <div className = "canvas-3d" >
-                <Container3d percentageWidth = { '100%' }
+            <div className = "canvas" onClick = { this.onClick } >
+            <div className = "canvas-3d" >
+                <Container3d 
+                    percentageWidth = { '100%' }
                     fitScreen ref = { c => (this.c3d = c) }
                     key = { 'c3d' }
                     setup = { this.internalSetup }
@@ -609,22 +610,23 @@ class Editor3d extends Component {
                     addControls = { true }
                     addGrid = { true }
                     onUpdateAngles = { this.updateAnglesCube }
-                />
-                </div> 
-                <div className = "cube-view" >
-                    <CubeView aspect = { 1 }
-                    hoverColor = { 0x0088ff }
-                    ref = { c => (this.cubeView = c) }
-                    cubeSize = { 2 }
-                    zoom = { 6 }
-                    antialias = { true }
-                    onUpdateAngles = { this.updateAngles }
-                    width = { 100 }
-                    height = { 100 }
-                />
-                </div>
+                /> 
+            </div> 
+            <div className = "cube-view" >
+                <CubeView aspect = { 1 }
+                hoverColor = { 0x0088ff }
+                ref = { c => (this.cubeView = c) }
+                cubeSize = { 2 }
+                zoom = { 6 }
+                antialias = { true }
+                onUpdateAngles = { this.updateAngles }
+                width = { 100 }
+                height = { 100 }
+                /> 
+            </div> 
             { tooltip } 
-            < AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/>{' '} </div>
+            <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/>
+            </div>
         );
     }
 }

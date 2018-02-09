@@ -3,7 +3,7 @@ var t = 0;
 
 //This method will be called when the Component is Mounted
 Setup = (scene, camera, renderer) => {
-    cube = Sphere(2, 0x22acff);
+    cube = Cube(2, 0x22acff);
     scene.add(cube);
 };
 
