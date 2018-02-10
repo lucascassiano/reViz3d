@@ -6,6 +6,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <link rel="stylesheet" href="vs.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <title>ReViz 3D</title>
 </head>
 
 <body>
@@ -13,14 +14,14 @@
         <div class="sidebar-content">
             <div class="logo">
                 <img src="docs_logo.svg" />
-                <div class="name">Reviz3d API</div>
-                <div class="version">1.1.0</div>
+                <div class="name">Reviz3d</div>
+                <div class="version">1.1.2</div>
             </div>
             <ul class="list">
-                <li classe"menu-item"><a href=#Introduction>Introduction</a></li>
-<li classe"menu-item"><a href=#Get-Started>Get Started</a></li>
-<li classe"menu-item"><a href=#React-And Reviz>React And Reviz</a></li>
-<li classe"menu-item"><a href=#Development>Development</a></li>
+                <li classe"menu-item"><a href=#Introduction>Introduction</a><ul class='subtopics'></ul></li>
+<li classe"menu-item"><a href=#Get-Started>Get Started</a><ul class='subtopics'><li class='subtopic'><a href="#Get-Started_Basic-Example">Basic Example</a></li><li class='subtopic'><a href="#Get-Started_Internal-Modules">Internal Modules</a></li></ul></li>
+<li classe"menu-item"><a href=#React-And Reviz>React And Reviz</a><ul class='subtopics'></ul></li>
+<li classe"menu-item"><a href=#Development>Development</a><ul class='subtopics'></ul></li>
 
             </ul>
         </div>
@@ -28,11 +29,12 @@
 
     <div id="content">
         <div class="topic" id="Introduction">
-<div class="topic-title">Introduction</div><br><div class="line"></div><h2><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>ReViz 3D</h2><p class="paragraph">What if within just few minutes after building a cool Hardware prototype, maybe even a DIY Arduino project, you could visualize the data in 3D interactive environment? Furthermore, what if you could save and share this visualization in multiple platforms? Maybe even your portfolio webpage. Or even visualizing a GIS dataset in a more cool way?</p><p class="paragraph">Welcome to ReViz3D, a tool to quick prototype visualizations of hardware devices, sensors, local and remote data. With focus on spatial contextualized information and able to export projects as <a href="https://reactjs.org">React</a> Components, those can be incorporated into <a href="https://developers.google.com/web/progressive-web-apps/">Progressive Web Apps</a>, Cross Platform Apps (using <a href="https://electronjs.org">electron</a>) or simply static web pages.</p><p class="paragraph">This software is meant to be used to reduce the gap between deploying sensors and visualizing, sharing and having insights about the collected data. </p><p class="paragraph">It works by rendering realtime changes in JavaScript code, .JSON local data files, SerialPort Streams, MQTT messages and some asseets e.g. .obj 3D models. ReViz keeps watching all the files linked to a project, re-loading assets only when changes are made.</p><p class="paragraph">Reviz also provides intuitive and simple SerialPort and MQTT connections interfaces, requiring almost zero configuration to the user to be able to read data from those streams.</p><p class="paragraph">The 3D environment is provided by <a href="http://threejs.org">three.js</a>. So the developers can use almost any three.js example and use ReViz to export is as a ReactComponent. More details about how to use three.js methods and classes in the next topics.</p><p class="paragraph">ReViz3D was built by a team at MIT Media Lab, It&#39;s Free to use, open-source and if you want to contribute to develop fork it @: <a href="https://github.com/lucascassiano/reViz3d">Github</a>;</p><!--
+<div class="topic-title">Introduction</div><br><div class="line"></div><h2 id="Introduction_ReViz-3D"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>ReViz 3D</h2><p class="paragraph">What if within just few minutes after building a cool Hardware prototype, maybe even a DIY Arduino project, you could visualize the data in 3D interactive environment? Furthermore, what if you could save and share this visualization in multiple platforms? Maybe even your portfolio webpage. Or even visualizing a GIS dataset in a more cool way?
+Welcome to ReViz3D, a tool to quick prototype visualizations of hardware devices, sensors, local and remote data. With focus on spatial contextualized information and able to export projects as <a href="https://reactjs.org">React</a> Components, those can be incorporated into <a href="https://developers.google.com/web/progressive-web-apps/">Progressive Web Apps</a>, Cross Platform Apps (using <a href="https://electronjs.org">electron</a>) or simply static web pages.</p><p class="paragraph">This software is meant to be used to reduce the gap between deploying sensors and visualizing, sharing and having insights about the collected data. </p><p class="paragraph">It works by rendering realtime changes in JavaScript code, .JSON local data files, SerialPort Streams, MQTT messages and some asseets e.g. .obj 3D models. ReViz keeps watching all the files linked to a project, re-loading assets only when changes are made.</p><p class="paragraph">Reviz also provides intuitive and simple SerialPort and MQTT connections interfaces, requiring almost zero configuration to the user to be able to read data from those streams.</p><p class="paragraph">The 3D environment is provided by <a href="http://threejs.org">three.js</a>. So the developers can use almost any three.js example and use ReViz to export is as a ReactComponent. More details about how to use three.js methods and classes in the next topics.</p><p class="paragraph">ReViz3D was built by a team at MIT Media Lab, It&#39;s Free to use, open-source and if you want to contribute to develop fork it @: <a href="https://github.com/lucascassiano/reViz3d">Github</a>;</p><!--
 Maybe I will move this intro the a simple standalone page. And put something more technical here. idk. -Lucas
 --></div>
 <div class="topic" id="Get-Started">
-<div class="topic-title">Get Started</div><br><div class="line"></div><h2><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Installation</h2><p class="paragraph">The current version only requires to be downloaded and executed.</p><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Download</h3><p class="paragraph">You can download the latest version at:</p><table>
+<div class="topic-title">Get Started</div><br><div class="line"></div><h2 id="Get-Started_Installation"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Installation</h2><p class="paragraph">The current version only requires to be downloaded and executed.</p><h3 id="Get-Started_Download"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Download</h3><p class="paragraph">You can download the latest version at:</p><table>
 <thead>
 <tr>
 <th>OS</th>
@@ -42,6 +44,24 @@ Maybe I will move this intro the a simple standalone page. And put something mor
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>Windows</code></td>
+<td><a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.2-win.zip">download</a></td>
+<td>1.1.2</td>
+<td>.zip/.exe</td>
+</tr>
+<tr>
+<td><code>OSX</code></td>
+<td><a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.2-mac.zip">download</a></td>
+<td>1.1.2</td>
+<td>.zip/.app</td>
+</tr>
+<tr>
+<td><code>Linux</code></td>
+<td><a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.2-linux.zip">download</a></td>
+<td>1.1.2</td>
+<td>.zip/.tar</td>
+</tr>
 <tr>
 <td><code>Windows</code></td>
 <td><a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.0-mac.zip">download</a></td>
@@ -80,7 +100,7 @@ Maybe I will move this intro the a simple standalone page. And put something mor
 </tr>
 </tbody>
 </table>
-<h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Build from source</h3><p class="paragraph">In can also build it from the source, if you want the latest (maybe unstable) version:</p><pre><code><div class="code"><span class="hljs-meta">#</span><span class="bash"> Clone the Quick Start repository</span>
+<h3 id="Get-Started_Build-from source"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Build from source</h3><p class="paragraph">In can also build it from the source, if you want the latest (maybe unstable) version:</p><pre><code><div class="code"><span class="hljs-meta">#</span><span class="bash"> Clone the Quick Start repository</span>
 <span class="hljs-meta">$</span><span class="bash"> git <span class="hljs-built_in">clone</span> https://github.com/lucascassiano/reViz3d</span>
 <span class="hljs-meta">
 #</span><span class="bash"> Go into the repository</span>
@@ -97,7 +117,7 @@ Maybe I will move this intro the a simple standalone page. And put something mor
 <span class="hljs-meta">
 #</span><span class="bash"> Linux</span>
 <span class="hljs-meta">$</span><span class="bash"> npm run build-linux</span></div>
-</code></pre><p class="paragraph">The built apps will be in ./dist directory</p><h2><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>How it works</h2><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Project Structure</h3><pre><code><div class="code">/project_directory/
+</code></pre><p class="paragraph">The built apps will be in ./dist directory</p><h2 id="Get-Started_How-it works"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>How it works</h2><h3 id="Get-Started_Project-Structure"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Project Structure</h3><pre><code><div class="code">/project_directory/
     project<span class="hljs-selector-class">.json</span>
     main<span class="hljs-selector-class">.js</span>
     /shaders/
@@ -129,7 +149,7 @@ It follows this structure:</p><pre><code class="lang-json"><div class="code">{
     <span class="hljs-attr">"user_preferences"</span>: { <span class="hljs-attr">"auto_reload"</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">"background"</span>: <span class="hljs-string">"#FFFFFF"</span> }
 }</div>
 </code></pre>
-<h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Main Code</h3><p class="paragraph">The main code is defined by <strong> main.js</strong>, written in JavaScript - <a href="https://babeljs.io/learn-es2015/">ES6/ECMAScript2015</a>. it has a basic </p><p class="paragraph">This is the basic structure:</p><pre><code class="lang-javascript"><div class="code">
+<h3 id="Get-Started_Main-Code"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Main Code</h3><p class="paragraph">The main code is defined by <strong> main.js</strong>, written in JavaScript - <a href="https://babeljs.io/learn-es2015/">ES6/ECMAScript2015</a>. it has a basic </p><p class="paragraph">This is the basic structure:</p><pre><code class="lang-javascript"><div class="code">
 <span class="hljs-regexp">//</span>called once
 <span class="hljs-function"><span class="hljs-title">Setup</span> = <span class="hljs-params">(scene, renderer, camera)</span> =&gt;</span>{
 
@@ -164,7 +184,12 @@ It follows this structure:</p><pre><code class="lang-json"><div class="code">{
 </table>
 <p class="paragraph">The life cycle is very similar to the Arduino platform: 
 Setup() will be called one, in the very first rendered frame.
-Update() will be called 30 times per second (30FPS), in an infinite loop.</p><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Local Assets</h3><pre><code class="lang-javascript"><div class="code">    <span class="hljs-type">SHADERS</span>.vertex.<span class="hljs-meta">{...}</span>
+Update() will be called 30 times per second (30FPS), in an infinite loop.</p><h3 id="Get-Started_Local-Assets"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Local Assets</h3><p class="paragraph">Local assets are automatically loaded into your code. So you just use the respective variables: 
+SHADERS (for GLSL shaders), DATASETS, MODELS and IMAGES.</p><ul>
+<li>Currently only .png, .svg are supported images and both of them are loaded as <a href="https://threejs.org/docs/#api/textures/Texture">THREE.Texture</a>.</li>
+<li><a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a> are imported to the reviz as <a href="https://threejs.org/docs/#api/core/Object3D">THREE.Object3D</a>.</li>
+</ul>
+<pre><code class="lang-javascript"><div class="code">    <span class="hljs-type">SHADERS</span>.vertex.<span class="hljs-meta">{...}</span>
     <span class="hljs-type">SHADERS</span>.fragment.<span class="hljs-meta">{...}</span>
 
     <span class="hljs-type">DATASETS</span>.<span class="hljs-meta">{...}</span>
@@ -174,8 +199,12 @@ Update() will be called 30 times per second (30FPS), in an infinite loop.</p><h3
     <span class="hljs-type">IMAGES</span>.png.<span class="hljs-meta">{...}</span>
     <span class="hljs-type">IMAGES</span>.svg.<span class="hljs-meta">{...}</span></div>
 </code></pre>
-<h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>SerialPort</h3><p class="paragraph">The system will try to convert the incoming stream into a JS object (basically a JSON). If the parsing returns an error, then the SERIAL will contain the received package as a String. 
-The communication is designed to uptade the SERIAL variable whenver there is a new breakline indicator (&#39;\r\n&#39;). If you are working using Arduino, this breakline is the result of a Serial.println() command; </p><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>MQTT</h3><h1><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Basic Example</h1><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Saving Projects</h3><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Basic Shapes</h3><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Load 3D Models</h3><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Read from local data</h3><h2><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Read from SerialPort</h2><h2><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Read from MQTT</h2><h2><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Record SerialPort and MQTT</h2><p class="paragraph">Still under development</p><h1><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Internal Modules</h1><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Geometries</h3><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Text</h3><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Canvas2Plane</h3><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Ruler</h3><h3><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Maps</h3></div>
+<h3 id="Get-Started_SerialPort"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>SerialPort</h3><p class="paragraph">The system will try to convert the incoming stream into a JS object (basically a JSON). If the parsing returns an error, then the <code>SERIAL</code> will contain the received package as a String. 
+The communication is designed to update the SERIAL variable whenever there is a new break-line indicator <code>&#39;\r\n&#39;</code>. If you are working using Arduino, this break-line is the result of a <code>Serial.println()</code> command; 
+In other words, the variable <code>SERIAL</code> will always receive the latest values available in the Serialport, and if possible it will parse the Serial data to a JSON format.</p><h3 id="Get-Started_MQTT"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>MQTT</h3><p class="paragraph">The <code>MQTT</code> variable works similarly to <code>SERIAL</code>, always receiving the latest value available the set mqtt topic.
+To Setup the MQTT connection go to <code>View &gt; Inspector Menu &gt; MQTT</code> and select the mqtt server and topic. In order to help with debug, we also added the option to write in a specific topic in the same mqtt server.
+Need a help to understand how mqtt works? take a look at <a href="https://www.hivemq.com/blog/how-to-get-started-with-mqtt">Hivemq.com</a>;
+<img src="https://www.hivemq.com/wp-content/uploads/Screen-Shot-2014-10-22-at-12.21.07-1024x589.png" width="400px"/></p><h1 id="Get-Started_Basic-Example"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Basic Example</h1><h3 id="Get-Started_Saving-Projects"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Saving Projects</h3><h3 id="Get-Started_Basic-Shapes"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Basic Shapes</h3><h3 id="Get-Started_Load-3D Models"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Load 3D Models</h3><h3 id="Get-Started_Read-from local data"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Read from local data</h3><h2 id="Get-Started_Read-from SerialPort"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Read from SerialPort</h2><h2 id="Get-Started_Read-from MQTT"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Read from MQTT</h2><h2 id="Get-Started_Record-SerialPort and MQTT"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Record SerialPort and MQTT</h2><p class="paragraph">Still under development</p><h1 id="Get-Started_Internal-Modules"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Internal Modules</h1><h3 id="Get-Started_Geometries"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Geometries</h3><h3 id="Get-Started_Text"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Text</h3><h3 id="Get-Started_Canvas2Plane"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Canvas2Plane</h3><h3 id="Get-Started_Ruler"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Ruler</h3><h3 id="Get-Started_Maps"><a name="head" class="anchor" href="#head"><span class="header-link"></span></a>Maps</h3></div>
 <div class="topic" id="React-And Reviz">
 <div class="topic-title">React And Reviz</div><br><div class="line"></div></div>
 <div class="topic" id="Development">
