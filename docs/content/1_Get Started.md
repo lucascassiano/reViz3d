@@ -7,6 +7,9 @@ You can download the latest version at:
 
 OS | Link | Version | Format
 ---|---|---|---|
+`Windows` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.2-win.zip)  | 1.1.2| .zip/.exe
+`OSX` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.2-mac.zip) | 1.1.2 | .zip/.app
+`Linux` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.2-linux.zip)  | 1.1.2 | .zip/.tar
 `Windows` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.0-mac.zip)  | 1.1.0 beta | .zip/.exe
 `OSX` | [download](https://github.com/lucascassiano/reViz3d/raw/master/releases/reViz3d-1.1.0-mac.zip) | 1.1.0 beta | .zip/.app
 `Linux` | ... | 1.1.0 beta | .zip/.tar
@@ -108,6 +111,11 @@ Setup() will be called one, in the very first rendered frame.
 Update() will be called 30 times per second (30FPS), in an infinite loop.
 
 ### Local Assets
+Local assets are automatically loaded into your code. So you just use the respective variables: 
+SHADERS (for GLSL shaders), DATASETS, MODELS and IMAGES.
+* Currently only .png, .svg are supported images and both of them are loaded as [THREE.Texture](https://threejs.org/docs/#api/textures/Texture).
+* [OBJ](https://en.wikipedia.org/wiki/Wavefront_.obj_file) are imported to the reviz as [THREE.Object3D](https://threejs.org/docs/#api/core/Object3D).
+
 ```javascript
     SHADERS.vertex.{...}
     SHADERS.fragment.{...}
@@ -121,11 +129,15 @@ Update() will be called 30 times per second (30FPS), in an infinite loop.
 ```
 
 ### SerialPort
-The system will try to convert the incoming stream into a JS object (basically a JSON). If the parsing returns an error, then the SERIAL will contain the received package as a String. 
-The communication is designed to uptade the SERIAL variable whenver there is a new breakline indicator ('\r\n'). If you are working using Arduino, this breakline is the result of a Serial.println() command; 
+The system will try to convert the incoming stream into a JS object (basically a JSON). If the parsing returns an error, then the ```SERIAL``` will contain the received package as a String. 
+The communication is designed to update the SERIAL variable whenever there is a new break-line indicator ```'\r\n'```. If you are working using Arduino, this break-line is the result of a ```Serial.println()``` command; 
+In other words, the variable ```SERIAL``` will always receive the latest values available in the Serialport, and if possible it will parse the Serial data to a JSON format.
 
 ### MQTT
-
+The ```MQTT``` variable works similarly to ```SERIAL```, always receiving the latest value available the set mqtt topic.
+To Setup the MQTT connection go to ```View > Inspector Menu > MQTT``` and select the mqtt server and topic. In order to help with debug, we also added the option to write in a specific topic in the same mqtt server.
+Need a help to understand how mqtt works? take a look at [Hivemq.com](https://www.hivemq.com/blog/how-to-get-started-with-mqtt);
+<img src="https://www.hivemq.com/wp-content/uploads/Screen-Shot-2014-10-22-at-12.21.07-1024x589.png" width="400px"/>
 # Basic Example
 
 ### Saving Projects

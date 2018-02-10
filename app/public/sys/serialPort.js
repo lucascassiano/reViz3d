@@ -57,7 +57,7 @@ const serialPortManager = function(sendToWindow) {
         });
 
         parser.on('data', function(data) {
-            var time = moment("X");
+            var time = moment().format("X");
             var output = { timestamp: time, data: data };
             //saving stream
             if (wstream) {

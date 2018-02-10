@@ -223,7 +223,7 @@ class Editor3d extends Component {
         //scene.add(models.obj[i]);
         //}
 
-        var text = textObject.createObject('reViz3D ' + reviz_version, 0.6);
+        var text = textObject.createObject('reViz3D Editor', 0.6);
         text.position.y = 0;
         text.position.z = 11;
         text.rotation.x = Math.PI * -0.5;
