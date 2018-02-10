@@ -5,8 +5,16 @@ import logo from '../assets/reviz_logo_starter.svg';
 import github from '../assets/reviz_github.svg';
 import { Player } from 'video-react';
 import Vimeo from 'react-vimeo';
+
+import icon_0 from "../assets/templates_icons/shaders.svg";
+import icon_1 from "../assets/templates_icons/data.svg";
+import icon_2 from "../assets/templates_icons/serial.svg";
+import icon_3 from "../assets/templates_icons/mqtt.svg";
+import icon_4 from "../assets/templates_icons/maps.svg";
+
 const electron = window.require('electron'); // little trick to import electron in react
 const ipcRenderer = electron.ipcRenderer;
+
 
 class Video extends Component {
 	render() {
@@ -115,42 +123,42 @@ class App extends Component {
 
 					<div className="grid">
 						<div className="box">
-							<Video
-								vimeo="252781716"
-								title={'Mapbox Tiles'}
-								github="http://github.com/lucascassiano"
-								link="test.mit.edu"
-							/>
+							<img className="icon-example" src={icon_0}/>
 						</div>
+						
 						<div className="box">
-							<Video
-								vimeo="252781716"
-								title={'Mapbox Tiles'}
-								github="http://github.com/lucascassiano"
-								link="test.mit.edu"
-							/>
+							<img className="icon-example" src={icon_1}/>
 						</div>
+						
 						<div className="box">
-							<Video
-								vimeo="252781716"
-								title={'Mapbox Tiles'}
-								github="http://github.com/lucascassiano"
-								link="test.mit.edu"
-							/>
+							<img className="icon-example" src={icon_2}/>
 						</div>
+						
 						<div className="box">
-							<Video
-								vimeo="252781716"
-								title={'Mapbox Tiles'}
-								github="http://github.com/lucascassiano"
-								link="test.mit.edu"
-							/>
+							<img className="icon-example" src={icon_3}/>
 						</div>
+
+						<div className="box">
+							<img className="icon-example" src={icon_4}/>
+						</div>
+
+					
+						
 					</div>
 				</div>
 			</div>
 		);
 	}
 }
+
+/*	<div className="box">
+							<Video
+								vimeo="252781716"
+								title={'Mapbox Tiles'}
+								github="http://github.com/lucascassiano"
+								link="test.mit.edu"
+							/>
+						</div>
+						*/
 
 export default App;

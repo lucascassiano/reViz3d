@@ -210,3 +210,16 @@
     font-family: sans-serif;
     text-align: center;
 }
+
+.icon-example {
+    width: 80%;
+    max-width: 150px;
+    transition: 1s;
+}
+
+.icon-example:hover {
+    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+}
