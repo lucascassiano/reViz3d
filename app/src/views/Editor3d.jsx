@@ -44,6 +44,7 @@ let IMAGES = {
     png: {},
     svg: {}
 };
+
 let DIRECTORY=null;
 
 let reviz_version = "1.1.1";
