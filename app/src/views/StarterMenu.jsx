@@ -15,7 +15,6 @@ import icon_4 from "../assets/templates_icons/maps.svg";
 const electron = window.require('electron'); // little trick to import electron in react
 const ipcRenderer = electron.ipcRenderer;
 
-
 class Video extends Component {
 	render() {
 		var { vimeo, autoplay = false, title, github, link } = this.props;
@@ -83,8 +82,8 @@ class App extends Component {
 
 	//*internal calls
 
-	newFile() {
-		ipcRenderer.send('new-project');
+	newFile(template) {
+		ipcRenderer.send('new-project', template);
 	}
 
 	openFile() {
@@ -108,7 +107,7 @@ class App extends Component {
 					<div className="version"> version 1.0 - beta </div>
 					<div className="user-menu" />
 					<ul>
-						<li onClick={this.newFile}> New Project </li>
+						<li onClick={()=>this.newFile('basic')}> New Project </li>
 						<li onClick={this.openFile}> Open Project </li>
 						<li> Tutorials </li>
 						<li> Users </li>
@@ -123,23 +122,23 @@ class App extends Component {
 
 					<div className="grid">
 						<div className="box">
-							<img className="icon-example" src={icon_0}/>
+							<img className="icon-example" src={icon_0} onClick={() => this.newFile("models_shaders")}/>
 						</div>
 						
 						<div className="box">
-							<img className="icon-example" src={icon_1}/>
+							<img className="icon-example" src={icon_1} onClick={() => this.newFile("local_data")}/>
 						</div>
 						
 						<div className="box">
-							<img className="icon-example" src={icon_2}/>
+							<img className="icon-example" src={icon_2} onClick={() => this.newFile("serial_record")} />
 						</div>
 						
 						<div className="box">
-							<img className="icon-example" src={icon_3}/>
+							<img className="icon-example" src={icon_3} onClick={() => this.newFile("mqtt_console")}/>
 						</div>
 
 						<div className="box">
-							<img className="icon-example" src={icon_4}/>
+							<img className="icon-example" src={icon_4} onClick={() => this.newFile("maps")}/>
 						</div>
 
 					

@@ -1,20 +1,19 @@
-console.log(DIRECTORY);
-
 var cube;
 var t = 0;
 
+var LoadScript = function(name) {
+    if (require.cache[require.resolve(DIRECTORY + name)]) {
+        delete require.cache[require.resolve(DIRECTORY + name)];
+    }
+    return require(DIRECTORY + name);
+};
+
+LoadScript("/scripts/test.js")();
 
 //This method will be called when the Component is Mounted
 Setup = (scene, camera, renderer) => {
     cube = Cube(2, 0x22acff);
     scene.add(cube);
-    //AddScript("/scripts/test.js");
-    var p = path.join(DIRECTORY, "/scripts/test.js")
-    console.log(p);
-
-    delete require.cache[require.resolve(p)];
-    require(p)();
-
 };
 
 //Thi method will be called 30 times per second (30FPS)
@@ -23,5 +22,4 @@ Update = (scene, camera, renderer) => {
     t += 1 / 30;
     var s = cube.position.y / 10;
     cube.scale.set(s, s, s);
-
 };

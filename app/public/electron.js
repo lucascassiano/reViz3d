@@ -179,7 +179,7 @@ function CreateFolder(folderDirectory, name) {
     });
 }
 
-ipcMain.on("new-project", (event) => {
+ipcMain.on("new-project", (event, fromTemplate) => {
     dialog.showOpenDialog({
             buttonLabel: "Create Experiment",
             properties: ["openDirectory", "createDirectory"]
@@ -187,7 +187,11 @@ ipcMain.on("new-project", (event) => {
         function(paths) {
             if (paths)
                 if (paths.length) {
-                    projectLoader.createProject(paths[0], loadProject.bind(this), sendToWindow, 0); //basic = 0
+                    //if (!fromTemplate)
+                    projectLoader.createProject(paths[0], loadProject.bind(this), sendToWindow, fromTemplate);
+                    // else {
+                    //   projectLoader.createProject(paths[0], loadProject.bind(this), sendToWindow, fromTemplate);
+                    // }
                 }
         }
     );

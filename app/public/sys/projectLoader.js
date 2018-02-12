@@ -402,11 +402,35 @@ const CreateReactComponent = (project, indexedContent, filePath, callback) => {
     callback("export-project", filePath);
 }
 
-const createProject = async(projectPath, loadProject, callback, index = 0) => {
+const createProject = async(projectPath, loadProject, callback, fromTemplate) => {
 
     console.log("creating new project files from template at " + projectPath);
 
-    var template = projectTemplates.BasicProject;
+    let template;
+
+    switch (fromTemplate) {
+        case 'models_shaders':
+            template = projectTemplates.ModelsShaders;
+            break;
+        case 'local_data':
+            template = projectTemplates.LocalData;
+            break;
+        case 'serial_record':
+            template = projectTemplates.SerialRecord;
+            break;
+        case 'mqtt_console':
+            template = projectTemplates.MqttConsole;
+            break;
+        case 'maps':
+            template = projectTemplates.Maps;
+            console.log("CREATING MAPs project");
+            break;
+        default:
+            template = projectTemplates.BasicProject;
+            break;
+    }
+
+
     var entry = template.entryPoint;
 
     entry.creation_date = moment().format('MMMM Do YYYY, h:mm:ss a');

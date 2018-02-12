@@ -1,7 +1,7 @@
-const BasicProject = {
+const LocalData = {
     entryPoint: {
-        name: "new project",
-        author: null,
+        name: "Maps Projectt",
+        author: "lucascassiano",
         creation_date: null,
         last_update: null,
         indexed_files: {
@@ -21,7 +21,7 @@ const BasicProject = {
             name: "main.js",
             directory: "",
             content: `
-/* Basic ReViz3d project
+/*  ReViz3d project based on Maps Template
 check http://lucascassiano.github.io/reViz3d/ for documentation
 */
 
@@ -49,4 +49,4 @@ Update = (scene, camera, renderer) => {
     ]
 };
 
-module.exports = BasicProject;
+module.exports = LocalData;

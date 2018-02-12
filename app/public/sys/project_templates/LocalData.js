@@ -1,4 +1,4 @@
-const BasicProject = {
+const LocalData = {
     entryPoint: {
         name: "new project",
         author: null,
@@ -49,4 +49,4 @@ Update = (scene, camera, renderer) => {
     ]
 };
 
-module.exports = BasicProject;
+module.exports = LocalData;

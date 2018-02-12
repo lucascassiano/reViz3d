@@ -44,9 +44,19 @@ let IMAGES = {
     png: {},
     svg: {}
 };
+let DIRECTORY=null;
 
 let reviz_version = "1.1.1";
+var path = window.require("path");
 
+//var reload = require('require-reload')(require)
+var LoadScript = function(name){
+            if (require.cache[require.resolve(DIRECTORY + name)]) {
+                delete require.cache[require.resolve(DIRECTORY + name)];
+            }
+            return require(DIRECTORY + "/scripts/" + name);
+        };
+    
 class Editor3d extends Component {
     constructor(props) {
         super(props);
@@ -270,12 +280,16 @@ class Editor3d extends Component {
         }
     }
 
+
+
     executeCode() {
         //import modules here
         //revizModules(THREE);
         //require("../modules/Geometries")(THREE);
 
         require("react-reviz3d/lib/modules/Geometries")(THREE);
+        
+        //require internals here 
 
         var Setup = function() {};
         var Update = function() {};
@@ -289,6 +303,13 @@ class Editor3d extends Component {
         var MapBox = function(MapBoxKey) {
             return 'https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?';
         };
+        
+        console.clear();
+
+        //console.log("PROJECT", this.props.project);
+        
+        DIRECTORY = this.props.project.entryPoint.directory;
+        
 
         eval(this.state.mainCode);
 

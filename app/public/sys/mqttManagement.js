@@ -12,6 +12,7 @@ var mqtt = require('mqtt');
 
 var client = null;
 var sendToWindow;
+
 /*
 //MQTT
 client.on("connect", function() {
