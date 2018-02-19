@@ -16,10 +16,13 @@ import AlertContainer from 'react-alert';
 import font from '../fonts/helvetiker_regular.typeface.json';
 import Text from '../utilities/Text';
 
-import { setProjectName, setProject } from '../actions/project';
+import { setProjectName, setProject, setRenderMap } from '../actions/project';
 
 /*reviz Modules*/
 import Terrain from '../modules/Mapbox/Terrain';
+import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
+
+import MapEnv from "../components/MapEnv.jsx";
 
 let textObject = new Text(font);
 
@@ -57,13 +60,15 @@ var LoadScript = function(name){
             }
             return require(DIRECTORY + "/scripts/" + name);
         };
-    
+
+
 class Editor3d extends Component {
     constructor(props) {
         super(props);
         _this = this;
 
         this.state = {
+            renderMap:false,
             mainCode: null,
             setup: () => {},
             update: () => {},
@@ -110,7 +115,10 @@ class Editor3d extends Component {
 
         this.internalSetup = this.internalSetup.bind(this);
         this.internalUpdate = this.internalUpdate.bind(this);
-
+        
+        //for maps
+        this.internalSetup_Map = this.internalSetup_Map.bind(this);
+        
         this.updateWindowSize = this.updateWindowSize.bind(this);
 
         this.get2DCanvas = this.get2DCanvas.bind(this);
@@ -161,20 +169,29 @@ class Editor3d extends Component {
     }
 
     updateWindowSize() {
-        console.log('width', ReactDOM.findDOMNode(this.c3d).offsetWidth);
-        var canvas3d = ReactDOM.findDOMNode(this.c3d);
-        var width = canvas3d.offsetWidth;
-        var height = canvas3d.offsetHeight;
+        //console.log('width', ReactDOM.findDOMNode(this.c3d).offsetWidth);
+        if(this.c3d){
+            var canvas3d = ReactDOM.findDOMNode(this.c3d);
+            var width = canvas3d.offsetWidth;
+            var height = canvas3d.offsetHeight;
 
-        this.setState({
-            canvasWidth: width,
-            canvasHeight: height
-        });
+            this.setState({
+                canvasWidth: width,
+                canvasHeight: height
+            });
+        }
     }
 
     componentDidMount() {
         //set home;
-        this.c3d.setAngles(Math.PI * 0.25, Math.PI * 0.25);
+        if(this.c3d)
+            this.c3d.setAngles(Math.PI * 0.25, Math.PI * 0.25);
+        
+        //if(this.refs.map){
+            var a= ReactDOM.findDOMNode(this.refs.map);
+            console.log("map",this.refs.map, a);
+
+        //}
         var canvas = this.getMainCanvas();
         console.log('canvas', canvas);
         //var canvas2d = this.get2DCanvas();
@@ -249,23 +266,6 @@ class Editor3d extends Component {
         var gridHelper = new THREE.GridHelper(size, divisions, 0x999999, 0x555555);
         scene.add(gridHelper);
 
-        /*
-        //---TERRAIN test----
-        var terrain = new Terrain("pk.eyJ1IjoibHVjYXNjYXNzaWFubzIxIiwiYSI6ImNqY280d2VxaTFxaGoycXJ3cGE3N292cHoifQ.YLp5agVY737YVFrLgOCbiA", 9, -71.094089,42.360667);
-    
-        terrain.getMesh(function (plane){
-          scene.add(plane);
-          console.log("map terrain added", plane);
-        });
-        */
-        /*automatize this here
-        var addModels=()=>{
-            for (var i in MODELS.obj) {
-                scene.add(MODELS.obj[i]);
-            }
-        }
-        */
-        //this.state.setup(scene, camera, renderer);
         try {
             this.state.setup(scene, camera, renderer);
         } catch (e) {
@@ -281,19 +281,36 @@ class Editor3d extends Component {
         }
     }
 
-
+    internalSetup_Map(scene, camera, renderer, world, map){
+        try {
+            this.state.setup(scene, camera, renderer, world, map);
+        } catch (e) {
+            this.showAlert(e.toString(), "error");
+        }
+    }
 
     executeCode() {
         //import modules here
         //revizModules(THREE);
-        //require("../modules/Geometries")(THREE);
+        require("../modules/Geometries")(THREE);
 
-        require("react-reviz3d/lib/modules/Geometries")(THREE);
-        
+        //require("react-reviz3d/lib/modules/Geometries")(THREE);
+        //var Map = require("../modules/Mapbox");
+        require("../modules/Mapbox")(THREE);
         //require internals here 
 
         var Setup = function() {};
         var Update = function() {};
+        var CONTEXT_MAP = false;
+        var CONTEXT = "device";
+
+        var Context= function(type){
+            if(type=="map"){
+                CONTEXT = "map"
+            }
+            else 
+                CONTEXT = "device"
+        }
 
         var Draw = function() {};
 
@@ -310,7 +327,6 @@ class Editor3d extends Component {
         //console.log("PROJECT", this.props.project);
         
         DIRECTORY = this.props.project.entryPoint.directory;
-        
 
         eval(this.state.mainCode);
 
@@ -320,25 +336,30 @@ class Editor3d extends Component {
 
         this.setState({
             setup: Setup,
-            update: Update
+            update: Update,
+            context: CONTEXT
         });
-
-        //this.c3d.reloadScene();
 
         //saving data to store (Redux)
         var project = {
             mainCode: this.state.mainCode,
             shaders: this.state.shaders,
-            models: this.state.models
+            models: this.state.models,
+            context: CONTEXT
         };
 
         //var canvas2d = ReactDOM.findDOMNode(this.c2d);
         //const ctx = canvas2d.getContext('2d'); //ReactDOM.findDOMNode(this.c2d).getContext("2d");
         //this.draw(ctx);
         this.storeProject(project);
-        this.c3d.reloadScene();
+        
+        if(this.c3d && CONTEXT =="device")
+            this.c3d.reloadScene();
+        
+        if(this.mapEnv && CONTEXT =="map")
+            this.mapEnv.reloadScene();
 
-        this.storeProject();
+        //this.storeProject();
     }
 
     filesUpdated(event, type, fileName, filePath, content) {
@@ -614,39 +635,57 @@ class Editor3d extends Component {
             className = "tooltip-object" > { selectedObjectName } 
             </div>
         );
+        var env3d = ( 
+            <div>
+                <div className = "canvas-3d" >
+                    <Container3d 
+                        percentageWidth = { '100%' }
+                        fitScreen ref = { c => (this.c3d = c) }
+                        key = { 'c3d' }
+                        setup = { this.internalSetup }
+                        update = { this.internalUpdate }
+                        marginBottom = { 30 }
+                        code = { this.state.code }
+                        onHoverStart = { this.onHoverStart }
+                        onHoverEnd = { this.onHoverEnd }
+                        addLight = { true }
+                        addControls = { true }
+                        addGrid = { true }
+                        onUpdateAngles = { this.updateAnglesCube }
+                    /> 
+                </div> 
+                <div className = "cube-view" >
+                    <CubeView aspect = { 1 }
+                    hoverColor = { 0x0088ff }
+                    ref = { c => (this.cubeView = c) }
+                    cubeSize = { 2 }
+                    zoom = { 6 }
+                    antialias = { true }
+                    onUpdateAngles = { this.updateAngles }
+                    width = { 100 }
+                    height = { 100 }
+                    /> 
+                </div> 
+            </div>
+        );
+        
+
+
+        var envMap =(
+            <MapEnv 
+
+            />
+        )
+
+        //{ this.props.project.renderMap ? envMap : env3d} 
+            
 
         return ( 
             <div className = "canvas" onClick = { this.onClick } >
-            <div className = "canvas-3d" >
-                <Container3d 
-                    percentageWidth = { '100%' }
-                    fitScreen ref = { c => (this.c3d = c) }
-                    key = { 'c3d' }
-                    setup = { this.internalSetup }
-                    update = { this.internalUpdate }
-                    marginBottom = { 30 }
-                    code = { this.state.code }
-                    onHoverStart = { this.onHoverStart }
-                    onHoverEnd = { this.onHoverEnd }
-                    addLight = { true }
-                    addControls = { true }
-                    addGrid = { true }
-                    onUpdateAngles = { this.updateAnglesCube }
-                /> 
-            </div> 
-            <div className = "cube-view" >
-                <CubeView aspect = { 1 }
-                hoverColor = { 0x0088ff }
-                ref = { c => (this.cubeView = c) }
-                cubeSize = { 2 }
-                zoom = { 6 }
-                antialias = { true }
-                onUpdateAngles = { this.updateAngles }
-                width = { 100 }
-                height = { 100 }
-                /> 
-            </div> 
-            { tooltip } 
+
+            { this.state.context="map" ? envMap : null }
+            { this.state.context="device" ? env3d :null }
+
             <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/>
             </div>
         );
@@ -667,7 +706,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         // You can now say this.props.viewRightMenu
         setProject: project => dispatch(setProject(project)),
-        setProjectName: name => dispatch(setProjectName(name))
+        setProjectName: name => dispatch(setProjectName(name)),
+        setProjectRenderMap: renderMap => dispatch(setRenderMap(renderMap))
     };
 };
 

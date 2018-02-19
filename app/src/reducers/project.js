@@ -5,6 +5,7 @@ const initialState = {
     projectPath: null,
     mainCode: null,
     entryPoint: null,
+    renderMap: true,
     shaders: {
         vertex: {},
         fragment: {}
@@ -34,6 +35,12 @@ export default (state = initialState, action) => {
         case "GET_PROJECT":
             {
                 return state;
+            }
+        case "SET_RENDER_MAP":
+            {
+                var newState = Object.assign({}, state);
+                newState.renderMap = action.renderMap;
+                return newState;
             }
         default:
             return state;

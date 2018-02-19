@@ -7,12 +7,12 @@ const MapboxClient = require("mapbox");
 var getPixels = require("get-pixels");
 const basePlaneDimension = 10000;
 //https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/-122.4241,37.78,14.25,0,60/600x600?access_token=
+
 /*
 img data from:
 https://www.mapbox.com/api-documentation/#static
-
-
 */
+
 class Terrain {
     constructor(mapbox_token, zoom, lat, long) {
         this.mapbox_token = mapbox_token;
@@ -209,7 +209,7 @@ class Terrain {
             //var d = this.getImageData(texture.image);
 
             //console.log("data ", texture);
-            
+
             for (var k = 0; k < points - 4; k++) {
                 r = pixels.data[k * 4];
                 b = pixels.data[k * 4 + 2];
@@ -259,7 +259,7 @@ class Terrain {
         this.generateTexturePos2(function(mapTexture) {
             var material = new THREE.MeshPhongMaterial({
                 wireframe: false,
-                map:texture,
+                map: texture,
                 displacementMap: textureBump,
                 displacementScale: 10
             });
