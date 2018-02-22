@@ -1,14 +1,106 @@
 body {
     background: #000;
     color: #FFF;
-    font-family: Helvetica, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 100;
     text-align: center;
     align-content: center;
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
 }
 
+html {
+    padding: 0px;
+}
 
-/* The only rule that matters */
+.top-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    /*background: #2B013E;*/
+    color: white;
+    height: 30px;
+    padding: 6px;
+    align-items: right;
+    float: right;
+}
+
+.top-menu>a {
+    text-decoration: none;
+    color: #fff;
+    align-self: right;
+    margin-right: 12px;
+}
+
+.title {
+    display: inline-block;
+    align-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.title>img {
+    width: 20%;
+    max-width: 300px;
+    min-width: 80px;
+}
+
+.title>p {
+    font-size: 12pt;
+}
+
+.download-container {
+    margin: auto;
+    display: grid;
+    width: 50%;
+    min-width: 200px;
+    max-width: 350px;
+    grid-template-columns: auto auto;
+}
+
+.download-label {
+    font-size: 10pt;
+    margin-bottom: 12px;
+}
+
+.before-video {
+    background: #013A56;
+}
+
+.after-video {
+    background-color: #2B013E;
+    height: 100%;
+}
+
+.grid-content {
+    display: grid;
+    padding: 10px;
+    grid-template-columns: 40% 60%;
+    text-align: justify;
+    width: 80%;
+    margin: auto;
+}
+
+.grid-content>p {
+    font-size: 12pt;
+    font-weight: 200;
+    line-height: 16pt;
+    padding: 10pt;
+}
+
+.video-home-bg {
+    background-image: linear-gradient(-180deg, #013A56 0%, #2B013E 80%);
+    z-index: 0;
+}
+
+.video-home {
+    width: 90%;
+    margin: 0px;
+    /* Rectangle 4: */
+    z-index: 1;
+    background-image: linear-gradient(-180deg, #013A56 0%, #2B013E 100%);
+}
 
 #video-background {
     /*  making the video fullscreen  */
@@ -34,22 +126,22 @@ body {
     margin-top: 15px;
 }
 
-.about-2 {
-    margin: auto;
-    width: 50%;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 10pt;
+.download {
+    padding-bottom: 5px;
+    display: block;
 }
 
-.download {
-    margin-bottom: 20px;
+.big {
+    font-size: 30pt;
 }
 
 .download>a {
+    background: rgba(0, 0, 0, 0.0);
+    padding: 10px;
+    border-radius: 10px;
     color: #f0f0f0;
     margin: auto;
     font-size: 16pt;
-    margin: 10px;
     width: auto;
     text-decoration: none;
 }
@@ -61,14 +153,33 @@ body {
 }
 
 .get-started {
-    margin-top: 30px;
+    padding: 15px;
 }
 
 .get-started>a {
-    background: #009922;
-    width: 100px;
+    background: #4A90E2;
+    width: 50%;
     padding: 10px;
-    border-radius: 2px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 10px;
+    color: #f0f0f0;
+    text-decoration: none;
+}
+
+.see-github {
+    padding: 8px;
+}
+
+.see-github>a {
+    width: 50%;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 10px;
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 10pt;
 }
 
 h1 {

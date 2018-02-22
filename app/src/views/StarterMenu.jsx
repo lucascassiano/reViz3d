@@ -104,14 +104,13 @@ class App extends Component {
 			<div className={_class}>
 				<div className="sidebar">
 					<img src={logo} className="logo" />
-					<div className="version"> version 1.0 - beta </div>
+					<div className="version"> version 1.2 - beta </div>
 					<div className="user-menu" />
 					<ul>
 						<li onClick={()=>this.newFile('basic')}> New Project </li>
 						<li onClick={this.openFile}> Open Project </li>
-						<li> Tutorials </li>
-						<li> Users </li>
-						<li> Developers </li>
+						<li> Documentation </li>
+						<li> About </li>
 					</ul>
 
 					<img src={github} className="logo-bottom" />

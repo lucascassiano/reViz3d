@@ -304,12 +304,18 @@ class Editor3d extends Component {
         var CONTEXT_MAP = false;
         var CONTEXT = "device";
 
-        var Context= function(type){
-            if(type=="map"){
+        var _this = this;
+        
+        var Context = function(a){
+            if(a=="map"){
                 CONTEXT = "map"
             }
             else 
                 CONTEXT = "device"
+
+            _this.setState({
+                context: CONTEXT
+            });
         }
 
         var Draw = function() {};
@@ -672,19 +678,17 @@ class Editor3d extends Component {
 
 
         var envMap =(
-            <MapEnv 
-
-            />
+            <MapEnv />
         )
 
         //{ this.props.project.renderMap ? envMap : env3d} 
             
-
         return ( 
             <div className = "canvas" onClick = { this.onClick } >
 
-            { this.state.context="map" ? envMap : null }
-            { this.state.context="device" ? env3d :null }
+            { this.state.context=="map" ? envMap : null }
+
+            { this.state.context=="device" ? env3d :null }
 
             <AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }/>
             </div>

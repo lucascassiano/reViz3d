@@ -78,6 +78,7 @@
     min-height: 12pt;
     font-weight: lighter;
     font-size: 14pt;
+    transition: 0.25s;
 }
 
 .sidebar>ul>.active {
@@ -215,11 +216,13 @@
     width: 80%;
     max-width: 150px;
     transition: 1s;
+    opacity: 0.8;
 }
 
 .icon-example:hover {
-    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
+    /*box-shadow: 1px 1px 20px 5px rgba(255, 255, 255, 0.25);*/
     cursor: pointer;
     width: 100%;
     max-width: 200px;
+    opacity: 1;
 }

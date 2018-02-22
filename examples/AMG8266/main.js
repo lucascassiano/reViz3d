@@ -1,5 +1,8 @@
-// the setup routine runs once when you press reset:
-
+/*----------------
+ReViz3D Example
++name: thermal camera - AMG8833
++author: lucascassiano
+----------------*/
 var sphere;
 var t = 0;
 var label;
@@ -57,18 +60,14 @@ Setup = function(scene, camera, renderer) {
     var geometry = new THREE.PlaneBufferGeometry(10, 10, 7, 7);
     var total = geometry.attributes.position.count;
 
-    //models.obj.sensor_amg8833.scale.set(0.5, 0.5, 0.5);
-
     //console.log(total);
     plane = new THREE.Mesh(geometry, material);
     plane.position.y = 5;
     plane.rotation.x = -Math.PI * 0.5;
-    scene.add(plane);
 
     plane2 = new THREE.Mesh(geometry, material1);
     plane2.position.y = 5;
     plane2.rotation.x = -Math.PI * 0.5;
-    scene.add(plane2);
 
     scene.add(label);
     //MODELS.OBJ.sensor.scale.set(0.5, 0.5, 0.5);
@@ -83,15 +82,6 @@ Setup = function(scene, camera, renderer) {
     MODELS.obj.sensor.scale.set(0.5, 0.5, 0.5);
     scene.add(MODELS.obj.sensor);
 
-    //scene.add();
-
-    //ctx.font = "12px Helvetica";
-    //ctx.fillStyle = "#fff";
-    //ctx.fillText("Lucas Cassiano", 10, 10);
-    //console.log(plane);
-    //var cube = Cube();
-    // cube.position.y = DATASETS.data.sensor[0].position.y;
-    //scene.add(cube);
 };
 
 Update = function(scene, camera, renderer) {

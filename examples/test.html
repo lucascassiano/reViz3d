@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ADN CSS3D Demo</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://rawgit.com/mrdoob/three.js/master/build/three.min.js"></script>
+    <script src="https://rawgit.com/mrdoob/three.js/master/examples/js/controls/TrackballControls.js"></script>
+    <script src="https://rawgit.com/mrdoob/three.js/master/examples/js/renderers/CSS3DRenderer.js"></script>
+
+    <script>
+        ///////////////////////////////////////////////////////////////////
+        // CSS3DRenderer Demo
+        // By Philippe Leefsma, July 2015
+        ///////////////////////////////////////////////////////////////////
+        //References:
+        //http://codereply.com/answer/83pofc/threejs-properly-blending-css3d-webgl.html
+        //http://learningthreejs.com/blog/2013/04/30/closing-the-gap-between-html-and-webgl/
+        var controls, camera, glScene, cssScene, glRenderer, cssRenderer;
+        ///////////////////////////////////////////////////////////////////
+        // Creates WebGL Renderer
+        //
+        ///////////////////////////////////////////////////////////////////
+        function createGlRenderer() {
+            var glRenderer = new THREE.WebGLRenderer({
+                alpha: true
+            });
+            glRenderer.setClearColor(0xECF8FF);
+            glRenderer.setPixelRatio(window.devicePixelRatio);
+            glRenderer.setSize(window.innerWidth, window.innerHeight);
+            glRenderer.domElement.style.position = 'absolute';
+            glRenderer.domElement.style.zIndex = 1;
+            glRenderer.domElement.style.top = 0;
+            return glRenderer;
+        }
+        ///////////////////////////////////////////////////////////////////
+        // Creates CSS Renderer
+        //
+        ///////////////////////////////////////////////////////////////////
+        function createCssRenderer() {
+            var cssRenderer = new THREE.CSS3DRenderer();
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+            cssRenderer.domElement.style.position = 'absolute';
+            cssRenderer.domElement.style.zIndex = 0;
+            cssRenderer.domElement.style.top = 0;
+            return cssRenderer;
+        }
+        ///////////////////////////////////////////////////////////////////
+        // Creates plane mesh
+        //
+        ///////////////////////////////////////////////////////////////////
+        function createPlane(w, h, position, rotation) {
+            var material = new THREE.MeshBasicMaterial({
+                color: 0x000000,
+                opacity: 0.0,
+                side: THREE.DoubleSide
+            });
+            var geometry = new THREE.PlaneGeometry(w, h);
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position.x = position.x;
+            mesh.position.y = position.y;
+            mesh.position.z = position.z;
+            mesh.rotation.x = rotation.x;
+            mesh.rotation.y = rotation.y;
+            mesh.rotation.z = rotation.z;
+            return mesh;
+        }
+        ///////////////////////////////////////////////////////////////////
+        // Creates CSS object
+        //
+        ///////////////////////////////////////////////////////////////////
+        function createCssObject(w, h, position, rotation, url) {
+            var html = [
+                '<div onClick="alert(\"hello\")" style="width:' + w + 'px; height:' + h + 'px;">',
+                '<iframe src="' + url + '" width="' + w + '" height="' + h + '">',
+                '</iframe>',
+                '</div>'
+            ].join('\n');
+            var a = `
+            <div> <h2>hello</h2> <button>click me</button> <a href="http://google.com">hey</a></div>
+            `
+
+            var div = document.createElement('div');
+            //$(div).html(a);
+            div.innerHTML = html;
+            var cssObject = new THREE.CSS3DObject(div);
+            cssObject.position.x = position.x;
+            cssObject.position.y = position.y;
+            cssObject.position.z = position.z;
+            cssObject.rotation.x = rotation.x;
+            cssObject.rotation.y = rotation.y;
+            cssObject.rotation.z = rotation.z;
+            return cssObject;
+        }
+        ///////////////////////////////////////////////////////////////////
+        // Creates 3d webpage object
+        //
+        ///////////////////////////////////////////////////////////////////
+        function create3dPage(w, h, position, rotation, url) {
+            var plane = createPlane(
+                w, h,
+                position,
+                rotation);
+            glScene.add(plane);
+            var cssObject = createCssObject(
+                w, h,
+                position,
+                rotation,
+                url);
+            cssScene.add(cssObject);
+        }
+        ///////////////////////////////////////////////////////////////////
+        // Creates material with random color
+        //
+        ///////////////////////////////////////////////////////////////////
+        function createColoredMaterial() {
+            var material = new THREE.MeshBasicMaterial({
+                color: Math.floor(Math.random() * 16777215),
+                shading: THREE.FlatShading,
+                side: THREE.DoubleSide
+            });
+            return material;
+        }
+        ///////////////////////////////////////////////////////////////////
+        // Creates 3D geometry to place in the scene
+        //
+        ///////////////////////////////////////////////////////////////////
+        function create3dGeometry() {
+            var mesh1 = new THREE.Mesh(
+                new THREE.CylinderGeometry(0, 200, 300, 20, 4),
+                createColoredMaterial());
+            mesh1.position.x = 0;
+            mesh1.position.y = -300;
+            mesh1.position.z = 400;
+            glScene.add(mesh1);
+            var mesh2 = new THREE.Mesh(
+                new THREE.BoxGeometry(200, 200, 200),
+                createColoredMaterial());
+            mesh2.position.x = -300;
+            mesh2.position.y = -300;
+            mesh2.position.z = 400;
+            glScene.add(mesh2);
+            var mesh3 = new THREE.Mesh(
+                new THREE.SphereGeometry(100, 128, 128),
+                createColoredMaterial());
+            mesh3.position.x = 500;
+            mesh3.position.y = -300;
+            mesh3.position.z = 400;
+            glScene.add(mesh3);
+        }
+        ///////////////////////////////////////////////////////////////////
+        // Initializes scene
+        //
+        ///////////////////////////////////////////////////////////////////
+        function initialize() {
+            camera = new THREE.PerspectiveCamera(
+                45,
+                window.innerWidth / window.innerHeight,
+                1,
+                10000);
+            camera.position.set(0, 100, 3000);
+            controls = new THREE.TrackballControls(camera);
+            glRenderer = createGlRenderer();
+            cssRenderer = createCssRenderer();
+            //document.body.appendChild(glRenderer.domElement);
+            document.body.appendChild(glRenderer.domElement);
+            document.body.appendChild(cssRenderer.domElement);
+            //glRenderer.domElement.appendChild(cssRenderer.domElement);
+            //cssRenderer.domElement.appendChild(glRenderer.domElement);
+
+            glScene = new THREE.Scene();
+            cssScene = new THREE.Scene();
+
+            var ambientLight = new THREE.AmbientLight(0x555555);
+            glScene.add(ambientLight);
+
+            var directionalLight = new THREE.DirectionalLight(0xffffff);
+            directionalLight.position.set(-.5, .5, -1.5).normalize();
+            glScene.add(directionalLight);
+            create3dGeometry();
+            create3dPage(
+                1000, 1000,
+                new THREE.Vector3(-1050, 0, 400),
+                new THREE.Vector3(0, 45 * Math.PI / 180, 0),
+                'http://adndevblog.typepad.com/cloud_and_mobile');
+            create3dPage(
+                900, 1000,
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(0, 0, 0),
+                'http://adndevblog.typepad.com/cloud_and_mobile');
+            create3dPage(
+                1000, 1000,
+                new THREE.Vector3(1050, 0, 400),
+                new THREE.Vector3(0, -45 * Math.PI / 180, 0),
+                'http://adndevblog.typepad.com/cloud_and_mobile');
+
+
+            update();
+        }
+
+        ///////////////////////////////////////////////////////////////////
+        // Updates scene
+        //
+        ///////////////////////////////////////////////////////////////////
+        function update() {
+            controls.update();
+            glRenderer.render(glScene, camera);
+            cssRenderer.render(cssScene, camera);
+            requestAnimationFrame(update);
+        }
+        ///////////////////////////////////////////////////////////////////
+        // On document ready
+        //
+        ///////////////////////////////////////////////////////////////////
+        $(document).ready(function() {
+            initialize();
+        });
+    </script>
+</body>
+
+</html>

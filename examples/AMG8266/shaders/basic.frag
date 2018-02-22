@@ -24,15 +24,7 @@ void main()
 
 	vec3 fragHSB = hsv2rgb(c);
 
-	//gl_FragColor = vec4(c.x ,c.y, c.z, 1.0);
-	/*
-	gl_FragColor = vec4(1.0,	// R
-											1.0,	// G
-											posy, // B
-											1.0); // A
-											*/
+	//gl_FragColor = vec4(fragHSB, 0.25);
 
-	gl_FragColor = vec4(fragHSB, 0.25);
-
-	//gl_FragColor = vec4(posz*0.1, posz*0.1, posz*0.1, 1.0); //RGBA
+	gl_FragColor = vec4(posz*0.1, posz*0.1, posz*0.1, 1.0); //RGBA
 }
