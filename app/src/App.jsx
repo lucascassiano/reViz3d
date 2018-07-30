@@ -13,7 +13,7 @@ import RecordMenu from "./components/RecordMenu";
 
 import "semantic-ui-css/semantic.min.css";
 
-import {} from "./styles/App.css";
+import { } from "./styles/App.css";
 
 import AlertContainer from "react-alert";
 
@@ -83,20 +83,16 @@ class App extends Component {
 
         const { visible, ports } = this.state;
 
-        return ( < div >
-            <
-            TopMenu / >
-            <
-            RightMenu ports = { ports }
-            onClickConnectSerial = { this.onClickConnectSerial }
-            /> <Editor3d / >
-            <
-            RecordMenu / > {
-                this.state.editorOn ? null : < StarterMenu onEnd = { this.turnEditorOn }
+        return (<div>
+            <TopMenu />
+            <RightMenu ports={ports}
+                onClickConnectSerial={this.onClickConnectSerial}
+            /> <Editor3d />
+            <RecordMenu /> {
+                this.state.editorOn ? null : < StarterMenu onEnd={this.turnEditorOn}
                 />
-            } < AlertContainer ref = { a => (this.msg = a) } {...this.alertOptions }
-            /> < /
-            div >
+            } <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions}
+            /> </div>
         );
     }
 }

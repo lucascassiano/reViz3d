@@ -16,7 +16,7 @@ html {
 
 .top-menu {
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 10px;
     /*background: #2B013E;*/
     color: white;
@@ -38,12 +38,13 @@ html {
     align-content: center;
     text-align: center;
     width: 100%;
+    margin-top:60px;
 }
 
 .title>img {
-    width: 20%;
-    max-width: 300px;
-    min-width: 80px;
+    width: 40%;
+    max-width: 400px;
+    min-width: 220px;
 }
 
 .title>p {
@@ -53,10 +54,12 @@ html {
 .download-container {
     margin: auto;
     display: grid;
-    width: 50%;
+    width: 100%;
     min-width: 200px;
-    max-width: 350px;
-    grid-template-columns: auto auto;
+    max-width: 400px;
+    grid-template-columns: 50% 50%;
+    font-size: 10pt;
+    margin-bottom: 15px;
 }
 
 .download-label {
@@ -69,24 +72,10 @@ html {
 }
 
 .after-video {
-    background-color: #2B013E;
+   /* background-color: #2B013E;
+    /* Rectangle 5: */
+background-image: linear-gradient(-180deg, #2B013E 0%, #000000 100%);
     height: 100%;
-}
-
-.grid-content {
-    display: grid;
-    padding: 10px;
-    grid-template-columns: 40% 60%;
-    text-align: justify;
-    width: 80%;
-    margin: auto;
-}
-
-.grid-content>p {
-    font-size: 12pt;
-    font-weight: 200;
-    line-height: 16pt;
-    padding: 10pt;
 }
 
 .video-home-bg {
@@ -95,9 +84,11 @@ html {
 }
 
 .video-home {
-    width: 90%;
+    width: 100%;
     margin: 0px;
-    /* Rectangle 4: */
+    padding:0px;
+    margin-top:4px;
+
     z-index: 1;
     background-image: linear-gradient(-180deg, #013A56 0%, #2B013E 100%);
 }
@@ -126,30 +117,43 @@ html {
     margin-top: 15px;
 }
 
-.download {
-    padding-bottom: 5px;
-    display: block;
-}
-
 .big {
     font-size: 30pt;
 }
 
-.download>a {
-    background: rgba(0, 0, 0, 0.0);
-    padding: 10px;
-    border-radius: 10px;
+.download{
+    background: rgba(255, 255, 255, 0.0);
+    border: solid 1px rgba(255, 255, 255, 0.1);
+    padding-top:5px;
+    padding-bottom:0px;
+    padding-left:50px;
+    padding-right:50px;
     color: #f0f0f0;
     margin: auto;
-    font-size: 16pt;
-    width: auto;
+    width: Calc( 50% - 10px);
     text-decoration: none;
+    line-height: 0px;
+    display:inline;
+    border-radius: 2px;
+}
+
+.download>a{
+    color: #fff;
+    font-size: 6pt;
+    padding:0px;
+}
+
+.download>p{
+    color: #f0f0f0;
+    padding:0px;
 }
 
 .download:hover {
     cursor: pointer;
     color: #FFF;
     text-shadow: 0px 0px 10px #FFF;
+    background: rgba(255, 255, 255, 0.1);
+    border: solid 1px rgba(255, 255, 255, 0.5);
 }
 
 .get-started {
@@ -157,13 +161,14 @@ html {
 }
 
 .get-started>a {
-    background: #4A90E2;
+    background: rgba(255, 255, 255, 0.1);
+    border: solid 1px #FFF;
     width: 50%;
     padding: 10px;
     padding-left: 30px;
     padding-right: 30px;
-    border-radius: 10px;
-    color: #f0f0f0;
+    border-radius: 1px;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -201,4 +206,47 @@ h1 span {
 
 h1 span a {
     color: #fff;
+}
+
+#infographic0{
+    width:80%;
+    max-width: 580px;
+}
+
+@media only screen and (max-width: 600px) {
+    #infographic0{
+        width:100%;
+    }
+
+#info0 >p {
+    padding:0px;
+}
+}
+
+#info0{
+    display: block;
+    line-height: 1.5em;
+    padding:0px;
+    text-align: center;
+    width: 100vw;
+}
+
+#info0 >p {
+    text-align: justify;
+    width: auto;
+    padding-right: 200px;
+    padding-left: 200px;
+    line-height: 20pt;
+}
+
+a{
+    color:#FFF;
+}
+
+#info1 >p {
+    text-align: justify;
+    width: auto;
+    padding-right: 200px;
+    padding-left: 200px;
+    line-height: 20pt;
 }

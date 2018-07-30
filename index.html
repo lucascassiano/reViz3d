@@ -3,6 +3,7 @@
 
 <head>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="./index.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <title>ReViz 3D</title>
@@ -21,6 +22,7 @@
     </script>
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 </head>
 
 <body>
@@ -32,7 +34,8 @@
             <a class="github-button" href="https://github.com/lucascassiano" data-size="large" data-show-count="true" aria-label="Follow @lucascassiano on GitHub">Follow @lucascassiano</a>
 
             <!-- Place this tag where you want the button to render. -->
-            <a class="github-button" href="https://github.com/lucascassiano/reViz3d" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star lucascassiano/reViz3d on GitHub">Star</a>
+            <a class="github-button" href="https://github.com/lucascassiano/reViz3d" data-icon="octicon-star" data-size="large" data-show-count="true"
+                aria-label="Star lucascassiano/reViz3d on GitHub">Star</a>
         </div>
         <div class="title">
             <img src="./reviz3d.svg" />
@@ -40,12 +43,28 @@
         </div>
         <div class="download-label">Download App </div>
         <div class="download-container">
-            <div class="download"><a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/latest/reViz3d-mac.zip"><i class="fab fa-apple big"></i> OSX</a></div>
-            <div class="download"><a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/latest/reViz3d-win.zip"><i class="fab fa-windows big"></i> Win</a></div>
+            <div class="download">
+                <a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/latest/reViz3d-mac.zip">
+                    <i class="fab fa-apple big"></i>
+                </a>
+                <p>OSX</p>
+            </div>
+            <div class="download">
+                <a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/latest/reViz3d-win.zip">
+                    <i class="fab fa-windows big"></i>
+                </a>
+                <p>Windows</p>
+            </div>
         </div>
 
-        <div class="get-started"><a href="docs.html">Get Started</a></div>
-        <div class="see-github"><a href="https://github.com/lucascassiano/reViz3d/">see project's github  <i class="fas fa-code-branch"></i></a></div>
+        <div class="get-started">
+            <a href="docs.html">Get Started</a>
+        </div>
+        <div class="see-github">
+            <a href="https://github.com/lucascassiano/reViz3d/">see project's github
+                <i class="fas fa-code-branch"></i>
+            </a>
+        </div>
         <!-- <div class="download"><a href="https://github.com/lucascassiano/reViz3d/raw/master/releases/latest/reViz3d-linux.zip"><i class="fab fa-linux"></i> Download Linux </a></div>
         <div class="download"></div>
         
@@ -58,18 +77,60 @@
 
     <div class="after-video">
         <div class="grid-content">
-            <p>
-                <strong> REVIZ3D</strong> combines real-time code updates, local and remote assets and data streams to create real-time 3D data visualizations. These visualizations can be exported as React.js components. Created in late 2017, this tool
-                enables researchers/developers/data scientists to quickly create, combine or share hardware prototype's visualizations. REVIZ3D main focus is on data that is better visualized at a spatial context. This software has been developed and
-                supported by MIT Media Lab Researchers, under MIT Open Source License.
+            <img id="infographic0" src="./infographic_1.png" />
+            <div id="info0">
+                <h2>System Design</h2>
+                <p>
+                    <strong> reViz3D</strong> combines real-time code updates, local and remote assets and data streams to create
+                    real-time 3D data visualizations. These visualizations can be exported as React.js components. Created
+                    in late 2017, this tool enables researchers/developers/data scientists to quickly create, combine or
+                    share hardware prototype's visualizations. reViz3D main focus is on data that is better visualized at
+                    a spatial context. This software has been developed and supported by MIT Media Lab Researchers, under
+                    MIT Open Source License.
+                </p>
 
-            </p>
-            <img src="./infographic_1.png" />
+            </div>
+
+            <div id="info1">
+                <h2>Motivation</h2>
+                <p>
+                    When an artist finishes painting a canvas, often they look to it not only to admire their creation but to understand how
+                    one can learn from each brush stroke, how the mixture of ink can reveal better tones, and improve the
+                    artist creation methods and skills for the next piece. Prototyping and understanding the outcome data
+                    of a prototype development is a process that as been done for centuries, Michelangelo used physical prototypes∫
+                    to communicate construction details
+                    <a href="http://www.sciencedirect.com/science/article/pii/S0142694X05000864">[1]</a> Henry Ford explored at least nineteen models (some of which were prototypes) before finalizing
+                    the revolutionary model T design
+                    <a href="https://www.amazon.com/Machine-That-Changed-World-Revolutionizing-ebook/dp/B001D1SRRS">[2]</a>.
+                    <br/><br/>The current technological scenario made rapid hardware prototyping more accessible than ever before
+                    <a href="https://www.cambridge.org/core/journals/design-science/article/design-prototyping-methods-state-of-the-art-in-strategies-techniques-and-guidelines/560B306A5E799AEE54D30E0D2C1B7063
+                    ">[3]</a>, this also reflects in the developer's communities, with movements like the maker movement, which
+                    is an umbrella term encompassing the convergence of designer, artisan and hacker cultures
+                    <a href="http://www.juniper-lang.org/publications/juniper_farm_preprint.pdf">[4]</a>. But what if designers, researchers, and engineers (i.e., makers) could develop customized visualizations
+                    to understand the behavior of their prototypes at the same rate they create it. Moreover, if those visualizations
+                    can be easily shared within the developers team and modular enough to be reused and incremented over
+                    time, thus changing how hardware design decisions are made.
+                </p>
+
+                <img id="infographic0" src="./tarsila_image.png" />
+                <p>Tarsila do Amaral - exposition at MoMA | 2018</p>
+            </div>
 
         </div>
 
     </div>
+    <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+    <script>
+        window.sr = ScrollReveal();
+        sr.reveal('.download', { duration: 2000 });
+        sr.reveal('.get-started', { duration: 2000 });
+        sr.reveal('#info0', { duration: 2000 }, 50);
+        sr.reveal('#infographic0', { duration: 2000 }, 50);
+        sr.reveal('#info1', { duration: 2000 }, 50);
+        //window.sr = ScrollReveal({ reset: true });
 
+       // sr.reveal('.foo', { duration: 2000 });
+    </script>
 </body>
 
 </html>

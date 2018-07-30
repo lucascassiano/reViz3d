@@ -123,7 +123,7 @@ function readFile(fileName, filePath, type, callback) {
         var data = fs.readFileSync(filePath, 'base64');
         callback('file-update', type, fileName, filePath, data);
     } else
-        fs.readFile(filePath, 'utf8', function(err, content) {
+        fs.readFile(filePath, 'utf8', function (err, content) {
             if (err) {
                 console.log(err);
                 callback('file-update', type, fileName, filePath, null);
@@ -209,7 +209,7 @@ function FileToProjectFile(project, file) {
     return null;
 }
 
-const onFileUpdate = (file, event, mainWindow) => {};
+const onFileUpdate = (file, event, mainWindow) => { };
 
 
 
@@ -349,10 +349,10 @@ const loadFilesToObject = (project, callback) => {
         callback("export-react-component-loaded");
 
         dialog.showSaveDialog({
-                defaultPath: "*/" + project.name.replace(" ", "_") + ".jsx",
-                buttonLabel: "Save React Component"
-            },
-            function(filePath) {
+            defaultPath: "*/" + project.name.replace(" ", "_") + ".jsx",
+            buttonLabel: "Save React Component"
+        },
+            function (filePath) {
                 CreateReactComponent(project, indexedContent, filePath, callback);
             }
         );
@@ -402,7 +402,7 @@ const CreateReactComponent = (project, indexedContent, filePath, callback) => {
     callback("export-project", filePath);
 }
 
-const createProject = async(projectPath, loadProject, callback, fromTemplate) => {
+const createProject = async (projectPath, loadProject, callback, fromTemplate) => {
 
     console.log("creating new project files from template at " + projectPath);
 
@@ -476,7 +476,7 @@ const CreateFolder = (folderDirectory, name, callback) => {
             var folderPath = path.join(folderDirectory, name);
             console.log("creating folder-> " + folderPath);
             try {
-                fs.mkdir(folderPath, function() {
+                fs.mkdir(folderPath, function () {
                     resolve();
                 });
             } catch (err) {

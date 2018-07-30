@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { Container3d, CubeView, revizModules } from 'react-reviz3d';
+import Container3d from "../components/react-reviz/components/container-3d";
+import CubeView from "../components/react-reviz/components/cubeview";
+
+//import  {Container3d, CubeView}  from '../components/react-reviz';
 import 'react-cubeview/lib/css/react-cubeview.css';
 import * as _THREE from 'three';
 import OBJLoader from 'three-react-obj-loader';
@@ -645,23 +648,23 @@ class Editor3d extends Component {
             <div>
                 <div className = "canvas-3d" >
                     <Container3d 
-                        percentageWidth = { '100%' }
-                        fitScreen ref = { c => (this.c3d = c) }
-                        key = { 'c3d' }
-                        setup = { this.internalSetup }
-                        update = { this.internalUpdate }
-                        marginBottom = { 30 }
-                        code = { this.state.code }
-                        onHoverStart = { this.onHoverStart }
-                        onHoverEnd = { this.onHoverEnd }
-                        addLight = { true }
-                        addControls = { true }
-                        addGrid = { true }
-                        onUpdateAngles = { this.updateAnglesCube }
+                       percentageWidth = { '100%' }
+                       fitScreen ref = { c => (this.c3d = c) }
+                       key = { 'c3d' }
+                       setup = { this.internalSetup }
+                       update = { this.internalUpdate }
+                       marginBottom = { 30 }
+                       code = { this.state.code }
+                       onHoverStart = { this.onHoverStart }
+                       onHoverEnd = { this.onHoverEnd }
+                       addLight = { true }
+                       addControls = { true }
+                       addGrid = { true }
+                       onUpdateAngles = { this.updateAnglesCube }
                     /> 
                 </div> 
                 <div className = "cube-view" >
-                    <CubeView aspect = { 1 }
+                <CubeView aspect = { 1 }
                     hoverColor = { 0x0088ff }
                     ref = { c => (this.cubeView = c) }
                     cubeSize = { 2 }
