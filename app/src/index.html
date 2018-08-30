@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <title>Electron Parcel React</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script>
+        if (process.env.WEBBASE) {
+            const electronHot = require('electron-hot-loader');
+            electronHot.install();
+            //electronHot.watchJsx(['./*.jsx']);
+            //electronHot.watchCss(['./*.css']);
+        }
+        // We can now require our jsx files, they will be compiled for us
+        //require('./index.js');
+    </script>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,10 +1,8 @@
 publish:
-    provider: lucascassiano
+    provider: github
     token: 
-appId: com.lucascassiano
+appId: com.app
 files:
-    - build/**/*
-    - node_modules/**/*"
-directories:
-    buildResources: assets
-productName: reviz3d
+    - electron/**/*
+    - node_modules/**/*
+productName: app

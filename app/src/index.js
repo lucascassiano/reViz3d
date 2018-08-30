@@ -1,23 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom";
+//require('react-hot-loader/patch');
+import React from 'react';
+import * as ReactDOM from 'react-dom'
+import './index.css';
+import { AppContainer } from 'react-hot-loader';
+import App from './App.jsx';
+//import { hot } from 'react-hot-loader';
 
-import registerServiceWorker from "./utilities/registerServiceWorker";
+// We can now require our jsx files, they will be compiled for us 
+const render = Component => {
+  ReactDOM.render(<Component/>,
+    document.getElementById('root'),
+  )
+}
 
-import "bootstrap/dist/css/bootstrap.css";
-import App from "./App";
 
-import { Provider } from "react-redux";
-//import {createStore} from 'redux';
-import configureStore from "./store/configureStore";
-//import reducers from "./reducers/index";
-
-const store = configureStore();
-
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
-);
-
-//registerServiceWorker();
+render(App);
+/*
+if (module.hot)
+  module.hot.accept(render(App));*/
