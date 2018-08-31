@@ -1,8 +1,0 @@
-publish:
-    provider: github
-    token: 
-appId: com.app
-files:
-    - electron/**/*
-    - node_modules/**/*
-productName: app
