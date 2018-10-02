@@ -1,0 +1,3 @@
+/Users/lucascassiano/Documents/GitHub/reViz3d/exp/cpp/CMakeFiles/rebuild_cache.dir
+/Users/lucascassiano/Documents/GitHub/reViz3d/exp/cpp/CMakeFiles/edit_cache.dir
+/Users/lucascassiano/Documents/GitHub/reViz3d/exp/cpp/CMakeFiles/hello-vsc.dir

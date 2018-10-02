@@ -1,0 +1,11 @@
+{
+  "name": "experiment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build":"cd ./cpp && cmake && make && ./hello-vsc"
+  },
+  "author": "",
+  "license": "ISC"
+}
