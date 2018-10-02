@@ -1,0 +1,18 @@
+/*!
+
+Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+Licensed under the terms of the LICENSE file distributed with this project.
+
+*/
+@font-face{
+  font-family:"Icons16";
+  font-weight:normal;
+  font-style:normal;
+  src:url("icons-16.6d146300.eot?#iefix") format("embedded-opentype"), url("icons-16.e1baa448.woff") format("woff"), url("icons-16.1ef64a2c.ttf") format("truetype"); }
+
+@font-face{
+  font-family:"Icons20";
+  font-weight:normal;
+  font-style:normal;
+  src:url("icons-20.91c78f98.eot?#iefix") format("embedded-opentype"), url("icons-20.b994b249.woff") format("woff"), url("icons-20.335992a0.ttf") format("truetype"); }
+/*# sourceMappingURL=blueprint-icons.css.map */

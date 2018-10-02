@@ -1,0 +1,121 @@
+button{
+    background:rgb(87, 174, 255);
+    padding:10px;
+    color:#FFF;
+    width: 0 auto;
+    margin:none;
+    border:none;
+    text-align: center;
+    border-radius: 50px;
+    transition: 0.5s;
+    vertical-align: middle;
+    font-size: 14pt;
+    padding-left:30px;
+    padding-right:30px;
+    overflow: hidden;
+    display: inline;
+}
+
+button:hover{
+    background:rgb(18, 141, 255);
+    transform: scale(1.1);
+    padding-left:30px;
+    padding-right:30px;
+
+}
+
+button:focus {outline:0;}
+
+button img{
+    width:18px;
+    margin-right: 8px;
+}
+
+.content{
+    width:50%;
+    margin-left:25%;
+    margin-right:25%;
+    text-align: center;
+    margin-top:20px;
+}
+
+h1{
+    font-size: 18pt;
+}
+
+.logo{
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+/*menu*/
+.menu{
+    position: absolute;
+    z-index: 2;
+    top:0;
+    right:0;
+    opacity: 1;
+}
+
+.menu-hidden{
+    visibility: collapse;
+    opacity: 0;
+}
+
+.menu > .content{
+    height: 100vh;
+    margin:0px;
+    right:0px;
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    padding:0px;
+    padding-left:2px;
+    padding-right:2px;
+}
+
+.menu > .tabs{
+    width: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.menu-caret-open{
+    position: absolute;
+    top:50vh;
+    right:350px;
+    height: 30px;
+    color:#fff;
+    transition: 0.5s;
+}
+
+.menu-caret-closed{
+    position: absolute;
+    top:50vh;
+    right:0px;
+    height: 30px;
+    color:#FFF;
+    transform: rotate(180deg);
+    transition: 0.5s;
+}
+
+.small-input{
+    width:20px !important;
+}
+
+.menu-position{
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    width: 300px;
+}
+
+.menu-position-cell{
+    width: 100px;
+    margin-top:5px;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.menu-object{
+    text-align: left;
+}
