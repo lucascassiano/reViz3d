@@ -1,0 +1,41 @@
+
+<svg width="853px" height="853px" viewBox="0 0 853 853" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" id="radialGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0.5" offset="100%"></stop>
+        </radialGradient>
+        <rect id="path-2" x="0" y="0" width="841" height="841"></rect>
+        <filter x="-1.1%" y="-1.1%" width="102.1%" height="102.1%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="87.8469423%" y1="85.4628906%" x2="51.6334673%" y2="47.8985546%" id="linearGradient-4">
+            <stop stop-color="#454545" offset="0%"></stop>
+            <stop stop-color="#555555" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-13" transform="translate(-1315.000000, -2333.000000)">
+            <g id="Shaders" transform="translate(1321.000000, 2339.000000)">
+                <g id="Rectangle">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                    <use fill-opacity="0.2" fill="url(#radialGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                </g>
+                <text id="Local-Data" font-family="AvenirNext-Regular, Avenir Next" font-size="80" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="230.16" y="106">Local Data</tspan>
+                </text>
+                <polygon id="Rectangle-24" fill="url(#linearGradient-4)" opacity="0.176347373" style="mix-blend-mode: lighten;" points="841 481 841 841 481 841"></polygon>
+                <path d="M769.235294,745.764706 L799,745.764706 C800.104569,745.764706 801,746.660136 801,747.764706 L801,764.235294 C801,765.339864 800.104569,766.235294 799,766.235294 L769.235294,766.235294 L769.235294,796 C769.235294,797.104569 768.339864,798 767.235294,798 L750.764706,798 C749.660136,798 748.764706,797.104569 748.764706,796 L748.764706,766.235294 L719,766.235294 C717.895431,766.235294 717,765.339864 717,764.235294 L717,747.764706 C717,746.660136 717.895431,745.764706 719,745.764706 L748.764706,745.764706 L748.764706,716 C748.764706,714.895431 749.660136,714 750.764706,714 L767.235294,714 C768.339864,714 769.235294,714.895431 769.235294,716 L769.235294,745.764706 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+                <g id="Group-5" transform="translate(291.000000, 249.000000)" fill="#FFFFFF">
+                    <path d="M91.0695187,134.243952 L91.0695187,141.199597 L209.946524,141.199597 L209.946524,134.243952 L91.0695187,134.243952 Z M192.566845,0 L192.566845,65.3830645 L260,65.3830645 L260,345 L0,345 L0,0 L192.566845,0 Z M50.7486631,91.8145161 L50.7486631,98.7701613 L130,98.7701613 L130,91.8145161 L50.7486631,91.8145161 Z M91.0695187,172.5 L91.0695187,179.455645 L209.946524,179.455645 L209.946524,172.5 L91.0695187,172.5 Z M91.0695187,210.756048 L91.0695187,217.711694 L209.946524,217.711694 L209.946524,210.756048 L91.0695187,210.756048 Z M50.7486631,249.012097 L50.7486631,255.967742 L112.620321,255.967742 L112.620321,249.012097 L50.7486631,249.012097 Z" id="Combined-Shape"></path>
+                    <path d="M198,0 L200.106015,0 L260,57.8900662 L260,59 L198,59 L198,0 Z" id="Combined-Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

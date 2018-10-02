@@ -1,0 +1,65 @@
+.canvas-3d {
+    margin-top: 30px;
+    width: 100%;
+    min-width: 500px;
+}
+
+.canvas-2d {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.canvas-cube-view {
+    width: 100px;
+}
+
+.cube-view {
+    position: absolute;
+    top: 55px;
+    right: 15px;
+    width: 10%;
+    min-width: 100px;
+    max-width: 200px;
+    z-index: 1;
+}
+
+.button-home {
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    width: 12%;
+    min-width: 20px;
+    max-width: 50px;
+    opacity: 0;
+    transition: 200ms;
+    transition-timing-function: ease-in-out;
+    -webkit-transition: 200ms;
+    -webkit-transition-timing-function: ease-in-out;
+}
+
+.cube-view-container:hover .button-home {
+    opacity: 1;
+    transition: 200ms;
+    transition-timing-function: ease-in-out;
+    -webkit-transition: 200ms;
+    -webkit-transition-timing-function: ease-in-out;
+}
+
+.button-home:hover {
+    cursor: pointer;
+}
+
+
+/*
+.button-home {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,255,255, 0.5);
+  transition: all .3s linear;
+}*/
