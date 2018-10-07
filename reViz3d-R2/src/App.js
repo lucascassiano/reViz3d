@@ -12,11 +12,10 @@ import { toggleMenu } from "./store";
 import Menu from "./components/Menu";
 
 class App extends Component {
-
+    /*
     onClick = () => {
         toggleMenu();
-
-    }
+    }*/
 
     render() {
         console.log('props', this.props);
