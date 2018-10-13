@@ -28,6 +28,7 @@ const createWindow = async () => {
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 960,
+        experimentalFeatures: true
     });
 
     mainWindow.loadURL(`file://${appDirectory}/index.html`);

@@ -9,7 +9,7 @@ import "./app.css";
 import { connect } from 'react-redux';
 import { toggleMenu } from "./store";
 
-import Menu from "./components/Menu";
+//import Menu from "./components/Menu";
 
 class App extends Component {
     /*
@@ -21,7 +21,7 @@ class App extends Component {
         console.log('props', this.props);
         return (
             <div >
-                <Menu open={this.props.menu} />
+                
             </div >
         );
     }

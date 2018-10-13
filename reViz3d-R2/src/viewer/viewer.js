@@ -13,9 +13,20 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
 camera.position.set(0, 10, -30)
 camera.lookAt(new THREE.Vector3());
 var canvas = document.getElementById("3d-env");
-var renderer = new THREE.WebGLRenderer({ canvas: canvas });
+var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0.0);
+var devicePixelRatio = window.devicePixelRatio || 1;
+renderer.setPixelRatio( devicePixelRatio );
+
+/* --- for ambiente occlusions
+composer = new THREE.EffectComposer( renderer );
+				renderPass = new THREE.RenderPass( scene, camera );
+				composer.addPass( renderPass );
+				saoPass = new THREE.SAOPass( scene, camera, false, true );
+				saoPass.renderToScreen = true;
+				composer.addPass( saoPass );
+*/
 
 var interactiveObjects = new THREE.Group();
 scene.add(interactiveObjects);
