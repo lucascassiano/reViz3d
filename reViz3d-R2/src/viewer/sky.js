@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 
 export default class Sky {
-    
+
     getObject() {
+    
         // SKYDOME
         var vertexShader = `
         varying vec3 vWorldPosition;

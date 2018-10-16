@@ -1,4 +1,4 @@
-process.env.HMR_PORT=60210;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=56357;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -456,8 +456,7 @@ var renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0.0);
-var devicePixelRatio = window.devicePixelRatio || 1;
-renderer.setPixelRatio(devicePixelRatio);
+renderer.setPixelRatio(window.devicePixelRatio);
 /* --- for ambiente occlusions
 composer = new THREE.EffectComposer( renderer );
 				renderPass = new THREE.RenderPass( scene, camera );
@@ -496,7 +495,7 @@ interactiveObjects.add(cube); //scene.add(cube);
 var controls = new OrbitControls(camera);
 var sky = new _sky.default();
 scene.add(sky.getObject(THREE));
-var gridHelper = new THREE.GridHelper(100, 10, 0xaaaaaa, 0x666666);
+var gridHelper = new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
 scene.add(gridHelper); //raycast
 
 var raycaster = new THREE.Raycaster();

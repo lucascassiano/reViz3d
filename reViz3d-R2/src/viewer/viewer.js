@@ -16,8 +16,7 @@ var canvas = document.getElementById("3d-env");
 var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0.0);
-var devicePixelRatio = window.devicePixelRatio || 1;
-renderer.setPixelRatio( devicePixelRatio );
+renderer.setPixelRatio( window.devicePixelRatio );
 
 /* --- for ambiente occlusions
 composer = new THREE.EffectComposer( renderer );
@@ -58,7 +57,7 @@ let sky = new Sky();
 
 scene.add(sky.getObject(THREE));
 
-var gridHelper = new THREE.GridHelper(100, 10, 0xaaaaaa, 0x666666);
+var gridHelper = new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
 scene.add(gridHelper);
 
 //raycast
