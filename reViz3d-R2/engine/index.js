@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu, MenuItem} from 'electron';
 const path = require('path');
 
 let mainWindow;

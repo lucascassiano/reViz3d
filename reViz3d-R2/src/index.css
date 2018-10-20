@@ -50,3 +50,16 @@ canvas {
     top:0px;
     left:0px;
   }
+
+  .viewer-helper{
+    z-index: 1;
+    position: absolute;
+    margin:0px;
+    top:0px;
+    right:0px;
+
+    width:120px;
+    height:120px;
+
+    background:#0F0;
+  }

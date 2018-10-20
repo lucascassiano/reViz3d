@@ -1,4 +1,4 @@
-process.env.HMR_PORT=56357;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=62859;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -610,7 +610,35 @@ if (module.hot) {
 }
 
 window.focus(); //execute the viewer
+
 //let viewer = new Viewer(store);
+//Menu
+var _require = require('electron'),
+    remote = _require.remote;
+
+var Menu = remote.Menu,
+    MenuItem = remote.MenuItem;
+var menu = new Menu();
+menu.append(new MenuItem({
+  label: 'MenuItem1',
+  click: function click() {
+    console.log('item 1 clicked');
+  }
+}));
+menu.append(new MenuItem({
+  type: 'separator'
+}));
+menu.append(new MenuItem({
+  label: 'MenuItem2',
+  type: 'checkbox',
+  checked: true
+}));
+window.addEventListener('contextmenu', function (e) {
+  e.preventDefault();
+  menu.popup({
+    window: remote.getCurrentWindow()
+  });
+}, false);
 },{"./App.js":"App.js","./index.css":"index.css","./store":"store/index.js","./viewer/viewer.js":"viewer/viewer.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var OVERLAY_ID = '__parcel__error__overlay__';
 
