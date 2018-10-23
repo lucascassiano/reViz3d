@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 
 import Sky from "./sky";
+import ViewerHelper from "./viewerHelper";
+
 import store, { toggleMenu, updateScene, updateSelectedObject } from "../store";
 
-var OrbitControls = require('three-orbit-controls')(THREE)
+var OrbitControls = require('./utils/OrbitControls.js')(THREE);
 
 var OBJLoader = require('three-obj-loader');
 OBJLoader(THREE);
@@ -16,7 +18,7 @@ var canvas = document.getElementById("3d-env");
 var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0.0);
-renderer.setPixelRatio( window.devicePixelRatio );
+renderer.setPixelRatio(window.devicePixelRatio);
 
 /* --- for ambiente occlusions
 composer = new THREE.EffectComposer( renderer );
@@ -54,8 +56,10 @@ interactiveObjects.add(cube);
 
 var controls = new OrbitControls(camera);
 let sky = new Sky();
-
 scene.add(sky.getObject(THREE));
+
+//cubeview
+let viewerHelper = new ViewerHelper("viewer-helper", controls);
 
 var gridHelper = new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
 scene.add(gridHelper);
@@ -130,7 +134,7 @@ function animate() {
 //load obj
 // instantiate a loader
 var loader = new THREE.OBJLoader();
-
+/*
 // load a resource
 loader.load(
     // resource URL
@@ -154,5 +158,5 @@ loader.load(
 
     }
 );
-
+*/
 animate();

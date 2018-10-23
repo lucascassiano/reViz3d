@@ -178,8 +178,8 @@ canvas {
     top:0px;
     right:0px;
 
-    width:120px;
-    height:120px;
+    width:100px;
+    height:100px;
 
-    background:#0F0;
+    background:transparent;
   }
