@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, MenuItem} from 'electron';
+import { app, BrowserWindow, Menu, MenuItem } from 'electron';
 const path = require('path');
 
 let mainWindow;
@@ -11,10 +11,10 @@ const appDirectory = path.join(rootDirectory, "./engine/app");
 
 const isDev = require('electron-is-dev');
 
-let enableReload = process.env.RELOAD;
 import SerialPorts from "./sys/SerialPorts";
 
-if (enableReload && isDev) {
+/*
+if (process.env.RELOAD && isDev) {
     require('electron-reload')(engineDirectory); //only changes on engine directory
     console.log('Running in development with Reload');
 } else if (isDev) {
@@ -22,21 +22,21 @@ if (enableReload && isDev) {
 }
 else {
     console.log('Running in production');
-}
+}*/
 
 const createWindow = async () => {
     mainWindow = new BrowserWindow({
-        width: 1200,
-        height: 960,
+        width: 800,
+        height: 600,
         experimentalFeatures: true
     });
 
-    mainWindow.loadURL(`file://${appDirectory}/index.html`);
-
     if (isDev) {
-        // await installExtension(REACT_DEVELOPER_TOOLS);
+        console.log("🔬Development Mode");
         mainWindow.webContents.openDevTools();
     }
+
+    mainWindow.loadURL(`file://${appDirectory}/index.html`);
 
     mainWindow.on('closed', () => {
         mainWindow = null;

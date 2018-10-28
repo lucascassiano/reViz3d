@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import Sky from "./sky";
+import Grid from "./grid";
 import ViewerHelper from "./viewerHelper";
 
 import store, { toggleMenu, updateScene, updateSelectedObject } from "../store";
@@ -74,7 +75,7 @@ controls.setPolarAngle(Math.PI * 0.25);
 controls.setAzimuthalAngle(Math.PI * 0.25);
 controls.update();
 
-var gridHelper = new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
+var gridHelper = new Grid();//new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
 scene.add(gridHelper);
 
 //raycast

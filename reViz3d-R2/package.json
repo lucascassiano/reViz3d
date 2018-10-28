@@ -25,6 +25,7 @@
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.1.2",
     "@tweenjs/tween.js": "^17.2.0",
+    "controlkit": "^0.1.9",
     "electron-is-dev": "^0.3.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
