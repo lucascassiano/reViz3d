@@ -62,4 +62,9 @@ canvas {
     height:100px;
 
     background:transparent;
+    opacity: 0.8;
+  }
+
+  .viewer-helper:hover{
+    opacity: 1;
   }

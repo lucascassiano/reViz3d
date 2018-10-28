@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import * as THREE from 'three';
 
+
 //import "../css/style.css";
 //import sizeMe from 'react-sizeme';
 
@@ -80,8 +81,6 @@ class CubeView extends Component {
     }
 
     componentDidMount() {
-
-
         var canvas = this.refs.threeCanvas;
         this.hoverColor = this.props.hoverColor ? this.props.hoverColor : 0x0033ff;
 
@@ -97,7 +96,6 @@ class CubeView extends Component {
         canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
         canvas.addEventListener('mousedown', this.onMouseDown.bind(this));
         canvas.addEventListener('mouseup', this.onMouseUp.bind(this));
-
     }
 
     onMouseDown(event) {
@@ -108,11 +106,6 @@ class CubeView extends Component {
             console.log('click');
             if (INTERSECTED) {
                 console.log(INTERSECTED.name);
-                //var angle = controls.getAutoRotationAngle();
-                //this.controls.rotateLeft(45);
-                //this.controls.rotateLeft(45);
-                //this.controls.setAzimuthalAngle(Math.PI);
-                //var a = this.controls.getPolarAngle();
                 this.setViewAngle(INTERSECTED.name);
 
                 // var xAxis = new THREE.Vector3(1,1,0);
@@ -158,7 +151,7 @@ class CubeView extends Component {
                 phi = Math.PI * 0.5;
                 theta = Math.PI;
                 break;
-                //corners
+            //corners
             case 'c0': //FRONT,TOP,RIGHT
                 phi = Math.PI * 0.25;
                 theta = Math.PI * 0.25;
@@ -191,7 +184,7 @@ class CubeView extends Component {
                 phi = Math.PI * 0.25;
                 theta = -Math.PI * 0.75;
                 break;
-                //Edges
+            //Edges
             case 'e0': //TOP,FRONT
                 phi = Math.PI * 0.25;
                 theta = 0;
@@ -293,7 +286,7 @@ class CubeView extends Component {
         //var { width, height } = this.props;
         var width = this.props.width ? this.props.width : 100;
         var height = this.props.height ? this.props.height : 100;
-        
+
         var canvas = this.refs.threeCanvas;
 
         if (this.props.aspect)
@@ -356,7 +349,7 @@ class CubeView extends Component {
         //controls.setPolarAngle(phi);
         const _this = this;
 
-        this._render = function() {
+        this._render = function () {
             animation = requestAnimationFrame(_this._render);
             renderer.render(scene, _this.camera);
 
@@ -432,7 +425,7 @@ class CubeView extends Component {
         if (this.DEBUG) console.log('mouse', mouse);
     }
     _createdOutlineCube(object) {
-        var box = new THREE.BoxHelper(object, 0x0022FF, );
+        var box = new THREE.BoxHelper(object, 0x0022FF);
         object.add(box);
     }
 
@@ -447,7 +440,6 @@ class CubeView extends Component {
 
         var dir = new THREE.Vector3(1, 0, 0);
 
-        //normalize the direction vector (convert to vector of length 1)
         dir.normalize();
 
         var origin = new THREE.Vector3(-size / 2, -size / 2, -size / 2);
@@ -455,18 +447,6 @@ class CubeView extends Component {
         var hex = 0xff0000;
 
         var arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex);
-        //scene.add( arrowHelper );
-
-        //var box = new THREE.BoxHelper( axisHelper, 0xffff00 );
-        //scene.add( box );
-
-
-        //Textures cube;
-        //var texture_top = THREE.ImageUtils.loadTexture( './img/texture.jpg' );
-
-        // texture.wrapS = THREE.RepeatWrapping;
-        //texture.wrapT = THREE.RepeatWrapping;
-        //texture.repeat.set(4, 4);
 
         var top = this.createTexturedPlane(size, texture_top);
         top.position.y = size / 2;
@@ -660,16 +640,6 @@ class CubeView extends Component {
         var _y = y * 1.01;
         var _z = z * 1.01;
 
-        /*
-        var material = new THREE.ShaderMaterial({
-            vertexShader: vertexShader,
-            fragmentShader: fragmentShader,
-            visible:true
-        });
-
-        //material.transparent = true;
-        */
-
         var material = new THREE.MeshBasicMaterial({ color: this.hoverColor, transparent: true, opacity: 0.5, visible: false }); //change to false later
         var geometry = new THREE.BoxGeometry(sizex, sizey, sizez);
 
@@ -804,29 +774,24 @@ class CubeView extends Component {
     render() {
         var width = this.props.width ? this.props.width : 100;
         var height = this.props.height ? this.props.height : 100;
-        
 
-        return ( 
-            <div className = 'cube-view-container' >
-            <img src = { this.state.icon_home }
-            className = 'button-home'
-            onMouseOver = { this.hoverHomeOn }
-            onMouseOut = {
-                this.hoverHomeOff
-            }
-            onClick = { this.clickHome }
 
-            />
+        return (
+            <div className='cube-view-container' >
+                <img src={this.state.icon_home}
+                    className='button-home'
+                    onMouseOver={this.hoverHomeOn}
+                    onMouseOut={
+                        this.hoverHomeOff
+                    }
+                    onClick={this.clickHome}
 
-            <canvas ref = 'threeCanvas' > </canvas>  
+                />
+
+                <canvas ref='threeCanvas' > </canvas>
             </div>
         );
     }
 }
 
-//const exported = sizeMe({ monitorHeight: true, refreshRate: 80, monitorPosition: true })(CubeView);
-//exported.setAngles = CubeView.setAngles;
-
-//export default exported;
 export default CubeView;
-//export default sizeMe({ monitorHeight: true, refreshRate: 80, monitorPosition: true })(CubeView);

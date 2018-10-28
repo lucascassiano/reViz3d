@@ -15,7 +15,16 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
 camera.position.set(0, 10, -30)
 camera.lookAt(new THREE.Vector3());
 var canvas = document.getElementById("3d-env");
-var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+var renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: false,
+    //performance improvements
+    preserveDrawingBuffer: true,
+    failIfMajorPerformanceCaveat: true
+});
+
+renderer.sortObjects = false;
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0.0);
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -60,6 +69,10 @@ scene.add(sky.getObject(THREE));
 
 //cubeview
 let viewerHelper = new ViewerHelper("viewer-helper", controls);
+
+controls.setPolarAngle(Math.PI * 0.25);
+controls.setAzimuthalAngle(Math.PI * 0.25);
+controls.update();
 
 var gridHelper = new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
 scene.add(gridHelper);
