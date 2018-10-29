@@ -28,7 +28,9 @@ const createWindow = async () => {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        experimentalFeatures: true
+        experimentalFeatures: true,
+        transparent: true, 
+        frame: false
     });
 
     if (isDev) {

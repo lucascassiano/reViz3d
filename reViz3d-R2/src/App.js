@@ -11,20 +11,27 @@ import { toggleMenu } from "./store";
 
 //import Menu from "./components/Menu";
 
+import { Slider2D, LineEditor } from "./controls";
+//import "./controls/controls.less";
+
 class App extends Component {
-    /*
-    onClick = () => {
-        toggleMenu();
-    }*/
+    onChange = (event) => {
+        //console.log("chage", event);
+        window.pos3d = { x: event.x, y: event.y };
+    }
 
     render() {
         console.log('props', this.props);
         return (
-            <div >
-                
-            </div >
+            <div className="controls-menu">
+                <div className="panel">
+                    <Slider2D onChange={this.onChange} />
+                    <LineEditor />
+                </div >
+            </div>
         );
     }
+
 }
 
 const mapStateToProps = state => {

@@ -166,7 +166,7 @@ module.exports = function () {
         this.getAngles = function () {
             return { phi: spherical.phi, theta: spherical.theta };
         }
-        
+
         this.getPolarAngle = function () {
             return spherical.phi;
         };
@@ -802,7 +802,7 @@ module.exports = function () {
 
         function handleMouseDownRotate(event) {
 
-            //console.log( 'handleMouseDownRotate' );
+            console.log( 'handleMouseDownRotate' );
 
             rotateStart.set(event.clientX, event.clientY);
 
@@ -826,7 +826,7 @@ module.exports = function () {
 
         function handleMouseMoveRotate(event) {
 
-            //console.log( 'handleMouseMoveRotate' );
+            //console.log('handleMouseMoveRotate');
 
             rotateEnd.set(event.clientX, event.clientY);
             rotateDelta.subVectors(rotateEnd, rotateStart);

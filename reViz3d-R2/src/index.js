@@ -6,9 +6,12 @@ import { Provider } from "react-redux";
 import App from "./App.js";
 import "./index.css";
 
-
 //export let actions = new Actions(store);
 import store from "./store";
+
+window.store = store;
+
+window.pos3d = { x: 0, y: 0 };
 
 const render = () => {
     ReactDOM.render(
@@ -34,7 +37,7 @@ import './viewer/viewer.js';
 //Menu
 const { remote } = require('electron');
 const { Menu, MenuItem } = remote;
-
+/*
 const menu = new Menu()
 menu.append(new MenuItem({ label: 'MenuItem1', click() { console.log('item 1 clicked') } }))
 menu.append(new MenuItem({ type: 'separator' }))
@@ -44,6 +47,6 @@ window.addEventListener('contextmenu', (e) => {
     e.preventDefault()
     menu.popup({ window: remote.getCurrentWindow() })
 }, false);
-
+*/
 
 

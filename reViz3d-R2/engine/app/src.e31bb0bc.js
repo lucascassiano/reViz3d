@@ -1,4 +1,4 @@
-process.env.HMR_PORT=58513;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=61618;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -270,7 +270,7 @@ var updateSelectedObject = function updateSelectedObject(object) {
 exports.updateSelectedObject = updateSelectedObject;
 var _default = store;
 exports.default = _default;
-},{}],"App.js":[function(require,module,exports) {
+},{}],"controls/Slider2D.js":[function(require,module,exports) {
 "use strict";
 
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
@@ -292,6 +292,330 @@ var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/ge
 
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _paper = _interopRequireDefault(require("paper"));
+
+var Slider2D =
+/*#__PURE__*/
+function (_Component) {
+  (0, _inherits2.default)(Slider2D, _Component);
+
+  function Slider2D(props) {
+    var _this;
+
+    (0, _classCallCheck2.default)(this, Slider2D);
+    _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(Slider2D).call(this, props));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "draw", function (canvas) {
+      _paper.default.setup(canvas);
+
+      var colorLines = 'rgba(0,0,0,0.1)';
+
+      var _canvas$getBoundingCl = canvas.getBoundingClientRect(),
+          width = _canvas$getBoundingCl.width,
+          height = _canvas$getBoundingCl.height;
+
+      var center = new _paper.default.Point(width / 2, height / 2);
+      var pathY = new _paper.default.Path();
+      pathY.strokeColor = colorLines;
+      var start = new _paper.default.Point(center.x, 0);
+      pathY.moveTo(start);
+      pathY.lineTo(start.add([0, height]));
+      var pathX = new _paper.default.Path();
+      pathX.strokeColor = colorLines;
+      var start = new _paper.default.Point(0, center.y);
+      pathX.moveTo(start);
+      pathX.lineTo(start.add([width, 0]));
+      var axisX = new _paper.default.Path();
+      axisX.strokeColor = 'black';
+      var start = new _paper.default.Point(0, center.y);
+      axisX.moveTo(start);
+      axisX.lineTo(start.add([width, 0]));
+      var axisY = new _paper.default.Path();
+      axisY.strokeColor = 'black';
+      var start = new _paper.default.Point(center.x, 0);
+      axisY.moveTo(start);
+      axisY.lineTo(start.add([0, height])); //myCircle.selected = true;
+
+      var tool1 = new _paper.default.Tool();
+      var pos = center;
+      var myCircle = new _paper.default.Path.Circle(pos, 5);
+      myCircle.strokeColor = 'black';
+      myCircle.fillColor = 'black';
+
+      myCircle.onMouseEnter = function (event) {
+        myCircle.fillColor = 'white';
+      };
+
+      myCircle.onMouseLeave = function (event) {
+        myCircle.fillColor = 'black';
+      };
+
+      myCircle.onMouseDrag = function (event) {
+        myCircle.fillColor = 'white';
+        pos = event.point;
+        if (pos.x <= 0) pos.x = 0;else if (pos.x >= width) pos.x = width;
+        if (pos.y <= 0) pos.y = 0;else if (pos.y >= height) pos.y = height;
+        myCircle.position = pos;
+        axisX.position.y = pos.y;
+        axisY.position.x = pos.x;
+        var x = pos.x / width - 0.5;
+        var y = 0.5 - pos.y / height;
+        if (_this.props.onChange) _this.props.onChange({
+          x: x,
+          y: y,
+          point: pos
+        });
+
+        _this.setState({
+          x: x,
+          y: y
+        });
+      };
+
+      _paper.default.view.draw();
+    });
+    _this.state = {
+      x: 0,
+      y: 0
+    };
+    _this.canvas = _react.default.createRef(); // this.draw();
+
+    return _this;
+  }
+
+  (0, _createClass2.default)(Slider2D, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      // window.addEventListener('mousemove', this.onMouseMove);
+      if (this.canvas.current) this.draw(this.canvas.current);
+    } // Create a Paper.js Path to draw a line into it:
+
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state = this.state,
+          x = _this$state.x,
+          y = _this$state.y;
+      return _react.default.createElement("div", {
+        className: "slider-2d-container"
+      }, _react.default.createElement("canvas", {
+        className: "slider-2d-canvas",
+        ref: this.canvas
+      }), _react.default.createElement("div", null, "x: ", x.toFixed(2), " "), _react.default.createElement("div", null, "y: ", y.toFixed(2)));
+    }
+  }]);
+  return Slider2D;
+}(_react.Component);
+
+exports.default = Slider2D;
+},{}],"controls/LineEditor.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _paper = _interopRequireDefault(require("paper"));
+
+var LineEditor =
+/*#__PURE__*/
+function (_Component) {
+  (0, _inherits2.default)(LineEditor, _Component);
+
+  function LineEditor(props) {
+    var _this;
+
+    (0, _classCallCheck2.default)(this, LineEditor);
+    _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(LineEditor).call(this, props));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "draw", function (canvas) {
+      _paper.default.setup(canvas);
+
+      var colorLines = 'rgba(0,0,0,0.1)';
+
+      var _canvas$getBoundingCl = canvas.getBoundingClientRect(),
+          width = _canvas$getBoundingCl.width,
+          height = _canvas$getBoundingCl.height;
+
+      var center = new _paper.default.Point(width / 2, height / 2);
+      var pathY = new _paper.default.Path();
+      pathY.strokeColor = colorLines;
+      var start = new _paper.default.Point(center.x, 0);
+      pathY.moveTo(start);
+      pathY.lineTo(start.add([0, height]));
+      var pathX = new _paper.default.Path();
+      pathX.strokeColor = colorLines;
+      var start = new _paper.default.Point(0, center.y);
+      pathX.moveTo(start);
+      pathX.lineTo(start.add([width, 0]));
+      var axisX = new _paper.default.Path();
+      axisX.strokeColor = 'black';
+      var start = new _paper.default.Point(0, center.y);
+      axisX.moveTo(start);
+      axisX.lineTo(start.add([width, 0]));
+      var axisY = new _paper.default.Path();
+      axisY.strokeColor = 'black';
+      var start = new _paper.default.Point(center.x, 0);
+      axisY.moveTo(start);
+      axisY.lineTo(start.add([0, height])); //myCircle.selected = true;
+
+      var tool1 = new _paper.default.Tool();
+      var pos = center;
+      var myCircle = new _paper.default.Path.Circle(pos, 5);
+      myCircle.strokeColor = 'black';
+      myCircle.fillColor = 'black';
+
+      myCircle.onMouseEnter = function (event) {
+        myCircle.fillColor = 'white';
+      };
+
+      myCircle.onMouseLeave = function (event) {
+        myCircle.fillColor = 'black';
+      };
+
+      myCircle.onMouseDrag = function (event) {
+        myCircle.fillColor = 'white';
+        pos = event.point;
+        if (pos.x <= 0) pos.x = 0;else if (pos.x >= width) pos.x = width;
+        if (pos.y <= 0) pos.y = 0;else if (pos.y >= height) pos.y = height;
+        myCircle.position = pos;
+        axisX.position.y = pos.y;
+        axisY.position.x = pos.x;
+        var x = pos.x / width - 0.5;
+        var y = 0.5 - pos.y / height;
+        if (_this.props.onChange) _this.props.onChange({
+          x: x,
+          y: y,
+          point: pos
+        });
+
+        _this.setState({
+          x: x,
+          y: y
+        });
+      };
+
+      _paper.default.view.draw();
+    });
+    _this.state = {
+      x: 0,
+      y: 0
+    };
+    _this.canvas = _react.default.createRef(); // this.draw();
+
+    return _this;
+  }
+
+  (0, _createClass2.default)(LineEditor, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      // window.addEventListener('mousemove', this.onMouseMove);
+      if (this.canvas.current) this.draw(this.canvas.current);
+    } // Create a Paper.js Path to draw a line into it:
+
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state = this.state,
+          x = _this$state.x,
+          y = _this$state.y;
+      return _react.default.createElement("div", {
+        className: "slider-2d-container"
+      }, _react.default.createElement("canvas", {
+        ref: this.canvas,
+        width: 100,
+        height: 30
+      }));
+    }
+  }]);
+  return LineEditor;
+}(_react.Component);
+
+exports.default = LineEditor;
+},{}],"controls/controls.less":[function(require,module,exports) {
+"use strict";
+
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"controls/index.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "Slider2D", {
+  enumerable: true,
+  get: function get() {
+    return _Slider2D.default;
+  }
+});
+Object.defineProperty(exports, "LineEditor", {
+  enumerable: true,
+  get: function get() {
+    return _LineEditor.default;
+  }
+});
+
+var _Slider2D = _interopRequireDefault(require("./Slider2D"));
+
+var _LineEditor = _interopRequireDefault(require("./LineEditor"));
+
+require("./controls.less");
+},{"./Slider2D":"controls/Slider2D.js","./LineEditor":"controls/LineEditor.js","./controls.less":"controls/controls.less"}],"App.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf3 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
@@ -310,27 +634,48 @@ var _reactRedux = require("react-redux");
 
 var _store = require("./store");
 
+var _controls = require("./controls");
+
 //import Menu from "./components/Menu";
+//import "./controls/controls.less";
 var App =
 /*#__PURE__*/
 function (_Component) {
   (0, _inherits2.default)(App, _Component);
 
   function App() {
+    var _getPrototypeOf2;
+
+    var _this;
+
     (0, _classCallCheck2.default)(this, App);
-    return (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(App).apply(this, arguments));
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onChange", function (event) {
+      //console.log("chage", event);
+      window.pos3d = {
+        x: event.x,
+        y: event.y
+      };
+    });
+    return _this;
   }
 
   (0, _createClass2.default)(App, [{
     key: "render",
-
-    /*
-    onClick = () => {
-        toggleMenu();
-    }*/
     value: function render() {
       console.log('props', this.props);
-      return _react.default.createElement("div", null);
+      return _react.default.createElement("div", {
+        className: "controls-menu"
+      }, _react.default.createElement("div", {
+        className: "panel"
+      }, _react.default.createElement(_controls.Slider2D, {
+        onChange: this.onChange
+      }), _react.default.createElement(_controls.LineEditor, null)));
     }
   }]);
   return App;
@@ -356,7 +701,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
 
 exports.default = _default;
-},{"./icons/logo.svg":"icons/logo.svg","./icons/github.svg":"icons/github.svg","./app.css":"app.css","./store":"store/index.js"}],"index.css":[function(require,module,exports) {
+},{"./icons/logo.svg":"icons/logo.svg","./icons/github.svg":"icons/github.svg","./app.css":"app.css","./store":"store/index.js","./controls":"controls/index.js"}],"index.css":[function(require,module,exports) {
 "use strict";
 
 var reloadCSS = require('_css_loader');
@@ -1392,7 +1737,7 @@ module.exports = function () {
 
 
     function handleMouseDownRotate(event) {
-      //console.log( 'handleMouseDownRotate' );
+      console.log('handleMouseDownRotate');
       rotateStart.set(event.clientX, event.clientY);
     }
 
@@ -1407,7 +1752,7 @@ module.exports = function () {
     }
 
     function handleMouseMoveRotate(event) {
-      //console.log( 'handleMouseMoveRotate' );
+      //console.log('handleMouseMoveRotate');
       rotateEnd.set(event.clientX, event.clientY);
       rotateDelta.subVectors(rotateEnd, rotateStart);
       var element = scope.domElement === document ? scope.domElement.body : scope.domElement; // rotating across whole screen goes 360 degrees around
@@ -1822,10 +2167,11 @@ function () {
   function viewerHelper(_canvas_id, _controls, callback) {
     var _this = this;
 
-    var color = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0x0033ff;
+    var color = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0x0078A4;
     (0, _classCallCheck2.default)(this, viewerHelper);
     (0, _defineProperty2.default)(this, "onMouseDown", function (event) {
       _this.mouseMoving = false;
+      _this.listenExternal = false;
     });
     (0, _defineProperty2.default)(this, "onMouseMove", function (event) {
       _this.mouseMoving = true;
@@ -1843,6 +2189,8 @@ function () {
       } else if (_this.mouseMoving = true) {
         console.log('drag');
       }
+
+      _this.listenExternal = true;
     });
     (0, _defineProperty2.default)(this, "createCube", function (size) {
       var top = _this.createTexturedPlane(size, texture_top);
@@ -2263,8 +2611,8 @@ function () {
           x: original.phi,
           y: original.theta
         };
-        var update = _this.UpdateAngles;
-        console.log("coords---", coords);
+        var update = _this.UpdateAngles; // console.log("coords---", coords);
+
         var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
         .to({
           x: phi,
@@ -2272,7 +2620,7 @@ function () {
         }, 500) // Move to (300, 200) in 1 second.
         .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
         .onUpdate(function () {
-          console.log("coords", coords);
+          //console.log("coords", coords);
           update(coords.x, coords.y);
         }).start(); // Start the tween immediately.
         // this.externalControls.setPolarAngle(phi);
@@ -2290,6 +2638,7 @@ function () {
     this.hoverColor = color;
     this.canvas = document.getElementById(_canvas_id);
     this.externalControls = _controls;
+    this.listenExternal = true;
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, this.canvas.offsetWidth / this.canvas.offsetHeight, 0.1, 10000);
     this.camera.position.set(0, 10, -30);
@@ -2306,7 +2655,7 @@ function () {
     renderer.setClearColor(0x000000, 0.0);
     renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer = renderer;
-    this.controls = new OrbitControls(this.camera);
+    this.controls = new OrbitControls(this.camera, this.canvas);
     this.controls.enableZoom = false;
     this.controls.enablePan = false;
     var cubeScale = 12;
@@ -2320,32 +2669,10 @@ function () {
     var cube = new THREE.Mesh(_geometry, _material);
     cube.name = "cube1";
     var _size = 12;
-    var AxisSize = 12; //axis
-
-    var _geometry = new THREE.CylinderGeometry(0.25, 0.5, _size + 5, 12);
-
-    var _material = new THREE.MeshBasicMaterial({
-      color: 0x00FF00
-    });
-
-    var axisY = new THREE.Mesh(_geometry, _material);
-    axisY.position.x = -_size / 2 - 0.25;
-    axisY.position.z = _size / 2 - 0.25;
-    axisY.position.y = 2.5;
-    this.scene.add(axisY); //axis
-
-    var _geometry = new THREE.CylinderGeometry(0.25, 0.5, _size + 5, 12);
-
-    var _material = new THREE.MeshBasicMaterial({
-      color: 0xFF0000
-    });
-
-    var axisX = new THREE.Mesh(_geometry, _material);
-    axisX.rotation.z = Math.PI * 0.5;
-    axisX.position.x = 2.5;
-    axisX.position.y = -_size / 2 - 0.25;
-    axisX.position.z = _size / 2;
-    this.scene.add(axisX); //creates the main cube
+    var AxisSize = _size + 4;
+    var axisHelper = new THREE.AxesHelper(AxisSize);
+    axisHelper.position.set(-_size / 2 - 0.25, -_size / 2 - 0.25, -_size / 2 - 0.25);
+    this.scene.add(axisHelper); //creates the main cube
 
     this.createCube(_size); //User Interactions
 
@@ -2395,11 +2722,22 @@ function () {
       } //console.log("angles", this.externalControls.getAngles());
 
 
-      var _this$externalControl = this.externalControls.getAngles(),
-          phi = _this$externalControl.phi,
-          theta = _this$externalControl.theta;
+      if (this.listenExternal) {
+        var _this$externalControl = this.externalControls.getAngles(),
+            phi = _this$externalControl.phi,
+            theta = _this$externalControl.theta;
 
-      this.controls.setAngles(phi, theta);
+        this.controls.setAngles(phi, theta);
+      } else {
+        var _this$controls$getAng = this.controls.getAngles(),
+            _phi = _this$controls$getAng.phi,
+            _theta = _this$controls$getAng.theta;
+
+        this.externalControls.setPolarAngle(_phi);
+        this.externalControls.setAzimuthalAngle(_theta);
+        this.externalControls.update();
+      }
+
       this.renderer.render(this.scene, this.camera);
     }
   }, {
@@ -2572,11 +2910,17 @@ exports.default = viewerHelper;
 },{"./utils/OrbitControls.js":"viewer/utils/OrbitControls.js"}],"viewer/viewer.js":[function(require,module,exports) {
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var THREE = _interopRequireWildcard(require("three"));
+
+var _statsJs = _interopRequireDefault(require("stats-js"));
 
 var _sky = _interopRequireDefault(require("./sky"));
 
@@ -2591,130 +2935,139 @@ var OrbitControls = require('./utils/OrbitControls.js')(THREE);
 var OBJLoader = require('three-obj-loader');
 
 OBJLoader(THREE);
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
-camera.position.set(0, 10, -30);
-camera.lookAt(new THREE.Vector3());
-var canvas = document.getElementById("3d-env");
-var renderer = new THREE.WebGLRenderer({
-  canvas: canvas,
-  antialias: true,
-  alpha: false,
-  //performance improvements
-  preserveDrawingBuffer: true,
-  failIfMajorPerformanceCaveat: true
-});
-renderer.sortObjects = false;
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000000, 0.0);
-renderer.setPixelRatio(window.devicePixelRatio);
-/* --- for ambiente occlusions
-composer = new THREE.EffectComposer( renderer );
-				renderPass = new THREE.RenderPass( scene, camera );
-				composer.addPass( renderPass );
-				saoPass = new THREE.SAOPass( scene, camera, false, true );
-				saoPass.renderToScreen = true;
-				composer.addPass( saoPass );
-*/
 
-var interactiveObjects = new THREE.Group();
-scene.add(interactiveObjects);
-var geometry = new THREE.BoxGeometry(10, 10, 10);
-var material = new THREE.MeshBasicMaterial({
-  color: 0x000000
-});
-var cube = new THREE.Mesh(geometry, material);
-cube.name = "cube1";
-interactiveObjects.add(cube);
-var geometry = new THREE.BoxGeometry(5, 5, 5);
-var material = new THREE.MeshBasicMaterial({
-  color: 0x00ffFF
-});
-var cube = new THREE.Mesh(geometry, material);
-cube.position.y = 7.5;
-cube.name = "cube2";
-interactiveObjects.add(cube);
-var geometry = new THREE.BoxGeometry(5, 5, 5);
-var material = new THREE.MeshBasicMaterial({
-  color: 0x00ffFF
-});
-var cube = new THREE.Mesh(geometry, material);
-cube.position.y = 15;
-cube.name = "cube3";
-interactiveObjects.add(cube); //scene.add(cube);
+var Viewer = function Viewer() {
+  var _this = this;
 
-var controls = new OrbitControls(camera);
-var sky = new _sky.default();
-scene.add(sky.getObject(THREE)); //cubeview
-
-var viewerHelper = new _viewerHelper.default("viewer-helper", controls);
-controls.setPolarAngle(Math.PI * 0.25);
-controls.setAzimuthalAngle(Math.PI * 0.25);
-controls.update();
-var gridHelper = new _grid.default(); //new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
-
-scene.add(gridHelper); //raycast
-
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2();
-var INTERSECTED;
-var INTERSECTED_box;
-var INTERSECTED_selected;
-
-function onMouseMove(event) {
-  mouse.x = event.clientX / renderer.domElement.clientWidth * 2 - 1;
-  mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
-}
-
-function onMouseDown(event) {
-  if (INTERSECTED && event.button == 2) {
-    console.log(event);
-    console.log(INTERSECTED.name);
-  }
-
-  if (INTERSECTED && event.button == 0) {
-    (0, _store.updateSelectedObject)(INTERSECTED);
-    console.log(_store.default.getState().environment);
-    console.log(INTERSECTED.name);
-    INTERSECTED_selected = INTERSECTED;
-    if (INTERSECTED_box) scene.remove(INTERSECTED_box);
-    INTERSECTED_box = new THREE.BoxHelper(INTERSECTED, 0x55ddff);
-    scene.add(INTERSECTED_box);
-  }
-}
-
-window.addEventListener('mousemove', onMouseMove, false);
-window.addEventListener('mousedown', onMouseDown, false);
-
-function animate() {
-  requestAnimationFrame(animate); // update the picking ray with the camera and mouse position
-
-  raycaster.setFromCamera(mouse, camera); // calculate objects intersecting the picking ray
-
-  var intersects = raycaster.intersectObjects(interactiveObjects.children); // if there is one (or more) intersections
-
-  if (intersects.length) {
-    if (intersects[0].object != INTERSECTED) {
-      INTERSECTED = intersects[0].object;
-
-      if (INTERSECTED) {//INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-        //INTERSECTED.material.color.setHex(0xffff00);
-      } else INTERSECTED = null;
+  var antialias = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+  (0, _classCallCheck2.default)(this, Viewer);
+  (0, _defineProperty2.default)(this, "onMouseMove", function (event) {
+    _this.mouse.x = event.clientX / _this.renderer.domElement.clientWidth * 2 - 1;
+    _this.mouse.y = -(event.clientY / _this.renderer.domElement.clientHeight) * 2 + 1;
+  });
+  (0, _defineProperty2.default)(this, "onMouseDown", function (event) {
+    if (_this.INTERSECTED && event.button == 2) {
+      console.log(event);
+      console.log(_this.INTERSECTED.name);
     }
-  } else {
-    if (INTERSECTED) INTERSECTED = null;
-  }
 
-  if (INTERSECTED_box) {
-    INTERSECTED_box.update();
-  }
+    if (_this.INTERSECTED && event.button == 0) {
+      _this.updateSelectedObject(_this.INTERSECTED);
 
-  renderer.render(scene, camera);
-} //load obj
+      console.log(_store.default.getState().environment);
+      console.log(_this.INTERSECTED.name);
+      _this.INTERSECTED_selected = _this.INTERSECTED;
+      if (_this.INTERSECTED_box) _this.scene.remove(_this.INTERSECTED_box);
+      _this.INTERSECTED_box = new THREE.BoxHelper(_this.INTERSECTED, 0x55ddff);
+
+      _this.scene.add(_this.INTERSECTED_box);
+    }
+  });
+  (0, _defineProperty2.default)(this, "animate", function () {
+    requestAnimationFrame(_this.animate); // update the picking ray with the camera and mouse position
+
+    _this.raycaster.setFromCamera(_this.mouse, _this.camera); // calculate objects intersecting the picking ray
+
+
+    var intersects = _this.raycaster.intersectObjects(_this.interactiveObjects.children); // if there is one (or more) intersections
+
+
+    if (intersects.length) {
+      if (intersects[0].object != _this.INTERSECTED) {
+        _this.INTERSECTED = intersects[0].object;
+
+        if (_this.INTERSECTED) {//INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+          //INTERSECTED.material.color.setHex(0xffff00);
+        } else _this.INTERSECTED = null;
+      }
+    } else {
+      if (_this.INTERSECTED) _this.INTERSECTED = null;
+    }
+
+    if (_this.INTERSECTED_box) {
+      _this.INTERSECTED_box.update();
+    } //stats.begin();
+
+
+    _this.cube.rotation.x = window.pos3d.x * 5;
+    _this.cube.rotation.y = window.pos3d.y * 5; // your code goes here
+
+    _this.renderer.render(_this.scene, _this.camera); //stats.end();
+
+  });
+  this.scene = new THREE.Scene();
+  this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
+  this.camera.position.set(0, 10, -30);
+  this.camera.lookAt(new THREE.Vector3());
+  this.canvas = document.getElementById("3d-env");
+  this.renderer = new THREE.WebGLRenderer({
+    canvas: this.canvas,
+    antialias: antialias,
+    alpha: false,
+    //performance improvements
+    preserveDrawingBuffer: true,
+    failIfMajorPerformanceCaveat: true
+  });
+  this.renderer.sortObjects = false;
+  this.renderer.setSize(window.innerWidth, window.innerHeight);
+  this.renderer.setClearColor(0x000000, 0.0);
+  this.renderer.setPixelRatio(window.devicePixelRatio);
+  this.interactiveObjects = new THREE.Group();
+  this.scene.add(this.interactiveObjects);
+  /* 
+      var geometry = new THREE.BoxGeometry(10, 10, 10);
+      var material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      var cube = new THREE.Mesh(geometry, material);
+      cube.name = "cube1";
+      interactiveObjects.add(cube);
+           var geometry = new THREE.BoxGeometry(5, 5, 5);
+      var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
+      var cube = new THREE.Mesh(geometry, material);
+      cube.position.y = 7.5;
+      cube.name = "cube2";
+      interactiveObjects.add(cube);
+           var geometry = new THREE.BoxGeometry(5, 5, 5);
+      var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
+      var cube = new THREE.Mesh(geometry, material);
+      cube.position.y = 15;
+      cube.name = "cube3";
+      interactiveObjects.add(cube);
+  */
+  //scene.add(cube);
+
+  this.controls = new OrbitControls(this.camera, this.canvas);
+  var sky = new _sky.default();
+  this.scene.add(sky.getObject(THREE)); //cubeview
+
+  var viewerHelper = new _viewerHelper.default("viewer-helper", this.controls);
+  this.controls.setPolarAngle(Math.PI * 0.25);
+  this.controls.setAzimuthalAngle(Math.PI * 0.25);
+  this.controls.update();
+  var gridHelper = new _grid.default(); //new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
+
+  this.scene.add(gridHelper); //raycast
+
+  this.raycaster = new THREE.Raycaster();
+  this.mouse = new THREE.Vector2();
+  this.INTERSECTED;
+  this.INTERSECTED_box;
+  this.INTERSECTED_selected;
+  window.addEventListener('mousemove', this.onMouseMove, false);
+  window.addEventListener('mousedown', this.onMouseDown, false);
+  var geometry = new THREE.BoxGeometry(1, 1, 1);
+  var material = new THREE.MeshBasicMaterial({
+    color: 0x00ff00
+  });
+  this.cube = new THREE.Mesh(geometry, material); //this.scene.add(this.cube);
+};
+
+window.onload = function () {
+  var viewer = new Viewer();
+  viewer.animate();
+}; //load obj
 // instantiate a loader
+//var loader = new THREE.OBJLoader();
 
-
-var loader = new THREE.OBJLoader();
 /*
 // load a resource
 loader.load(
@@ -2740,8 +3093,6 @@ loader.load(
     }
 );
 */
-
-animate();
 },{"./sky":"viewer/sky.js","./grid":"viewer/grid.js","./viewerHelper":"viewer/viewerHelper.js","../store":"store/index.js","./utils/OrbitControls.js":"viewer/utils/OrbitControls.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -2766,6 +3117,12 @@ var _store = _interopRequireDefault(require("./store"));
 require("./viewer/viewer.js");
 
 //export let actions = new Actions(store);
+window.store = _store.default;
+window.pos3d = {
+  x: 0,
+  y: 0
+};
+
 var render = function render() {
   _reactDom.default.render(_react.default.createElement(_reactHotLoader.AppContainer, null, _react.default.createElement(_reactRedux.Provider, {
     store: _store.default
@@ -2789,27 +3146,17 @@ var _require = require('electron'),
 
 var Menu = remote.Menu,
     MenuItem = remote.MenuItem;
-var menu = new Menu();
-menu.append(new MenuItem({
-  label: 'MenuItem1',
-  click: function click() {
-    console.log('item 1 clicked');
-  }
-}));
-menu.append(new MenuItem({
-  type: 'separator'
-}));
-menu.append(new MenuItem({
-  label: 'MenuItem2',
-  type: 'checkbox',
-  checked: true
-}));
-window.addEventListener('contextmenu', function (e) {
-  e.preventDefault();
-  menu.popup({
-    window: remote.getCurrentWindow()
-  });
+/*
+const menu = new Menu()
+menu.append(new MenuItem({ label: 'MenuItem1', click() { console.log('item 1 clicked') } }))
+menu.append(new MenuItem({ type: 'separator' }))
+menu.append(new MenuItem({ label: 'MenuItem2', type: 'checkbox', checked: true }))
+
+window.addEventListener('contextmenu', (e) => {
+    e.preventDefault()
+    menu.popup({ window: remote.getCurrentWindow() })
 }, false);
+*/
 },{"./App.js":"App.js","./index.css":"index.css","./store":"store/index.js","./viewer/viewer.js":"viewer/viewer.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var OVERLAY_ID = '__parcel__error__overlay__';
 

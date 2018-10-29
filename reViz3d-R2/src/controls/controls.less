@@ -1,0 +1,38 @@
+@background: #fff;
+@color0: #fff; //bg
+@color1: #bbb;
+@color2: #888;
+@color3: #444;
+@colorText: #333;
+
+.card{
+    background:@background;
+    
+}
+
+.panel{
+    background:@background;
+    display: flex;
+    flex-direction: column;
+    padding:6px;
+    min-width: 100px;
+    min-height: 20px;
+}
+
+.panel > *{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.slider-2d-container{
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    min-width: 100px;
+}
+
+.slider-2d-canvas{
+    background:@color1;
+    width: 100px;
+    height: 100px;
+}

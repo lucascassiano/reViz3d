@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Stats from "stats-js";
 
 import Sky from "./sky";
 import Grid from "./grid";
@@ -7,147 +8,163 @@ import ViewerHelper from "./viewerHelper";
 import store, { toggleMenu, updateScene, updateSelectedObject } from "../store";
 
 var OrbitControls = require('./utils/OrbitControls.js')(THREE);
-
 var OBJLoader = require('three-obj-loader');
 OBJLoader(THREE);
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
-camera.position.set(0, 10, -30)
-camera.lookAt(new THREE.Vector3());
-var canvas = document.getElementById("3d-env");
-var renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    antialias: true,
-    alpha: false,
-    //performance improvements
-    preserveDrawingBuffer: true,
-    failIfMajorPerformanceCaveat: true
-});
+class Viewer {
+    constructor(antialias = true) {
 
-renderer.sortObjects = false;
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000000, 0.0);
-renderer.setPixelRatio(window.devicePixelRatio);
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-/* --- for ambiente occlusions
-composer = new THREE.EffectComposer( renderer );
-				renderPass = new THREE.RenderPass( scene, camera );
-				composer.addPass( renderPass );
-				saoPass = new THREE.SAOPass( scene, camera, false, true );
-				saoPass.renderToScreen = true;
-				composer.addPass( saoPass );
-*/
+        this.camera.position.set(0, 10, -30)
+        this.camera.lookAt(new THREE.Vector3());
 
-var interactiveObjects = new THREE.Group();
-scene.add(interactiveObjects);
+        this.canvas = document.getElementById("3d-env");
+        this.renderer = new THREE.WebGLRenderer({
+            canvas: this.canvas,
+            antialias: antialias,
+            alpha: false,
+            //performance improvements
+            preserveDrawingBuffer: true,
+            failIfMajorPerformanceCaveat: true
+        });
 
-var geometry = new THREE.BoxGeometry(10, 10, 10);
-var material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-var cube = new THREE.Mesh(geometry, material);
-cube.name = "cube1";
-interactiveObjects.add(cube);
+        this.renderer.sortObjects = false;
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setClearColor(0x000000, 0.0);
+        this.renderer.setPixelRatio(window.devicePixelRatio);
 
-var geometry = new THREE.BoxGeometry(5, 5, 5);
-var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
-var cube = new THREE.Mesh(geometry, material);
-cube.position.y = 7.5;
-cube.name = "cube2";
-interactiveObjects.add(cube);
+        this.interactiveObjects = new THREE.Group();
+        this.scene.add(this.interactiveObjects);
+        /* 
+            var geometry = new THREE.BoxGeometry(10, 10, 10);
+            var material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+            var cube = new THREE.Mesh(geometry, material);
+            cube.name = "cube1";
+            interactiveObjects.add(cube);
+    
+            var geometry = new THREE.BoxGeometry(5, 5, 5);
+            var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
+            var cube = new THREE.Mesh(geometry, material);
+            cube.position.y = 7.5;
+            cube.name = "cube2";
+            interactiveObjects.add(cube);
+    
+            var geometry = new THREE.BoxGeometry(5, 5, 5);
+            var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
+            var cube = new THREE.Mesh(geometry, material);
+            cube.position.y = 15;
+            cube.name = "cube3";
+            interactiveObjects.add(cube);
+        */
+        //scene.add(cube);
 
-var geometry = new THREE.BoxGeometry(5, 5, 5);
-var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
-var cube = new THREE.Mesh(geometry, material);
-cube.position.y = 15;
-cube.name = "cube3";
-interactiveObjects.add(cube);
+        this.controls = new OrbitControls(this.camera, this.canvas);
+        let sky = new Sky();
+        this.scene.add(sky.getObject(THREE));
 
-//scene.add(cube);
+        //cubeview
+        let viewerHelper = new ViewerHelper("viewer-helper", this.controls);
 
-var controls = new OrbitControls(camera);
-let sky = new Sky();
-scene.add(sky.getObject(THREE));
+        this.controls.setPolarAngle(Math.PI * 0.25);
+        this.controls.setAzimuthalAngle(Math.PI * 0.25);
+        this.controls.update();
 
-//cubeview
-let viewerHelper = new ViewerHelper("viewer-helper", controls);
+        var gridHelper = new Grid();//new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
+        this.scene.add(gridHelper);
 
-controls.setPolarAngle(Math.PI * 0.25);
-controls.setAzimuthalAngle(Math.PI * 0.25);
-controls.update();
+        //raycast
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
+        this.INTERSECTED;
+        this.INTERSECTED_box;
+        this.INTERSECTED_selected;
 
-var gridHelper = new Grid();//new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
-scene.add(gridHelper);
 
-//raycast
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2();
-var INTERSECTED;
-var INTERSECTED_box;
-var INTERSECTED_selected;
+        window.addEventListener('mousemove', this.onMouseMove, false);
+        window.addEventListener('mousedown', this.onMouseDown, false);
 
-function onMouseMove(event) {
-    mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
-    mouse.y = - (event.clientY / renderer.domElement.clientHeight) * 2 + 1;
-}
-
-function onMouseDown(event) {
-    if (INTERSECTED && event.button == 2) {
-        console.log(event);
-        console.log(INTERSECTED.name);
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        this.cube = new THREE.Mesh(geometry, material);
+        //this.scene.add(this.cube);
     }
-    if (INTERSECTED && event.button == 0) {
-        updateSelectedObject(INTERSECTED);
-        console.log(store.getState().environment);
-        console.log(INTERSECTED.name);
 
-        INTERSECTED_selected = INTERSECTED;
-
-        if (INTERSECTED_box)
-            scene.remove(INTERSECTED_box)
-        INTERSECTED_box = new THREE.BoxHelper(INTERSECTED, 0x55ddff);
-
-        scene.add(INTERSECTED_box);
+    onMouseMove = (event) => {
+        this.mouse.x = (event.clientX / this.renderer.domElement.clientWidth) * 2 - 1;
+        this.mouse.y = - (event.clientY / this.renderer.domElement.clientHeight) * 2 + 1;
     }
-}
 
-window.addEventListener('mousemove', onMouseMove, false);
-window.addEventListener('mousedown', onMouseDown, false);
+    onMouseDown = (event) => {
+        if (this.INTERSECTED && event.button == 2) {
+            console.log(event);
+            console.log(this.INTERSECTED.name);
+        }
+        if (this.INTERSECTED && event.button == 0) {
+            this.updateSelectedObject(this.INTERSECTED);
+            console.log(store.getState().environment);
+            console.log(this.INTERSECTED.name);
 
-function animate() {
-    requestAnimationFrame(animate);
-    // update the picking ray with the camera and mouse position
-    raycaster.setFromCamera(mouse, camera);
+            this.INTERSECTED_selected = this.INTERSECTED;
 
-    // calculate objects intersecting the picking ray
-    var intersects = raycaster.intersectObjects(interactiveObjects.children);
+            if (this.INTERSECTED_box)
+                this.scene.remove(this.INTERSECTED_box)
+            this.INTERSECTED_box = new THREE.BoxHelper(this.INTERSECTED, 0x55ddff);
 
-    // if there is one (or more) intersections
-    if (intersects.length) {
-        if (intersects[0].object != INTERSECTED) {
-            INTERSECTED = intersects[0].object;
-            if (INTERSECTED) {
-                //INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-                //INTERSECTED.material.color.setHex(0xffff00);
-            }
-            else
-                INTERSECTED = null;
+            this.scene.add(this.INTERSECTED_box);
         }
     }
-    else {
-        if (INTERSECTED)
-            INTERSECTED = null;
+
+    animate = () => {
+        requestAnimationFrame(this.animate);
+        // update the picking ray with the camera and mouse position
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+
+        // calculate objects intersecting the picking ray
+        var intersects = this.raycaster.intersectObjects(this.interactiveObjects.children);
+
+        // if there is one (or more) intersections
+        if (intersects.length) {
+            if (intersects[0].object != this.INTERSECTED) {
+                this.INTERSECTED = intersects[0].object;
+                if (this.INTERSECTED) {
+                    //INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+                    //INTERSECTED.material.color.setHex(0xffff00);
+
+                }
+                else
+                    this.INTERSECTED = null;
+            }
+        }
+        else {
+            if (this.INTERSECTED)
+                this.INTERSECTED = null;
+        }
+
+        if (this.INTERSECTED_box) {
+            this.INTERSECTED_box.update();
+        }
+
+        //stats.begin();
+        this.cube.rotation.x = window.pos3d.x*5;
+        this.cube.rotation.y = window.pos3d.y*5;
+        // your code goes here
+        this.renderer.render(this.scene, this.camera);
+        //stats.end();
     }
 
-    if (INTERSECTED_box) {
-        INTERSECTED_box.update();
-    }
-
-    renderer.render(scene, camera);
 }
+
+window.onload = function () {
+    var viewer = new Viewer();
+    viewer.animate();
+};
+
 
 //load obj
 // instantiate a loader
-var loader = new THREE.OBJLoader();
+//var loader = new THREE.OBJLoader();
 /*
 // load a resource
 loader.load(
@@ -173,4 +190,4 @@ loader.load(
     }
 );
 */
-animate();
+

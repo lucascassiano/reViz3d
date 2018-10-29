@@ -39,6 +39,7 @@ button img{
     margin-top:20px;
 }
 
+
 h1{
     font-size: 18pt;
 }
@@ -118,4 +119,13 @@ h1{
 
 .menu-object{
     text-align: left;
+}
+
+.controls-menu{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 2px;
+    top:30px;
+    left:10px;
 }
