@@ -11,6 +11,8 @@ var OrbitControls = require('./utils/OrbitControls.js')(THREE);
 var OBJLoader = require('three-obj-loader');
 OBJLoader(THREE);
 
+var TransformControls = require("./utils/TransformControls")(THREE);
+
 class Viewer {
     constructor(antialias = true) {
 
@@ -88,7 +90,29 @@ class Viewer {
         var geometry = new THREE.BoxGeometry(1, 1, 1);
         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         this.cube = new THREE.Mesh(geometry, material);
-        //this.scene.add(this.cube);
+
+        var tControl = new TransformControls(this.camera, this.canvas);
+
+        //tControl.addEventListener('change', this.animate);
+
+        tControl.addEventListener('dragging-changed', (event) => {
+            //orbit.enabled = !event.value;
+            if (!event.value == false) {
+                this.controls.setEnable(false);
+                console.log("enabled", this.controls.enabled);
+            }
+            else {
+                this.controls.setEnable(true);
+                //this.controls.update();
+            }
+        });
+
+        //var mesh = new THREE.Mesh(geometry, material);
+        //scene.add(mesh);
+
+        tControl.attach(this.cube);
+        this.scene.add(tControl);
+        this.scene.add(this.cube);
     }
 
     onMouseMove = (event) => {
@@ -147,8 +171,8 @@ class Viewer {
         }
 
         //stats.begin();
-        this.cube.rotation.x = window.pos3d.x*5;
-        this.cube.rotation.y = window.pos3d.y*5;
+        this.cube.rotation.x = window.pos3d.x * 5;
+        this.cube.rotation.y = window.pos3d.y * 5;
         // your code goes here
         this.renderer.render(this.scene, this.camera);
         //stats.end();

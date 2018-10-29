@@ -90,18 +90,11 @@ export default class CircularSlider extends Component {
             var throughPoint = new paper.Point(halfX + center.x, halfY + center.y);
             var toPoint = new paper.Point(X + center.x, Y + center.y);
 
-            //arc.removeSegments();
-            //arc = new paper.Path.Arc(startPos, throughPoint, toPoint);
-            //arc.strokeColor = 'black';
-
-
-            //line.removeSegments();
             line.lastSegment.point = new paper.Point(circle.position.x, circle.position.y);
             this.setState({ angle: deg });
-            //arc.arcTo(throughPoint, toPoint);
+
             if (this.props.onChange)
                 this.props.onChange(deg);
-
         }
 
         paper.view.draw();

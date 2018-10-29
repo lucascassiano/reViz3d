@@ -163,6 +163,10 @@ module.exports = function () {
         // public methods
         //
 
+        this.setEnable = function (enable) {
+            this.enabled = enable;
+        }
+
         this.getAngles = function () {
             return { phi: spherical.phi, theta: spherical.theta };
         }
@@ -802,7 +806,7 @@ module.exports = function () {
 
         function handleMouseDownRotate(event) {
 
-            console.log( 'handleMouseDownRotate' );
+            console.log('handleMouseDownRotate');
 
             rotateStart.set(event.clientX, event.clientY);
 
@@ -1052,7 +1056,7 @@ module.exports = function () {
 
         function onMouseDown(event) {
 
-            if (scope.enabled === false)
+            if (scope.enabled == false)
                 return;
 
             event.preventDefault();
@@ -1103,7 +1107,7 @@ module.exports = function () {
 
         function onMouseMove(event) {
 
-            if (scope.enabled === false)
+            if (scope.enabled == false)
                 return;
 
             event.preventDefault();
@@ -1135,7 +1139,7 @@ module.exports = function () {
 
         function onMouseUp(event) {
 
-            if (scope.enabled === false)
+            if (scope.enabled == false)
                 return;
 
             handleMouseUp(event);
