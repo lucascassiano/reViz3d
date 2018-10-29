@@ -33,7 +33,7 @@ export default class viewerHelper {
 
         var renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
-            antialias: false,
+            antialias: true,
             alpha: true,
             //performance improvements
             preserveDrawingBuffer: false,

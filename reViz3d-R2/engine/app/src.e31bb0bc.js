@@ -300,6 +300,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _paper = _interopRequireDefault(require("paper"));
 
+var _index = require("./index");
+
 var Slider2D =
 /*#__PURE__*/
 function (_Component) {
@@ -331,32 +333,35 @@ function (_Component) {
       pathX.moveTo(start);
       pathX.lineTo(start.add([width, 0]));
       var axisX = new _paper.default.Path();
-      axisX.strokeColor = 'black';
+      axisX.strokeColor = _index.config.color3;
       var start = new _paper.default.Point(0, center.y);
       axisX.moveTo(start);
       axisX.lineTo(start.add([width, 0]));
       var axisY = new _paper.default.Path();
-      axisY.strokeColor = 'black';
+      axisY.strokeColor = _index.config.color3;
       var start = new _paper.default.Point(center.x, 0);
       axisY.moveTo(start);
       axisY.lineTo(start.add([0, height])); //myCircle.selected = true;
 
       var tool1 = new _paper.default.Tool();
       var pos = center;
-      var myCircle = new _paper.default.Path.Circle(pos, 5);
-      myCircle.strokeColor = 'black';
-      myCircle.fillColor = 'black';
+      var myCircle = new _paper.default.Path.Circle(pos, 5); //myCircle.strokeColor = config.color3;
+
+      myCircle.fillColor = _index.config.color3;
 
       myCircle.onMouseEnter = function (event) {
-        myCircle.fillColor = 'white';
+        myCircle.fillColor = _index.config.colorHigh;
+        myCircle.strokeColor = _index.config.color3;
       };
 
       myCircle.onMouseLeave = function (event) {
-        myCircle.fillColor = 'black';
+        myCircle.fillColor = _index.config.color3;
+        myCircle.strokeColor = _index.config.color3;
       };
 
       myCircle.onMouseDrag = function (event) {
-        myCircle.fillColor = 'white';
+        myCircle.fillColor = _index.config.colorHigh; //myCircle.strokeColor = config.color0;
+
         pos = event.point;
         if (pos.x <= 0) pos.x = 0;else if (pos.x >= width) pos.x = width;
         if (pos.y <= 0) pos.y = 0;else if (pos.y >= height) pos.y = height;
@@ -413,7 +418,7 @@ function (_Component) {
 }(_react.Component);
 
 exports.default = Slider2D;
-},{}],"controls/LineEditor.js":[function(require,module,exports) {
+},{"./index":"controls/index.js"}],"controls/LineEditor.js":[function(require,module,exports) {
 "use strict";
 
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
@@ -443,6 +448,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _paper = _interopRequireDefault(require("paper"));
 
+var _index = require("./index");
+
 var LineEditor =
 /*#__PURE__*/
 function (_Component) {
@@ -463,62 +470,65 @@ function (_Component) {
           height = _canvas$getBoundingCl.height;
 
       var center = new _paper.default.Point(width / 2, height / 2);
-      var pathY = new _paper.default.Path();
-      pathY.strokeColor = colorLines;
-      var start = new _paper.default.Point(center.x, 0);
-      pathY.moveTo(start);
-      pathY.lineTo(start.add([0, height]));
-      var pathX = new _paper.default.Path();
-      pathX.strokeColor = colorLines;
-      var start = new _paper.default.Point(0, center.y);
-      pathX.moveTo(start);
-      pathX.lineTo(start.add([width, 0]));
-      var axisX = new _paper.default.Path();
-      axisX.strokeColor = 'black';
-      var start = new _paper.default.Point(0, center.y);
-      axisX.moveTo(start);
-      axisX.lineTo(start.add([width, 0]));
-      var axisY = new _paper.default.Path();
-      axisY.strokeColor = 'black';
-      var start = new _paper.default.Point(center.x, 0);
-      axisY.moveTo(start);
-      axisY.lineTo(start.add([0, height])); //myCircle.selected = true;
+      var myPath = new _paper.default.Path({
+        strokeWidth: 2,
+        strokeCap: 'round'
+      });
+      myPath.strokeColor = _index.config.color3;
+      var points = _this.props.points || [];
+      var step = (width - 10) / (points.length - 1);
+      var circles = [];
 
+      var _loop = function _loop() {
+        var point = new _paper.default.Point(5 + i * step, height - points[i]);
+        myPath.add(point);
+        var segment = myPath.segments[i];
+        var circle = new _paper.default.Path.Circle(point, 3);
+        circle.fillColor = 'rgba(0,0,0,0.25)';
+
+        circle.onMouseEnter = function (event) {
+          event.target.fillColor = _index.config.colorHigh;
+        };
+
+        circle.onMouseLeave = function (event) {
+          event.target.fillColor = 'rgba(0,0,0,0.25)';
+        };
+
+        circle.onMouseUp = function (event) {
+          event.target.fillColor = 'rgba(0,0,0,0.25)';
+        };
+
+        circle.onMouseDrag = function (event) {
+          event.target.fillColor = _index.config.colorHigh;
+          pos = event.point;
+          if (pos.y <= 0) pos.y = 0;else if (pos.y >= height) pos.y = height;
+          event.target.position.y = pos.y;
+          segment.point.y = pos.y;
+          var x = pos.x / width - 0.5;
+          var y = 0.5 - pos.y / height;
+          if (_this.props.onChange) _this.props.onChange({
+            x: x,
+            y: y,
+            point: pos,
+            segments: myPath.segments
+          });
+
+          _this.setState({
+            x: x,
+            y: y
+          });
+        };
+
+        circles.push(circle);
+      };
+
+      for (var i = 0; i < points.length; i++) {
+        _loop();
+      }
+
+      myPath.smooth();
       var tool1 = new _paper.default.Tool();
       var pos = center;
-      var myCircle = new _paper.default.Path.Circle(pos, 5);
-      myCircle.strokeColor = 'black';
-      myCircle.fillColor = 'black';
-
-      myCircle.onMouseEnter = function (event) {
-        myCircle.fillColor = 'white';
-      };
-
-      myCircle.onMouseLeave = function (event) {
-        myCircle.fillColor = 'black';
-      };
-
-      myCircle.onMouseDrag = function (event) {
-        myCircle.fillColor = 'white';
-        pos = event.point;
-        if (pos.x <= 0) pos.x = 0;else if (pos.x >= width) pos.x = width;
-        if (pos.y <= 0) pos.y = 0;else if (pos.y >= height) pos.y = height;
-        myCircle.position = pos;
-        axisX.position.y = pos.y;
-        axisY.position.x = pos.x;
-        var x = pos.x / width - 0.5;
-        var y = 0.5 - pos.y / height;
-        if (_this.props.onChange) _this.props.onChange({
-          x: x,
-          y: y,
-          point: pos
-        });
-
-        _this.setState({
-          x: x,
-          y: y
-        });
-      };
 
       _paper.default.view.draw();
     });
@@ -545,11 +555,11 @@ function (_Component) {
           x = _this$state.x,
           y = _this$state.y;
       return _react.default.createElement("div", {
-        className: "slider-2d-container"
+        className: "line-editor"
       }, _react.default.createElement("canvas", {
+        className: "line-editor-canvas",
         ref: this.canvas,
-        width: 100,
-        height: 30
+        width: 100
       }));
     }
   }]);
@@ -557,7 +567,254 @@ function (_Component) {
 }(_react.Component);
 
 exports.default = LineEditor;
-},{}],"controls/controls.less":[function(require,module,exports) {
+},{"./index":"controls/index.js"}],"controls/CircularSlider.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _paper = _interopRequireDefault(require("paper"));
+
+var _index = require("./index");
+
+var _repl = require("repl");
+
+var CircularSlider =
+/*#__PURE__*/
+function (_Component) {
+  (0, _inherits2.default)(CircularSlider, _Component);
+
+  function CircularSlider(props) {
+    var _this;
+
+    (0, _classCallCheck2.default)(this, CircularSlider);
+    _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(CircularSlider).call(this, props));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "draw", function (canvas) {
+      _paper.default.setup(canvas);
+
+      var _canvas$getBoundingCl = canvas.getBoundingClientRect(),
+          width = _canvas$getBoundingCl.width,
+          height = _canvas$getBoundingCl.height;
+
+      var center = new _paper.default.Point(width / 2, height / 2);
+      var radius = _this.props.radius || height / 2 - 20;
+      var bgcircle = new _paper.default.Path.Circle(center, radius);
+      bgcircle.strokeWidth = 5;
+      bgcircle.strokeColor = _index.config.color1;
+      var circleSize = 6;
+      var startPos = new _paper.default.Point(center.x, 14 + circleSize);
+      var line = new _paper.default.Path.Line(center, startPos);
+      line.strokeColor = _index.config.color1;
+      line.strokeCap = 'round';
+      line.strokeWidth = 5;
+      var circle = new _paper.default.Path.Circle(startPos, circleSize);
+      circle.fillColor = _index.config.color3;
+      var through = new _paper.default.Point(60, 20);
+      var to = new _paper.default.Point(80, 80);
+      var arc = new _paper.default.Path.Arc(startPos, startPos, startPos); //arc.add(startPos);
+
+      arc.strokeColor = 'black';
+
+      circle.onMouseEnter = function (event) {
+        event.target.fillColor = _index.config.colorHigh;
+      };
+
+      circle.onMouseLeave = function (event) {
+        event.target.fillColor = _index.config.color3;
+      };
+
+      circle.onMouseUp = function (event) {
+        event.target.fillColor = _index.config.color3;
+      };
+
+      circle.onMouseDrag = function (event) {
+        event.target.fillColor = _index.config.colorHigh;
+        var point = event.point;
+        var atan = Math.atan2(point.x - width / 2, point.y - height / 2);
+        var deg = -atan / (Math.PI / 180) + 180; // final (0-360 positive) degrees from mouse position 
+
+        var X = Math.round(radius * Math.sin(deg * Math.PI / 180));
+        var Y = Math.round(radius * -Math.cos(deg * Math.PI / 180));
+        circle.position.x = X + center.x;
+        circle.position.y = Y + center.y;
+        var halfX = Math.round(radius * Math.sin(deg * 0.5 * Math.PI / 180));
+        var halfY = Math.round(radius * -Math.cos(deg * 0.5 * Math.PI / 180)); //arc
+
+        var throughPoint = new _paper.default.Point(halfX + center.x, halfY + center.y);
+        var toPoint = new _paper.default.Point(X + center.x, Y + center.y); //arc.removeSegments();
+        //arc = new paper.Path.Arc(startPos, throughPoint, toPoint);
+        //arc.strokeColor = 'black';
+        //line.removeSegments();
+
+        line.lastSegment.point = new _paper.default.Point(circle.position.x, circle.position.y);
+
+        _this.setState({
+          angle: deg
+        }); //arc.arcTo(throughPoint, toPoint);
+
+
+        if (_this.props.onChange) _this.props.onChange(deg);
+      };
+
+      _paper.default.view.draw();
+    });
+    _this.state = {
+      angle: 0
+    };
+    _this.canvas = _react.default.createRef(); // this.draw();
+
+    return _this;
+  }
+
+  (0, _createClass2.default)(CircularSlider, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      // window.addEventListener('mousemove', this.onMouseMove);
+      if (this.canvas.current) this.draw(this.canvas.current);
+    }
+    /*
+    var mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
+               var atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+               deg = -atan/(Math.PI/180) + 180; // final (0-360 positive) degrees from mouse position 
+                
+               X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+               Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
+    */
+    // Create a Paper.js Path to draw a line into it:
+
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state = this.state,
+          x = _this$state.x,
+          y = _this$state.y;
+      return _react.default.createElement("div", {
+        className: "circular-slider"
+      }, _react.default.createElement("canvas", {
+        className: "circular-slider-canvas",
+        ref: this.canvas
+      }), _react.default.createElement("div", {
+        className: "angle"
+      }, this.state.angle.toFixed(2)));
+    }
+  }]);
+  return CircularSlider;
+}(_react.Component);
+
+exports.default = CircularSlider;
+},{"./index":"controls/index.js"}],"controls/Collapsible.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _index = require("./index");
+
+var Collapsible =
+/*#__PURE__*/
+function (_Component) {
+  (0, _inherits2.default)(Collapsible, _Component);
+
+  function Collapsible(props) {
+    var _this;
+
+    (0, _classCallCheck2.default)(this, Collapsible);
+    _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(Collapsible).call(this, props));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onClickContainer", function () {
+      _this.setState({
+        open: !_this.state.open
+      });
+    });
+    _this.state = {
+      open: false
+    };
+    _this.container = _react.default.createRef();
+    _this.content = _react.default.createRef();
+    return _this;
+  }
+
+  (0, _createClass2.default)(Collapsible, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var open = this.state.open;
+      return _react.default.createElement("div", {
+        className: "collapsible",
+        ref: this.container
+      }, _react.default.createElement("div", {
+        className: "top"
+      }, _react.default.createElement("div", {
+        className: "label",
+        onClick: this.onClickContainer
+      }, this.props.label || "collapsible"), _react.default.createElement("div", {
+        className: open ? "arrow arrow-up" : "arrow"
+      }, _react.default.createElement("svg", {
+        width: "12",
+        viewBox: "0 0 79 40",
+        xmlns: "http://www.w3.org/2000/svg"
+      }, _react.default.createElement("g", {
+        fill: "none",
+        fillRule: "evenodd"
+      }, _react.default.createElement("polygon", {
+        fill: _index.config.colorText,
+        points: "0 0 79 0 39.5 39.5"
+      }))))), _react.default.createElement("div", {
+        className: open ? "content content-open" : "content content-closed",
+        ref: this.container
+      }, this.props.children));
+    }
+  }]);
+  return Collapsible;
+}(_react.Component);
+
+exports.default = Collapsible;
+},{"./index":"controls/index.js"}],"controls/controls.less":[function(require,module,exports) {
 "use strict";
 
 var reloadCSS = require('_css_loader');
@@ -584,13 +841,40 @@ Object.defineProperty(exports, "LineEditor", {
     return _LineEditor.default;
   }
 });
+Object.defineProperty(exports, "CircularSlider", {
+  enumerable: true,
+  get: function get() {
+    return _CircularSlider.default;
+  }
+});
+Object.defineProperty(exports, "Collapsible", {
+  enumerable: true,
+  get: function get() {
+    return _Collapsible.default;
+  }
+});
+exports.config = void 0;
 
 var _Slider2D = _interopRequireDefault(require("./Slider2D"));
 
 var _LineEditor = _interopRequireDefault(require("./LineEditor"));
 
+var _CircularSlider = _interopRequireDefault(require("./CircularSlider"));
+
+var _Collapsible = _interopRequireDefault(require("./Collapsible"));
+
 require("./controls.less");
-},{"./Slider2D":"controls/Slider2D.js","./LineEditor":"controls/LineEditor.js","./controls.less":"controls/controls.less"}],"App.js":[function(require,module,exports) {
+
+var config = {
+  color0: '#ffffff',
+  color1: '#eeeeee',
+  color2: '#888888',
+  color3: '#222222',
+  colorText: '#111',
+  colorHigh: '#00baff'
+};
+exports.config = config;
+},{"./Slider2D":"controls/Slider2D.js","./LineEditor":"controls/LineEditor.js","./CircularSlider":"controls/CircularSlider.js","./Collapsible":"controls/Collapsible.js","./controls.less":"controls/controls.less"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
@@ -675,7 +959,11 @@ function (_Component) {
         className: "panel"
       }, _react.default.createElement(_controls.Slider2D, {
         onChange: this.onChange
-      }), _react.default.createElement(_controls.LineEditor, null)));
+      }), _react.default.createElement(_controls.LineEditor, {
+        points: [0, 1, 2, 2, 5, 2]
+      }), _react.default.createElement(_controls.Collapsible, {
+        label: "Circular Slider"
+      }, _react.default.createElement(_controls.CircularSlider, null))));
     }
   }]);
   return App;
@@ -2645,7 +2933,7 @@ function () {
     this.camera.lookAt(new THREE.Vector3());
     var renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: false,
+      antialias: true,
       alpha: true,
       //performance improvements
       preserveDrawingBuffer: false,

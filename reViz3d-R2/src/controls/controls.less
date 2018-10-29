@@ -1,9 +1,10 @@
 @background: #fff;
 @color0: #fff; //bg
-@color1: #bbb;
+@color1: #eee;
 @color2: #888;
-@color3: #444;
-@colorText: #333;
+@color3: #222;
+@colorHigh: #00baff;
+@colorText: #111;
 
 .card{
     background:@background;
@@ -17,6 +18,7 @@
     padding:6px;
     min-width: 100px;
     min-height: 20px;
+    border-radius: 1px;
 }
 
 .panel > *{
@@ -29,10 +31,105 @@
     flex-direction: column;
     min-height: 100px;
     min-width: 100px;
+    border-radius: 2px;
 }
 
 .slider-2d-canvas{
     background:@color1;
-    width: 100px;
+    width: 200px;
     height: 100px;
+}
+
+.line-editor-canvas{
+    background:@color1;
+    width:100%;
+    height: 30px;
+}
+
+.circular-slider{
+    height: auto;
+}
+
+.circular-slider-canvas{
+    height: auto;
+    width: auto;
+    min-height: 50px;
+}
+
+/*-- Collapsable --*/
+.collapsible {
+    background-color: @color1;
+    color: @colorText;
+    width: 100%;  
+}
+
+.collapsible .top{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 90% 10%;
+    align-items: center;
+    background:@color1;
+    color: @colorText;
+}
+
+.collapsible .top:hover{
+    opacity: 1;
+}
+
+.collapsible:hover .arrow{
+    opacity: 1;
+}
+
+.collapsible .label{
+    cursor: pointer;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    padding:5px;
+    align-items: center;
+}
+
+.collapsible .arrow{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 22px;
+    opacity: 0.5;
+    transition: 0.5s;
+}
+
+.collapsible .arrow > svg{
+    transition: 0.25s;
+}
+
+.collapsible .arrow-up >svg{
+    transform: rotate(180deg);
+}
+
+.collapsible > .content{
+    background: @color0;
+    transition: 0.1s;
+    width: 100%;
+    display: block;
+    flex-direction: column;
+    overflow: scroll;
+    justify-content: center;
+    border: solid @color0 1px;
+    padding:0px;
+    margin:0px;
+}
+
+.collapsible > .content-open {
+    height: auto;
+    opacity: 1;
+
+    border-bottom: 2px solid @color2;
+}
+
+.collapsible > .content-closed{
+    height: 0px;
+    overflow: hidden;
+    opacity: 1;
+    border-bottom: 2px solid @color2;
 }

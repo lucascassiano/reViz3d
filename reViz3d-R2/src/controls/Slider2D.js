@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import paper from "paper";
+import { config } from './index';
 
 export default class Slider2D extends Component {
     constructor(props) {
@@ -40,13 +41,13 @@ export default class Slider2D extends Component {
         pathX.lineTo(start.add([width, 0]));
 
         var axisX = new paper.Path();
-        axisX.strokeColor = 'black';
+        axisX.strokeColor = config.color3;
         var start = new paper.Point(0, center.y);
         axisX.moveTo(start);
         axisX.lineTo(start.add([width, 0]));
 
         var axisY = new paper.Path();
-        axisY.strokeColor = 'black';
+        axisY.strokeColor = config.color3;
         var start = new paper.Point(center.x, 0);
         axisY.moveTo(start);
         axisY.lineTo(start.add([0, height]));
@@ -54,22 +55,23 @@ export default class Slider2D extends Component {
         //myCircle.selected = true;
         var tool1 = new paper.Tool();
         let pos = center;
-        var myCircle = new paper.Path.Circle(pos, 5);
-        myCircle.strokeColor = 'black';
-        myCircle.fillColor = 'black';
+        let myCircle = new paper.Path.Circle(pos, 5);
+        //myCircle.strokeColor = config.color3;
+        myCircle.fillColor = config.color3;
 
         myCircle.onMouseEnter = (event) => {
-            myCircle.fillColor = 'white';
-
+            myCircle.fillColor = config.colorHigh;
+            myCircle.strokeColor = config.color3;
         }
 
         myCircle.onMouseLeave = (event) => {
-            myCircle.fillColor = 'black';
-
+            myCircle.fillColor = config.color3;
+            myCircle.strokeColor = config.color3;
         }
 
         myCircle.onMouseDrag = (event) => {
-            myCircle.fillColor = 'white';
+            myCircle.fillColor = config.colorHigh;
+            //myCircle.strokeColor = config.color0;
             pos = event.point;
             if (pos.x <= 0)
                 pos.x = 0;

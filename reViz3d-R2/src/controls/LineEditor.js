@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import paper from "paper";
+import { config } from "./index";
 
 export default class LineEditor extends Component {
     constructor(props) {
@@ -27,77 +28,71 @@ export default class LineEditor extends Component {
         let { width, height } = canvas.getBoundingClientRect();
         let center = new paper.Point(width / 2, height / 2);
 
-        var pathY = new paper.Path();
-        pathY.strokeColor = colorLines;
-        var start = new paper.Point(center.x, 0);
-        pathY.moveTo(start);
-        pathY.lineTo(start.add([0, height]));
 
-        var pathX = new paper.Path();
-        pathX.strokeColor = colorLines;
-        var start = new paper.Point(0, center.y);
-        pathX.moveTo(start);
-        pathX.lineTo(start.add([width, 0]));
+        var myPath = new paper.Path({ strokeWidth: 2, strokeCap: 'round' });
+        myPath.strokeColor = config.color3;
 
-        var axisX = new paper.Path();
-        axisX.strokeColor = 'black';
-        var start = new paper.Point(0, center.y);
-        axisX.moveTo(start);
-        axisX.lineTo(start.add([width, 0]));
+        let points = this.props.points || [];
 
-        var axisY = new paper.Path();
-        axisY.strokeColor = 'black';
-        var start = new paper.Point(center.x, 0);
-        axisY.moveTo(start);
-        axisY.lineTo(start.add([0, height]));
+        let step = (width - 10) / (points.length - 1);
+        let circles = [];
 
-        //myCircle.selected = true;
+        for (var i = 0; i < points.length; i++) {
+            let point = new paper.Point(5 + i * step, height - points[i]);
+            myPath.add(point);
+            let segment = myPath.segments[i];
+
+            let circle = new paper.Path.Circle(point, 3)
+
+            circle.fillColor = 'rgba(0,0,0,0.25)';
+
+            circle.onMouseEnter = (event) => {
+                event.target.fillColor = config.colorHigh;
+            }
+
+            circle.onMouseLeave = (event) => {
+                event.target.fillColor = 'rgba(0,0,0,0.25)';
+            }
+
+            circle.onMouseUp = (event) => {
+                event.target.fillColor = 'rgba(0,0,0,0.25)';
+            }
+
+            circle.onMouseDrag = (event) => {
+                event.target.fillColor = config.colorHigh;
+                pos = event.point;
+
+                if (pos.y <= 0)
+                    pos.y = 0;
+                else if (pos.y >= height)
+                    pos.y = height;
+
+                event.target.position.y = pos.y;
+
+                segment.point.y = pos.y;
+                let x = pos.x / width - 0.5;
+                let y = 0.5 - (pos.y / height);
+
+                if (this.props.onChange)
+                    this.props.onChange({ x, y, point: pos, segments: myPath.segments });
+
+                this.setState({ x, y });
+            }
+
+            circles.push(circle);
+        }
+
+        myPath.smooth();
         var tool1 = new paper.Tool();
         let pos = center;
-        var myCircle = new paper.Path.Circle(pos, 5);
-        myCircle.strokeColor = 'black';
-        myCircle.fillColor = 'black';
 
-        myCircle.onMouseEnter = (event) => {
-            myCircle.fillColor = 'white';
-
-        }
-
-        myCircle.onMouseLeave = (event) => {
-            myCircle.fillColor = 'black';
-
-        }
-
-        myCircle.onMouseDrag = (event) => {
-            myCircle.fillColor = 'white';
-            pos = event.point;
-            if (pos.x <= 0)
-                pos.x = 0;
-            else if (pos.x >= width)
-                pos.x = width;
-            if (pos.y <= 0)
-                pos.y = 0;
-            else if (pos.y >= height)
-                pos.y = height;
-
-            myCircle.position = pos;
-            axisX.position.y = pos.y;
-            axisY.position.x = pos.x;
-
-            let x = pos.x / width - 0.5;
-            let y = 0.5 - (pos.y / height);
-            if (this.props.onChange)
-                this.props.onChange({ x, y, point: pos });
-
-            this.setState({ x, y });
-        }
 
         paper.view.draw();
     }
     render() {
         let { x, y } = this.state;
-        return <div className="slider-2d-container">
-            <canvas ref={this.canvas} width={100} height={30}></canvas>
+        return <div className="line-editor">
+            <canvas className="line-editor-canvas" ref={this.canvas} width={100}></canvas>
         </div>
     }
 }

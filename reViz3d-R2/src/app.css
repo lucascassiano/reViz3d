@@ -2,7 +2,7 @@ button{
     background:rgb(87, 174, 255);
     padding:10px;
     color:#FFF;
-    width: 0 auto;
+    width: auto;
     margin:none;
     border:none;
     text-align: center;

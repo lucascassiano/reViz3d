@@ -11,7 +11,7 @@ import { toggleMenu } from "./store";
 
 //import Menu from "./components/Menu";
 
-import { Slider2D, LineEditor } from "./controls";
+import { Slider2D, LineEditor, CircularSlider, Collapsible } from "./controls";
 //import "./controls/controls.less";
 
 class App extends Component {
@@ -26,7 +26,10 @@ class App extends Component {
             <div className="controls-menu">
                 <div className="panel">
                     <Slider2D onChange={this.onChange} />
-                    <LineEditor />
+                    <LineEditor points={[0, 1, 2, 2, 5, 2]} />
+                    <Collapsible label="Circular Slider">
+                        <CircularSlider />
+                    </Collapsible>
                 </div >
             </div>
         );
