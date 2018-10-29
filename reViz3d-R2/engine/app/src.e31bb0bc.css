@@ -139,6 +139,7 @@ h1{
   min-width: 100px;
   min-height: 20px;
   border-radius: 1px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.4);
 }
 .panel > * {
   margin-top: 5px;
@@ -377,4 +378,13 @@ canvas {
 
   .viewer-helper:hover{
     opacity: 1;
+  }
+
+  /*3d Env Menu Object*/
+  .env-menu{
+    z-index: 2;
+    background:#fff;
+    color:#000;
+    position: absolute;
+    top:50%;
   }

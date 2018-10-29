@@ -544,6 +544,7 @@ module.exports = function () {
 
             scope.pointerHover(getPointer(event));
             scope.pointerDown(getPointer(event));
+            //scope.dispatchEvent(mouseDownEvent);
 
         }
 

@@ -2457,10 +2457,12 @@ function () {
     var color = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0x0078A4;
     (0, _classCallCheck2.default)(this, viewerHelper);
     (0, _defineProperty2.default)(this, "onMouseDown", function (event) {
+      if (!_this.enabled) return;
       _this.mouseMoving = false;
       _this.listenExternal = false;
     });
     (0, _defineProperty2.default)(this, "onMouseMove", function (event) {
+      if (!_this.enabled) return;
       _this.mouseMoving = true;
 
       var rect = _this.canvas.getBoundingClientRect();
@@ -2469,6 +2471,8 @@ function () {
       _this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     });
     (0, _defineProperty2.default)(this, "onMouseUp", function (event) {
+      if (!_this.enabled) return;
+
       if (_this.mouseMoving == false) {
         if (_this.INTERSECTED) {
           _this.setViewAngle(_this.INTERSECTED.name);
@@ -2930,6 +2934,7 @@ function () {
     this.camera = new THREE.PerspectiveCamera(45, this.canvas.offsetWidth / this.canvas.offsetHeight, 0.1, 10000);
     this.camera.position.set(0, 10, -30);
     this.camera.lookAt(new THREE.Vector3());
+    this.enabled = true;
     var renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
@@ -3635,7 +3640,7 @@ module.exports = function () {
       if (!scope.enabled) return;
       event.preventDefault();
       scope.pointerHover(getPointer(event));
-      scope.pointerDown(getPointer(event));
+      scope.pointerDown(getPointer(event)); //scope.dispatchEvent(mouseDownEvent);
     }
 
     function onPointerMove(event) {
@@ -4342,8 +4347,9 @@ var Viewer = function Viewer() {
 
     if (_this.INTERSECTED_box) {
       _this.INTERSECTED_box.update();
-    } //stats.begin();
+    }
 
+    if (_this.controls.enabled) _this.controls.update(); //stats.begin();
 
     _this.cube.rotation.x = window.pos3d.x * 5;
     _this.cube.rotation.y = window.pos3d.y * 5; // your code goes here
@@ -4391,6 +4397,7 @@ var Viewer = function Viewer() {
   */
   //scene.add(cube);
 
+  var tControl = new TransformControls(this.camera, this.renderer.domElement);
   this.controls = new OrbitControls(this.camera, this.canvas);
   var sky = new _sky.default();
   this.scene.add(sky.getObject(THREE)); //cubeview
@@ -4414,22 +4421,16 @@ var Viewer = function Viewer() {
   var material = new THREE.MeshBasicMaterial({
     color: 0x00ff00
   });
-  this.cube = new THREE.Mesh(geometry, material);
-  var tControl = new TransformControls(this.camera, this.canvas); //tControl.addEventListener('change', this.animate);
+  this.cube = new THREE.Mesh(geometry, material); //tControl.addEventListener('change', this.animate);
 
-  tControl.addEventListener('dragging-changed', function (event) {
-    //orbit.enabled = !event.value;
-    if (!event.value == false) {
-      _this.controls.setEnable(false);
-
-      console.log("enabled", _this.controls.enabled);
-    } else {
-      _this.controls.setEnable(true); //this.controls.update();
-
-    }
-  }); //var mesh = new THREE.Mesh(geometry, material);
-  //scene.add(mesh);
-
+  tControl.addEventListener('mouseDown', function (event) {
+    _this.controls.enabled = false;
+    viewerHelper.enabled = false;
+  });
+  tControl.addEventListener('mouseUp', function (event) {
+    _this.controls.enabled = true;
+    viewerHelper.enabled = true;
+  });
   tControl.attach(this.cube);
   this.scene.add(tControl);
   this.scene.add(this.cube);
@@ -4438,6 +4439,7 @@ var Viewer = function Viewer() {
 window.onload = function () {
   var viewer = new Viewer();
   viewer.animate();
+  window.viewer = viewer;
 }; //load obj
 // instantiate a loader
 //var loader = new THREE.OBJLoader();

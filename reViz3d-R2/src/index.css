@@ -141,3 +141,12 @@ canvas {
   .viewer-helper:hover{
     opacity: 1;
   }
+
+  /*3d Env Menu Object*/
+  .env-menu{
+    z-index: 2;
+    background:#fff;
+    color:#000;
+    position: absolute;
+    top:50%;
+  }

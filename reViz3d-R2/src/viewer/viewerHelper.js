@@ -31,6 +31,7 @@ export default class viewerHelper {
         this.camera.position.set(0, 10, -30)
         this.camera.lookAt(new THREE.Vector3());
 
+        this.enabled = true;
         var renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
             antialias: true,
@@ -80,11 +81,15 @@ export default class viewerHelper {
     }
 
     onMouseDown = (event) => {
+        if (!this.enabled) return;
+
         this.mouseMoving = false;
         this.listenExternal = false;
     }
 
     onMouseMove = (event) => {
+        if (!this.enabled) return;
+
         this.mouseMoving = true;
         var rect = this.canvas.getBoundingClientRect();
         this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -93,6 +98,8 @@ export default class viewerHelper {
 
     //this identifies if the click was stable or the user was just orbiting the cube
     onMouseUp = (event) => {
+        if (!this.enabled) return;
+
         if (this.mouseMoving == false) {
             if (this.INTERSECTED) {
                 this.setViewAngle(this.INTERSECTED.name);
