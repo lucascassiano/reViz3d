@@ -1,4 +1,12 @@
 # reViz
+
+[![Build Status](https://travis-ci.org/lucascassiano/reViz3d.svg?branch=master)](https://travis-ci.org/lucascassiano/reViz3d)
+[![GitHub license](https://img.shields.io/github/license/lucascassiano/reViz3d.svg)](https://github.com/lucascassiano/reViz3d/blob/master/LICENSE)
+[![npm version](https://img.shields.io/npm/v/fastexpress.svg)](https://www.npmjs.com/package/fastexpress)
+
+---
+
+
 3d Visualization toolkit for react based apps.
 For Downloads and user guide, go to:
 https://lucascassiano.github.io/reViz3d/
