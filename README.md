@@ -51,3 +51,12 @@ npm run build-mac
 npm run build-linux
 ```
 
+# Contributing
+
+## Road map
+### ReViz3D R1
+Release 1 was merely a proof of concept. Was it possible to integrate all those tools into one simple application?
+- IoT Integration
+
+### ReViz3D R2 -- maybe will be renamed
+- FTIII Integration

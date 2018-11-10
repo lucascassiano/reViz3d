@@ -129,7 +129,7 @@ h1{
     top:30px;
     left:10px;
 }.card {
-  background: #fff;
+  background: #F9F9FB;
 }
 .panel {
   background: #fff;
@@ -153,12 +153,35 @@ h1{
   border-radius: 2px;
 }
 .slider-2d-canvas {
-  background: #eee;
-  width: 200px;
+  background: #F7F9FD;
+  width: 100%;
   height: 100px;
 }
+.slider-2d-values {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  background: #F7F9FD;
+  font-size: 10pt;
+}
+.slider-2d-values > div {
+  display: grid;
+  grid-template-columns: minmax(10px, 10%) 1fr;
+  border: solid 1px #DDEBF7;
+  height: 0 auto;
+}
+.slider-2d-values > div > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #425A70;
+  padding: 1px 2px;
+}
+.slider-2d-values .label {
+  color: #66788A;
+  font-size: 8pt;
+}
 .line-editor-canvas {
-  background: #eee;
+  background: #F7F9FD;
   width: 100%;
   height: 30px;
 }
@@ -172,7 +195,6 @@ h1{
 }
 /*-- Collapsable --*/
 .collapsible {
-  background-color: #eee;
   color: #111;
   width: 100%;
 }
@@ -181,8 +203,7 @@ h1{
   width: 100%;
   grid-template-columns: 90% 10%;
   align-items: center;
-  background: #eee;
-  color: #111;
+  color: #425A70;
 }
 .collapsible .top:hover {
   opacity: 1;
@@ -228,13 +249,69 @@ h1{
 .collapsible > .content-open {
   height: auto;
   opacity: 1;
-  border-bottom: 2px solid #888;
+  border-bottom: 2px solid #DDEBF7;
 }
 .collapsible > .content-closed {
   height: 0px;
   overflow: hidden;
   opacity: 1;
-  border-bottom: 2px solid #888;
+  border-bottom: 2px solid #DDEBF7;
+}
+/*
+@background: #fff;
+@color0: #fff; //bg
+@color1: #eee;
+@color2: #888;
+@color3: #222;
+@colorHigh: #00baff;
+@colorText: #111;
+
+@text-default: #425A70;
+@text-selected: #1070CA;
+@text-sucess: #00783E;
+@text-muted: #66788A;
+
+@neutral-lightest: #F9F9FB;
+@neutral-light: #E4E7EB;
+@neutral-base: #425A70;
+@neutral-dark: #234361;
+
+@blue-lightest: #F7F9FD;
+@blue-light: #DDEBF7;
+@blue-base: #1070CA;
+@blue-dark: #084B8A;
+
+@red-lightest: #FEF6F6;
+@red-light: #FAE2E2;
+@red-base: #EC4C47;
+@red-dark: #BF0E08;
+*/
+.side-menu {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 40px;
+  height: auto;
+  top: 50vh;
+  transform: translate(2px, -50%);
+}
+.side-menu > .btn {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #F9F9FB;
+  border-radius: 1px;
+  padding: 2px;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+  color: #425A70;
+  border: solid 1px #E4E7EB;
+}
+.side-menu > .btn:hover {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  background: #E4E7EB;
+  cursor: pointer;
 }
 body{
     padding:0px;

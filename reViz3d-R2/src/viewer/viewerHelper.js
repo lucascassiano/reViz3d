@@ -194,8 +194,8 @@ export default class viewerHelper {
         bottom.rotation.x = Math.PI / 2;
         this.scene.add(bottom);
 
-        var shadow = this.createTexturedPlane(size + 1.5, texture_shadow, false);
-        shadow.position.y = -size / 2 - 0.4;
+        var shadow = this.createTexturedPlane(size + 4, texture_shadow, false);
+        shadow.position.y = -size / 2 - 1;
         shadow.rotation.x = -Math.PI / 2;
         this.scene.add(shadow);
 
@@ -336,7 +336,7 @@ export default class viewerHelper {
 
     createTexturedPlane = (size, texturePath, side = THREE.DoubleSide) => {
         var texture = new THREE.TextureLoader().load(texturePath);
-        var material = new THREE.MeshBasicMaterial({ map: texture, transparent: false, visible: true });
+        var material = new THREE.MeshBasicMaterial({ map: texture, transparent: false, visible: true, side });
         var geometry = new THREE.PlaneGeometry(size, size);
         var mesh = new THREE.Mesh(geometry, material);
         return mesh;

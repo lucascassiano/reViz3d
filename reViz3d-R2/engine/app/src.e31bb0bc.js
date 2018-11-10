@@ -1,4 +1,4 @@
-process.env.HMR_PORT=61618;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=50614;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -298,7 +298,7 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _paper = _interopRequireDefault(require("paper"));
+var _paper = _interopRequireWildcard(require("paper"));
 
 var _index = require("./index");
 
@@ -315,7 +315,7 @@ function (_Component) {
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "draw", function (canvas) {
       _paper.default.setup(canvas);
 
-      var colorLines = 'rgba(0,0,0,0.1)';
+      var colorLines = _index.Colors.neutral_light;
 
       var _canvas$getBoundingCl = canvas.getBoundingClientRect(),
           width = _canvas$getBoundingCl.width,
@@ -323,22 +323,22 @@ function (_Component) {
 
       var center = new _paper.default.Point(width / 2, height / 2);
       var pathY = new _paper.default.Path();
-      pathY.strokeColor = colorLines;
+      pathY.strokeColor = _index.Colors.neutral_light;
       var start = new _paper.default.Point(center.x, 0);
       pathY.moveTo(start);
       pathY.lineTo(start.add([0, height]));
       var pathX = new _paper.default.Path();
-      pathX.strokeColor = colorLines;
+      pathX.strokeColor = _index.Colors.neutral_light;
       var start = new _paper.default.Point(0, center.y);
       pathX.moveTo(start);
       pathX.lineTo(start.add([width, 0]));
       var axisX = new _paper.default.Path();
-      axisX.strokeColor = _index.config.color3;
+      axisX.strokeColor = _index.Colors.blue_base;
       var start = new _paper.default.Point(0, center.y);
       axisX.moveTo(start);
       axisX.lineTo(start.add([width, 0]));
       var axisY = new _paper.default.Path();
-      axisY.strokeColor = _index.config.color3;
+      axisY.strokeColor = _index.Colors.blue_base;
       var start = new _paper.default.Point(center.x, 0);
       axisY.moveTo(start);
       axisY.lineTo(start.add([0, height])); //myCircle.selected = true;
@@ -347,16 +347,16 @@ function (_Component) {
       var pos = center;
       var myCircle = new _paper.default.Path.Circle(pos, 5); //myCircle.strokeColor = config.color3;
 
-      myCircle.fillColor = _index.config.color3;
+      myCircle.fillColor = _index.Colors.blue_base;
 
       myCircle.onMouseEnter = function (event) {
-        myCircle.fillColor = _index.config.colorHigh;
-        myCircle.strokeColor = _index.config.color3;
+        myCircle.fillColor = _index.Colors.blue_dark;
+        myCircle.strokeColor = _index.Colors.blue_base;
       };
 
       myCircle.onMouseLeave = function (event) {
-        myCircle.fillColor = _index.config.color3;
-        myCircle.strokeColor = _index.config.color3;
+        myCircle.fillColor = _index.Colors.blue_base;
+        myCircle.strokeColor = _index.Colors.blue_base;
       };
 
       myCircle.onMouseDrag = function (event) {
@@ -411,7 +411,13 @@ function (_Component) {
       }, _react.default.createElement("canvas", {
         className: "slider-2d-canvas",
         ref: this.canvas
-      }), _react.default.createElement("div", null, "x: ", x.toFixed(2), " "), _react.default.createElement("div", null, "y: ", y.toFixed(2)));
+      }), _react.default.createElement("div", {
+        className: "slider-2d-values"
+      }, _react.default.createElement("div", null, _react.default.createElement("div", {
+        className: "label"
+      }, "x"), _react.default.createElement("div", null, x.toFixed(2))), _react.default.createElement("div", null, _react.default.createElement("div", {
+        className: "label"
+      }, "y"), _react.default.createElement("div", null, y.toFixed(2)))));
     }
   }]);
   return Slider2D;
@@ -474,7 +480,8 @@ function (_Component) {
         strokeWidth: 2,
         strokeCap: 'round'
       });
-      myPath.strokeColor = _index.config.color3;
+      myPath.strokeColor = _index.Colors.blue_base;
+      myPath.fillColor = _index.Colors.blue_light;
       var points = _this.props.points || [];
       var step = (width - 10) / (points.length - 1);
       var circles = [];
@@ -484,18 +491,18 @@ function (_Component) {
         myPath.add(point);
         var segment = myPath.segments[i];
         var circle = new _paper.default.Path.Circle(point, 3);
-        circle.fillColor = 'rgba(0,0,0,0.25)';
+        circle.fillColor = _index.Colors.blue_base;
 
         circle.onMouseEnter = function (event) {
           event.target.fillColor = _index.config.colorHigh;
         };
 
         circle.onMouseLeave = function (event) {
-          event.target.fillColor = 'rgba(0,0,0,0.25)';
+          event.target.fillColor = _index.Colors.blue_base;
         };
 
         circle.onMouseUp = function (event) {
-          event.target.fillColor = 'rgba(0,0,0,0.25)';
+          event.target.fillColor = _index.Colors.blue_base;
         };
 
         circle.onMouseDrag = function (event) {
@@ -621,16 +628,17 @@ function (_Component) {
       var center = new _paper.default.Point(width / 2, height / 2);
       var radius = _this.props.radius || height / 2 - 20;
       var bgcircle = new _paper.default.Path.Circle(center, radius);
-      bgcircle.strokeWidth = 5;
-      bgcircle.strokeColor = _index.config.color1;
-      var circleSize = 6;
-      var startPos = new _paper.default.Point(center.x, 14 + circleSize);
+      bgcircle.strokeWidth = 2;
+      bgcircle.strokeColor = _index.Colors.blue_light;
+      bgcircle.fillColor = _index.Colors.blue_lightest;
+      var circleSize = 5;
+      var startPos = new _paper.default.Point(center.x, 15 + circleSize);
       var line = new _paper.default.Path.Line(center, startPos);
-      line.strokeColor = _index.config.color1;
+      line.strokeColor = _index.Colors.blue_base;
       line.strokeCap = 'round';
-      line.strokeWidth = 5;
+      line.strokeWidth = 2;
       var circle = new _paper.default.Path.Circle(startPos, circleSize);
-      circle.fillColor = _index.config.color3;
+      circle.fillColor = _index.Colors.blue_base;
       var through = new _paper.default.Point(60, 20);
       var to = new _paper.default.Point(80, 80);
       var arc = new _paper.default.Path.Arc(startPos, startPos, startPos); //arc.add(startPos);
@@ -638,19 +646,19 @@ function (_Component) {
       arc.strokeColor = 'black';
 
       circle.onMouseEnter = function (event) {
-        event.target.fillColor = _index.config.colorHigh;
+        event.target.fillColor = _index.Colors.blue_dark;
       };
 
       circle.onMouseLeave = function (event) {
-        event.target.fillColor = _index.config.color3;
+        event.target.fillColor = _index.Colors.blue_base;
       };
 
       circle.onMouseUp = function (event) {
-        event.target.fillColor = _index.config.color3;
+        event.target.fillColor = _index.Colors.blue_base;
       };
 
       circle.onMouseDrag = function (event) {
-        event.target.fillColor = _index.config.colorHigh;
+        event.target.fillColor = _index.Colors.blue_dark;
         var point = event.point;
         var atan = Math.atan2(point.x - width / 2, point.y - height / 2);
         var deg = -atan / (Math.PI / 180) + 180; // final (0-360 positive) degrees from mouse position 
@@ -848,7 +856,7 @@ Object.defineProperty(exports, "Collapsible", {
     return _Collapsible.default;
   }
 });
-exports.config = void 0;
+exports.config = exports.Colors = void 0;
 
 var _Slider2D = _interopRequireDefault(require("./Slider2D"));
 
@@ -860,16 +868,121 @@ var _Collapsible = _interopRequireDefault(require("./Collapsible"));
 
 require("./controls.less");
 
+var Colors = {
+  text_default: '#425A70',
+  text_selected: '#1070CA',
+  text_sucess: '#00783E',
+  text_muted: '#66788A',
+  neutral_lightest: '#F9F9FB',
+  neutral_light: '#E4E7EB',
+  neutral_base: '#425A70',
+  neutral_dark: '#234361',
+  blue_lightest: '#F7F9FD',
+  blue_light: '#DDEBF7',
+  blue_base: '#1070CA',
+  blue_dark: '#084B8A',
+  red_lightest: '#FEF6F6',
+  red_light: '#FAE2E2',
+  red_base: '#EC4C47',
+  red_dark: '#BF0E08'
+};
+exports.Colors = Colors;
 var config = {
-  color0: '#ffffff',
+  color0: '#FFFFFF',
   color1: '#eeeeee',
   color2: '#888888',
   color3: '#222222',
-  colorText: '#111',
-  colorHigh: '#00baff'
+  colorText: '#333',
+  colorHigh: '#333'
 };
 exports.config = config;
-},{"./Slider2D":"controls/Slider2D.js","./LineEditor":"controls/LineEditor.js","./CircularSlider":"controls/CircularSlider.js","./Collapsible":"controls/Collapsible.js","./controls.less":"controls/controls.less"}],"App.js":[function(require,module,exports) {
+},{"./Slider2D":"controls/Slider2D.js","./LineEditor":"controls/LineEditor.js","./CircularSlider":"controls/CircularSlider.js","./Collapsible":"controls/Collapsible.js","./controls.less":"controls/controls.less"}],"components/menu.less":[function(require,module,exports) {
+"use strict";
+
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/Menu.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _store = require("../store");
+
+var _reactRedux = require("react-redux");
+
+require("./menu.less");
+
+var Menu =
+/*#__PURE__*/
+function (_Component) {
+  (0, _inherits2.default)(Menu, _Component);
+
+  function Menu() {
+    (0, _classCallCheck2.default)(this, Menu);
+    return (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(Menu).apply(this, arguments));
+  }
+
+  (0, _createClass2.default)(Menu, [{
+    key: "render",
+    value: function render() {
+      var menuClass = this.props.open ? "menu" : "menu-hidden";
+      var environment = this.props.environment;
+      console.log("env", environment);
+      var selectedObject = "select a object...";
+      if (environment.selectedObject) selectedObject = this.props.environment.selectedObject;
+      return _react.default.createElement("div", {
+        className: "side-menu"
+      }, _react.default.createElement("div", {
+        className: "btn"
+      }, "A"));
+    }
+  }]);
+  return Menu;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    menu: state.menuIsOpen,
+    environment: state.environment
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    toggleMenu: function toggleMenu() {
+      dispatch({
+        type: 'TOGGLE_MENU',
+        open: null
+      });
+    }
+  };
+};
+
+var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Menu);
+
+exports.default = _default;
+},{"../store":"store/index.js","./menu.less":"components/menu.less"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
@@ -915,6 +1028,8 @@ var _store = require("./store");
 
 var _controls = require("./controls");
 
+var _Menu = _interopRequireDefault(require("./components/Menu"));
+
 //import Menu from "./components/Menu";
 //import "./controls/controls.less";
 var App =
@@ -947,8 +1062,7 @@ function (_Component) {
   (0, _createClass2.default)(App, [{
     key: "render",
     value: function render() {
-      console.log('props', this.props);
-      return _react.default.createElement("div", {
+      var menu = _react.default.createElement("div", {
         className: "controls-menu"
       }, _react.default.createElement("div", {
         className: "panel"
@@ -959,6 +1073,9 @@ function (_Component) {
       }), _react.default.createElement(_controls.Collapsible, {
         label: "Circular Slider"
       }, _react.default.createElement(_controls.CircularSlider, null))));
+
+      console.log('props', this.props);
+      return _react.default.createElement("div", null, _react.default.createElement(_Menu.default, null));
     }
   }]);
   return App;
@@ -984,7 +1101,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
 
 exports.default = _default;
-},{"./icons/logo.svg":"icons/logo.svg","./icons/github.svg":"icons/github.svg","./app.css":"app.css","./store":"store/index.js","./controls":"controls/index.js"}],"index.css":[function(require,module,exports) {
+},{"./icons/logo.svg":"icons/logo.svg","./icons/github.svg":"icons/github.svg","./app.css":"app.css","./store":"store/index.js","./controls":"controls/index.js","./components/Menu":"components/Menu.js"}],"index.css":[function(require,module,exports) {
 "use strict";
 
 var reloadCSS = require('_css_loader');
@@ -2525,9 +2642,9 @@ function () {
 
       _this.scene.add(bottom);
 
-      var shadow = _this.createTexturedPlane(size + 1.5, texture_shadow, false);
+      var shadow = _this.createTexturedPlane(size + 4, texture_shadow, false);
 
-      shadow.position.y = -size / 2 - 0.4;
+      shadow.position.y = -size / 2 - 1;
       shadow.rotation.x = -Math.PI / 2;
 
       _this.scene.add(shadow);
@@ -2723,7 +2840,8 @@ function () {
       var material = new THREE.MeshBasicMaterial({
         map: texture,
         transparent: false,
-        visible: true
+        visible: true,
+        side: side
       });
       var geometry = new THREE.PlaneGeometry(size, size);
       var mesh = new THREE.Mesh(geometry, material);
@@ -4275,6 +4393,8 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
 var THREE = _interopRequireWildcard(require("three"));
@@ -4297,144 +4417,154 @@ OBJLoader(THREE);
 
 var TransformControls = require("./utils/TransformControls")(THREE);
 
-var Viewer = function Viewer() {
-  var _this = this;
+var Viewer =
+/*#__PURE__*/
+function () {
+  function Viewer() {
+    var _this = this;
 
-  var antialias = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-  (0, _classCallCheck2.default)(this, Viewer);
-  (0, _defineProperty2.default)(this, "onMouseMove", function (event) {
-    _this.mouse.x = event.clientX / _this.renderer.domElement.clientWidth * 2 - 1;
-    _this.mouse.y = -(event.clientY / _this.renderer.domElement.clientHeight) * 2 + 1;
-  });
-  (0, _defineProperty2.default)(this, "onMouseDown", function (event) {
-    if (_this.INTERSECTED && event.button == 2) {
-      console.log(event);
-      console.log(_this.INTERSECTED.name);
-    }
-
-    if (_this.INTERSECTED && event.button == 0) {
-      _this.updateSelectedObject(_this.INTERSECTED);
-
-      console.log(_store.default.getState().environment);
-      console.log(_this.INTERSECTED.name);
-      _this.INTERSECTED_selected = _this.INTERSECTED;
-      if (_this.INTERSECTED_box) _this.scene.remove(_this.INTERSECTED_box);
-      _this.INTERSECTED_box = new THREE.BoxHelper(_this.INTERSECTED, 0x55ddff);
-
-      _this.scene.add(_this.INTERSECTED_box);
-    }
-  });
-  (0, _defineProperty2.default)(this, "animate", function () {
-    requestAnimationFrame(_this.animate); // update the picking ray with the camera and mouse position
-
-    _this.raycaster.setFromCamera(_this.mouse, _this.camera); // calculate objects intersecting the picking ray
-
-
-    var intersects = _this.raycaster.intersectObjects(_this.interactiveObjects.children); // if there is one (or more) intersections
-
-
-    if (intersects.length) {
-      if (intersects[0].object != _this.INTERSECTED) {
-        _this.INTERSECTED = intersects[0].object;
-
-        if (_this.INTERSECTED) {//INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-          //INTERSECTED.material.color.setHex(0xffff00);
-        } else _this.INTERSECTED = null;
+    var antialias = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+    (0, _classCallCheck2.default)(this, Viewer);
+    (0, _defineProperty2.default)(this, "onMouseMove", function (event) {
+      _this.mouse.x = event.clientX / _this.renderer.domElement.clientWidth * 2 - 1;
+      _this.mouse.y = -(event.clientY / _this.renderer.domElement.clientHeight) * 2 + 1;
+    });
+    (0, _defineProperty2.default)(this, "onMouseDown", function (event) {
+      if (_this.INTERSECTED && event.button == 2) {
+        console.log(event);
+        console.log(_this.INTERSECTED.name);
       }
-    } else {
-      if (_this.INTERSECTED) _this.INTERSECTED = null;
-    }
 
-    if (_this.INTERSECTED_box) {
-      _this.INTERSECTED_box.update();
-    }
+      if (_this.INTERSECTED && event.button == 0) {
+        _this.updateSelectedObject(_this.INTERSECTED);
 
-    if (_this.controls.enabled) _this.controls.update(); //stats.begin();
+        console.log(_store.default.getState().environment);
+        console.log(_this.INTERSECTED.name);
+        _this.INTERSECTED_selected = _this.INTERSECTED;
+        if (_this.INTERSECTED_box) _this.scene.remove(_this.INTERSECTED_box);
+        _this.INTERSECTED_box = new THREE.BoxHelper(_this.INTERSECTED, 0x55ddff);
 
-    _this.cube.rotation.x = window.pos3d.x * 5;
-    _this.cube.rotation.y = window.pos3d.y * 5; // your code goes here
+        _this.scene.add(_this.INTERSECTED_box);
+      }
+    });
+    (0, _defineProperty2.default)(this, "animate", function () {
+      requestAnimationFrame(_this.animate); // update the picking ray with the camera and mouse position
 
-    _this.renderer.render(_this.scene, _this.camera); //stats.end();
+      _this.raycaster.setFromCamera(_this.mouse, _this.camera); // calculate objects intersecting the picking ray
 
-  });
-  this.scene = new THREE.Scene();
-  this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
-  this.camera.position.set(0, 10, -30);
-  this.camera.lookAt(new THREE.Vector3());
-  this.canvas = document.getElementById("3d-env");
-  this.renderer = new THREE.WebGLRenderer({
-    canvas: this.canvas,
-    antialias: antialias,
-    alpha: false,
-    //performance improvements
-    preserveDrawingBuffer: true,
-    failIfMajorPerformanceCaveat: true
-  });
-  this.renderer.sortObjects = false;
-  this.renderer.setSize(window.innerWidth, window.innerHeight);
-  this.renderer.setClearColor(0x000000, 0.0);
-  this.renderer.setPixelRatio(window.devicePixelRatio);
-  this.interactiveObjects = new THREE.Group();
-  this.scene.add(this.interactiveObjects);
-  /* 
-      var geometry = new THREE.BoxGeometry(10, 10, 10);
-      var material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-      var cube = new THREE.Mesh(geometry, material);
-      cube.name = "cube1";
-      interactiveObjects.add(cube);
-           var geometry = new THREE.BoxGeometry(5, 5, 5);
-      var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
-      var cube = new THREE.Mesh(geometry, material);
-      cube.position.y = 7.5;
-      cube.name = "cube2";
-      interactiveObjects.add(cube);
-           var geometry = new THREE.BoxGeometry(5, 5, 5);
-      var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
-      var cube = new THREE.Mesh(geometry, material);
-      cube.position.y = 15;
-      cube.name = "cube3";
-      interactiveObjects.add(cube);
-  */
-  //scene.add(cube);
 
-  var tControl = new TransformControls(this.camera, this.renderer.domElement);
-  this.controls = new OrbitControls(this.camera, this.canvas);
-  var sky = new _sky.default();
-  this.scene.add(sky.getObject(THREE)); //cubeview
+      var intersects = _this.raycaster.intersectObjects(_this.interactiveObjects.children); // if there is one (or more) intersections
 
-  var viewerHelper = new _viewerHelper.default("viewer-helper", this.controls);
-  this.controls.setPolarAngle(Math.PI * 0.25);
-  this.controls.setAzimuthalAngle(Math.PI * 0.25);
-  this.controls.update();
-  var gridHelper = new _grid.default(); //new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
 
-  this.scene.add(gridHelper); //raycast
+      if (intersects.length) {
+        if (intersects[0].object != _this.INTERSECTED) {
+          _this.INTERSECTED = intersects[0].object;
 
-  this.raycaster = new THREE.Raycaster();
-  this.mouse = new THREE.Vector2();
-  this.INTERSECTED;
-  this.INTERSECTED_box;
-  this.INTERSECTED_selected;
-  window.addEventListener('mousemove', this.onMouseMove, false);
-  window.addEventListener('mousedown', this.onMouseDown, false);
-  var geometry = new THREE.BoxGeometry(1, 1, 1);
-  var material = new THREE.MeshBasicMaterial({
-    color: 0x00ff00
-  });
-  this.cube = new THREE.Mesh(geometry, material); //tControl.addEventListener('change', this.animate);
+          if (_this.INTERSECTED) {//INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+            //INTERSECTED.material.color.setHex(0xffff00);
+          } else _this.INTERSECTED = null;
+        }
+      } else {
+        if (_this.INTERSECTED) _this.INTERSECTED = null;
+      }
 
-  tControl.addEventListener('mouseDown', function (event) {
-    _this.controls.enabled = false;
-    viewerHelper.enabled = false;
-  });
-  tControl.addEventListener('mouseUp', function (event) {
-    _this.controls.enabled = true;
-    viewerHelper.enabled = true;
-  });
-  tControl.attach(this.cube);
-  this.scene.add(tControl);
-  this.scene.add(this.cube);
-};
+      if (_this.INTERSECTED_box) {
+        _this.INTERSECTED_box.update();
+      }
+
+      if (_this.controls.enabled) _this.controls.update(); //stats.begin();
+
+      _this.cube.rotation.x = window.pos3d.x * 5;
+      _this.cube.rotation.y = window.pos3d.y * 5; // your code goes here
+
+      _this.renderer.render(_this.scene, _this.camera); //stats.end();
+
+    });
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
+    this.camera.position.set(0, 10, -30);
+    this.camera.lookAt(new THREE.Vector3());
+    this.canvas = document.getElementById("3d-env");
+    this.renderer = new THREE.WebGLRenderer({
+      canvas: this.canvas,
+      antialias: antialias,
+      alpha: false,
+      //performance improvements
+      preserveDrawingBuffer: true,
+      failIfMajorPerformanceCaveat: true
+    });
+    this.renderer.sortObjects = false;
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setClearColor(0x000000, 0.0);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.interactiveObjects = new THREE.Group();
+    this.scene.add(this.interactiveObjects);
+    /* 
+        var geometry = new THREE.BoxGeometry(10, 10, 10);
+        var material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        var cube = new THREE.Mesh(geometry, material);
+        cube.name = "cube1";
+        interactiveObjects.add(cube);
+             var geometry = new THREE.BoxGeometry(5, 5, 5);
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
+        var cube = new THREE.Mesh(geometry, material);
+        cube.position.y = 7.5;
+        cube.name = "cube2";
+        interactiveObjects.add(cube);
+             var geometry = new THREE.BoxGeometry(5, 5, 5);
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ffFF });
+        var cube = new THREE.Mesh(geometry, material);
+        cube.position.y = 15;
+        cube.name = "cube3";
+        interactiveObjects.add(cube);
+    */
+    //scene.add(cube);
+
+    var tControl = new TransformControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(this.camera, this.canvas);
+    var sky = new _sky.default();
+    this.scene.add(sky.getObject(THREE)); //cubeview
+
+    var viewerHelper = new _viewerHelper.default("viewer-helper", this.controls);
+    this.controls.setPolarAngle(Math.PI * 0.25);
+    this.controls.setAzimuthalAngle(Math.PI * 0.25);
+    this.controls.update();
+    var gridHelper = new _grid.default(); //new THREE.GridHelper(100, 100, 0xaaaaaa, 0x666666);
+
+    this.scene.add(gridHelper); //raycast
+
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+    this.INTERSECTED;
+    this.INTERSECTED_box;
+    this.INTERSECTED_selected;
+    window.addEventListener('mousemove', this.onMouseMove, false);
+    window.addEventListener('mousedown', this.onMouseDown, false);
+    var geometry = new THREE.BoxGeometry(1, 1, 1);
+    var material = new THREE.MeshBasicMaterial({
+      color: 0x00ff00
+    });
+    this.cube = new THREE.Mesh(geometry, material); //tControl.addEventListener('change', this.animate);
+
+    tControl.addEventListener('mouseDown', function (event) {
+      _this.controls.enabled = false;
+      viewerHelper.enabled = false;
+    });
+    tControl.addEventListener('mouseUp', function (event) {
+      _this.controls.enabled = true;
+      viewerHelper.enabled = true;
+    });
+    tControl.attach(this.cube);
+    this.scene.add(tControl);
+    this.scene.add(this.cube);
+  }
+
+  (0, _createClass2.default)(Viewer, [{
+    key: "getObjectByName",
+    value: function getObjectByName(name) {}
+  }]);
+  return Viewer;
+}();
 
 window.onload = function () {
   var viewer = new Viewer();

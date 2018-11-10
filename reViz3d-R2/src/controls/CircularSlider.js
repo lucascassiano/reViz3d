@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import paper from "paper";
-import { config } from "./index";
+import { config, Colors} from "./index";
 import { start } from "repl";
 
 export default class CircularSlider extends Component {
@@ -39,19 +39,20 @@ export default class CircularSlider extends Component {
         let radius = this.props.radius || height / 2 - 20;
 
         let bgcircle = new paper.Path.Circle(center, radius)
-        bgcircle.strokeWidth = 5;
-        bgcircle.strokeColor = config.color1;
+        bgcircle.strokeWidth = 2;
+        bgcircle.strokeColor = Colors.blue_light;
+        bgcircle.fillColor = Colors.blue_lightest;
 
-        let circleSize = 6;
-        let startPos = new paper.Point(center.x, 14 + circleSize);
+        let circleSize = 5;
+        let startPos = new paper.Point(center.x, 15 + circleSize);
 
         var line = new paper.Path.Line(center, startPos);
-        line.strokeColor = config.color1;
+        line.strokeColor = Colors.blue_base;
         line.strokeCap = 'round';
-        line.strokeWidth = 5;
+        line.strokeWidth = 2;
 
         let circle = new paper.Path.Circle(startPos, circleSize);
-        circle.fillColor = config.color3;
+        circle.fillColor = Colors.blue_base;
 
         var through = new paper.Point(60, 20);
         var to = new paper.Point(80, 80);
@@ -62,18 +63,18 @@ export default class CircularSlider extends Component {
         arc.strokeColor = 'black';
 
         circle.onMouseEnter = (event) => {
-            event.target.fillColor = config.colorHigh;
+            event.target.fillColor = Colors.blue_dark;
         }
 
         circle.onMouseLeave = (event) => {
-            event.target.fillColor = config.color3;
+            event.target.fillColor =  Colors.blue_base;
         }
         circle.onMouseUp = (event) => {
-            event.target.fillColor = config.color3;
+            event.target.fillColor = Colors.blue_base;
         }
 
         circle.onMouseDrag = (event) => {
-            event.target.fillColor = config.colorHigh;
+            event.target.fillColor = Colors.blue_dark;
 
             let point = event.point;
             var atan = Math.atan2(point.x - width / 2, point.y - height / 2);

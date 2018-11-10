@@ -177,6 +177,9 @@ class Viewer {
         //stats.end();
     }
 
+    getObjectByName(name) {
+
+    }
 }
 
 window.onload = function () {

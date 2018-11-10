@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import paper from "paper";
-import { config } from './index';
+import paper, { Color } from "paper";
+import { config, Colors } from './index';
 
 export default class Slider2D extends Component {
     constructor(props) {
@@ -24,30 +24,30 @@ export default class Slider2D extends Component {
     // Create a Paper.js Path to draw a line into it:
     draw = (canvas) => {
         paper.setup(canvas);
-        let colorLines = 'rgba(0,0,0,0.1)';
+        let colorLines = Colors.neutral_light;
         let { width, height } = canvas.getBoundingClientRect();
         let center = new paper.Point(width / 2, height / 2);
 
         var pathY = new paper.Path();
-        pathY.strokeColor = colorLines;
+        pathY.strokeColor = Colors.neutral_light;
         var start = new paper.Point(center.x, 0);
         pathY.moveTo(start);
         pathY.lineTo(start.add([0, height]));
 
         var pathX = new paper.Path();
-        pathX.strokeColor = colorLines;
+        pathX.strokeColor = Colors.neutral_light;
         var start = new paper.Point(0, center.y);
         pathX.moveTo(start);
         pathX.lineTo(start.add([width, 0]));
 
         var axisX = new paper.Path();
-        axisX.strokeColor = config.color3;
+        axisX.strokeColor = Colors.blue_base;
         var start = new paper.Point(0, center.y);
         axisX.moveTo(start);
         axisX.lineTo(start.add([width, 0]));
 
         var axisY = new paper.Path();
-        axisY.strokeColor = config.color3;
+        axisY.strokeColor = Colors.blue_base;
         var start = new paper.Point(center.x, 0);
         axisY.moveTo(start);
         axisY.lineTo(start.add([0, height]));
@@ -57,16 +57,16 @@ export default class Slider2D extends Component {
         let pos = center;
         let myCircle = new paper.Path.Circle(pos, 5);
         //myCircle.strokeColor = config.color3;
-        myCircle.fillColor = config.color3;
+        myCircle.fillColor = Colors.blue_base;
 
         myCircle.onMouseEnter = (event) => {
-            myCircle.fillColor = config.colorHigh;
-            myCircle.strokeColor = config.color3;
+            myCircle.fillColor = Colors.blue_dark;
+            myCircle.strokeColor = Colors.blue_base;
         }
 
         myCircle.onMouseLeave = (event) => {
-            myCircle.fillColor = config.color3;
-            myCircle.strokeColor = config.color3;
+            myCircle.fillColor = Colors.blue_base;
+            myCircle.strokeColor = Colors.blue_base;
         }
 
         myCircle.onMouseDrag = (event) => {
@@ -100,8 +100,21 @@ export default class Slider2D extends Component {
         let { x, y } = this.state;
         return <div className="slider-2d-container">
             <canvas className="slider-2d-canvas" ref={this.canvas}></canvas>
-            <div>x: {x.toFixed(2)} </div>
-            <div>y: {y.toFixed(2)}</div>
+            <div className="slider-2d-values">
+                <div>
+                    <div className="label">x</div>
+                    <div>
+                        {x.toFixed(2)}
+                    </div>
+                </div>
+                <div>
+                    <div className="label">y</div>
+                    <div>
+                        {y.toFixed(2)}
+                    </div>
+                </div>
+            </div>
+
         </div>
     }
 }

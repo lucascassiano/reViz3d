@@ -5,5 +5,5 @@ SerialPort.list((err, ports) => {
         err: err,
         ports: ports
     };
-    console.log("PORTS", output);
+    //console.log("PORTS", output);
 });

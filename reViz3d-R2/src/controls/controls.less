@@ -6,9 +6,28 @@
 @colorHigh: #00baff;
 @colorText: #111;
 
+@text-default: #425A70;
+@text-selected: #1070CA;
+@text-sucess: #00783E;
+@text-muted: #66788A;
+
+@neutral-lightest: #F9F9FB;
+@neutral-light: #E4E7EB;
+@neutral-base: #425A70;
+@neutral-dark: #234361;
+
+@blue-lightest: #F7F9FD;
+@blue-light: #DDEBF7;
+@blue-base: #1070CA;
+@blue-dark: #084B8A;
+
+@red-lightest: #FEF6F6;
+@red-light: #FAE2E2;
+@red-base: #EC4C47;
+@red-dark: #BF0E08;
+
 .card{
-    background:@background;
-    
+    background:@neutral-lightest;
 }
 
 .panel{
@@ -36,13 +55,40 @@
 }
 
 .slider-2d-canvas{
-    background:@color1;
-    width: 200px;
+    background:@blue-lightest;
+    width: 100%;
     height: 100px;
 }
 
+.slider-2d-values{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    background: @blue-lightest;
+    font-size: 10pt;
+}
+
+.slider-2d-values > div{ 
+    display: grid;
+    grid-template-columns: minmax(10px, 10%) 1fr;
+    border: solid 1px @blue-light;
+    height: 0 auto;
+}
+.slider-2d-values > div > div{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: @text-default;
+    padding: 1px 2px;
+    
+}
+
+.slider-2d-values .label{
+    color:@text-muted;
+    font-size: 8pt;
+}
+
 .line-editor-canvas{
-    background:@color1;
+    background:@blue-lightest;
     width:100%;
     height: 30px;
 }
@@ -59,7 +105,6 @@
 
 /*-- Collapsable --*/
 .collapsible {
-    background-color: @color1;
     color: @colorText;
     width: 100%;  
 }
@@ -69,8 +114,7 @@
     width: 100%;
     grid-template-columns: 90% 10%;
     align-items: center;
-    background:@color1;
-    color: @colorText;
+    color: @text-default;
 }
 
 .collapsible .top:hover{
@@ -125,12 +169,12 @@
     height: auto;
     opacity: 1;
 
-    border-bottom: 2px solid @color2;
+    border-bottom: 2px solid @blue-light;
 }
 
 .collapsible > .content-closed{
     height: 0px;
     overflow: hidden;
     opacity: 1;
-    border-bottom: 2px solid @color2;
+    border-bottom: 2px solid @blue-light;
 }

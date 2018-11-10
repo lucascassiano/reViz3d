@@ -13,6 +13,7 @@ import { toggleMenu } from "./store";
 
 import { Slider2D, LineEditor, CircularSlider, Collapsible } from "./controls";
 //import "./controls/controls.less";
+import Menu from "./components/Menu";
 
 class App extends Component {
     onChange = (event) => {
@@ -20,18 +21,24 @@ class App extends Component {
         window.pos3d = { x: event.x, y: event.y };
     }
 
+
     render() {
+        let menu = <div className="controls-menu">
+            <div className="panel">
+                <Slider2D onChange={this.onChange} />
+                <LineEditor points={[0, 1, 2, 2, 5, 2]} />
+                <Collapsible label="Circular Slider">
+                    <CircularSlider />
+                </Collapsible>
+            </div >
+        </div>
+
         console.log('props', this.props);
         return (
-            <div className="controls-menu">
-                <div className="panel">
-                    <Slider2D onChange={this.onChange} />
-                    <LineEditor points={[0, 1, 2, 2, 5, 2]} />
-                    <Collapsible label="Circular Slider">
-                        <CircularSlider />
-                    </Collapsible>
-                </div >
+            <div>
+                <Menu />
             </div>
+
         );
     }
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import paper from "paper";
-import { config } from "./index";
+import { config, Colors } from "./index";
 
 export default class LineEditor extends Component {
     constructor(props) {
@@ -28,9 +28,9 @@ export default class LineEditor extends Component {
         let { width, height } = canvas.getBoundingClientRect();
         let center = new paper.Point(width / 2, height / 2);
 
-
         var myPath = new paper.Path({ strokeWidth: 2, strokeCap: 'round' });
-        myPath.strokeColor = config.color3;
+        myPath.strokeColor = Colors.blue_base;
+        myPath.fillColor = Colors.blue_light;
 
         let points = this.props.points || [];
 
@@ -40,22 +40,23 @@ export default class LineEditor extends Component {
         for (var i = 0; i < points.length; i++) {
             let point = new paper.Point(5 + i * step, height - points[i]);
             myPath.add(point);
+
             let segment = myPath.segments[i];
 
             let circle = new paper.Path.Circle(point, 3)
 
-            circle.fillColor = 'rgba(0,0,0,0.25)';
+            circle.fillColor = Colors.blue_base;
 
             circle.onMouseEnter = (event) => {
                 event.target.fillColor = config.colorHigh;
             }
 
             circle.onMouseLeave = (event) => {
-                event.target.fillColor = 'rgba(0,0,0,0.25)';
+                event.target.fillColor = Colors.blue_base;
             }
 
             circle.onMouseUp = (event) => {
-                event.target.fillColor = 'rgba(0,0,0,0.25)';
+                event.target.fillColor = Colors.blue_base;
             }
 
             circle.onMouseDrag = (event) => {
