@@ -580,20 +580,26 @@ export default class viewerHelper {
             default:
         }
 
-        if (this.externalControls) {
+        if (this.externalControls && this.externalControls.enabled) {
+            this.externalControls.update();
             let original = this.externalControls.getAngles();
 
-            var coords = { x: original.phi, y: original.theta };
 
+            var coords = { x: original.phi, y: original.theta };
+            console.log('original', coords)
             let update = this.UpdateAngles;
 
             // console.log("coords---", coords);
             var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
                 .to({ x: phi, y: theta }, 500) // Move to (300, 200) in 1 second.
                 .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
-                .onUpdate(function () {
-                    //console.log("coords", coords);
+                .onUpdate(() => {
+                    console.log("coords", coords);
                     update(coords.x, coords.y);
+                })
+                .onComplete(() => {
+                    this.externalControls.update();
+                    this.controls.update();
                 })
                 .start(); // Start the tween immediately.
 
@@ -605,6 +611,7 @@ export default class viewerHelper {
     }
 
     UpdateAngles = (phi, theta) => {
+        this.externalControls.update();
         this.externalControls.setPolarAngle(phi);
         this.externalControls.setAzimuthalAngle(theta);
         this.externalControls.update();
