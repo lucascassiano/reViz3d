@@ -1,66 +1,28 @@
 {
-  "name": "react-electron-parcel",
+  "name": "electron-next-skeleton",
   "version": "1.0.0",
-  "description": "",
-  "main": "./build/index.js",
-  "scripts": {
-    "prestart": "npm run parcel:build",
-    "parcel:build": "rimraf ./build/app &&  parcel build ./src/index.html --target=electron --out-dir ./engine/app --public-url ./  ",
-    "parcel:start": "parcel ./src/index.html --target=electron --out-dir ./engine/app --public-url ./",
-    "electron:start": "NODE_ENV=development electron -r @babel/register ./engine/",
-    "electron:build": "NODE_ENV=production babel ./engine/ --out-dir build",
-    "dev": "RELOAD=true npm start",
-    "start": "run-p -l parcel:start electron:start",
-    "build": "run-s parcel:build electron:build",
-    "postinstall": "electron-rebuild",
-    "package": "npm run build && electron-packager . --overwrite --out=release-builds",
-    "package:mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --out=release-builds",
-    "package:win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=release-builds ",
-    "package:linux": "electron-packager . electron-tutorial-app --overwrite  --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
-  },
-  "author": "lucascassiano",
+  "main": "main/index.js",
   "license": "MIT",
-  "dependencies": {
-    "@babel/polyfill": "^7.0.0",
-    "@babel/register": "^7.0.0",
-    "@babel/runtime": "^7.1.2",
-    "@tweenjs/tween.js": "^17.2.0",
-    "controlkit": "^0.1.9",
-    "electron-is-dev": "^0.3.0",
-    "evergreen-ui": "^4.3.0",
-    "paper": "^0.11.8",
-    "react": "^16.6.0",
-    "react-dom": "^16.4.2",
-    "react-hot-loader": "^4.3.5",
-    "react-redux": "^5.0.7",
-    "redux": "^4.0.0",
-    "serialport": "^7.0.2",
-    "stats-js": "^1.0.0-alpha1",
-    "three": "^0.97.0",
-    "three-obj-loader": "^1.1.3",
-    "three-orbit-controls": "^82.1.0",
-    "titlebar": "^1.4.0"
+  "repository": "leo/electron-next-skeleton",
+  "scripts": {
+    "start": "electron .",
+    "build": "next build renderer && next export renderer",
+    "dist": "npm run build && bundle"
+  },
+  "bundle": {
+    "name": "ElectronNext"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-transform-arrow-functions": "^7.0.0",
-    "@babel/plugin-transform-classes": "^7.1.0",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react-app": "^5.0.3",
-    "electron": "^3.0.0-nightly.20180821",
-    "electron-packager": "^12.1.1",
-    "electron-rebuild": "^1.8.2",
-    "electron-reload": "^1.2.5",
-    "less": "^3.8.1",
-    "npm-run-all": "^4.1.3",
-    "parcel-bundler": "^1.10.3",
-    "rimraf": "^2.6.2",
-    "rmdir": "^1.2.0"
+    "bundle": "^2.0.1",
+    "electron": "^1.7.10",
+    "next": "^4.2.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "dependencies": {
+    "app-root-path": "^2.0.1",
+    "electron-is-dev": "^0.3.0",
+    "electron-next": "^3.1.3",
+    "three": "^0.100.0"
   }
 }
